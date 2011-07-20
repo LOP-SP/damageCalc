@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Calculadora de dano para os jogos Pok&eacute;mon</title>
+
+<link rel="stylesheet" type="text/css" href="calc_pkmn.css" />
+
+</head>
+<body>
+<div id="container">
+
+<div id="content">
+
+<div id="info">
+
+<div id="offensive" class="left">
+<form>
+Pokemon: <input type="text" name="offensePkmn" /><br />
+Atk/SAtk: <input type="text" name="atk" />
+</form>
+</div> <!-- offensePkmn -->
+
+<div id="parameters" class="left">
+<form>
+Base Power: <input type="text" name="basePower"/><br />
+Effectiveness: 
+	<select name="effect">
+	<option value="4x">4x</option>
+    <option value="2x">2x</option>
+    <option value="1x">1x</option>
+    <option value="0.5x">0.5x</option>
+    <option value="0.25x">0.25x</option>
+    </select><br />	
+STAB: <input type="checkbox" name="stab" />
+</form>
+</div> <!-- parameters -->
+
+<div id="defensive" class="left">
+<form>
+Pokemon: <input type="text" name="defensePkmn" /><br />
+Def/SDef: <input type="text" name="def" />
+</form>
+</div> <!-- defensePkmn -->
+
+<button type="button" onclick="calcDamage()">Calculate</button>
+
+</div> <!-- info -->
+
+<div id="damage" class="clear">
+<!-- Table para inserir calculos de dano -->
+</div> <!-- damage -->
+
+</div> <!-- content -->
+
+</div> <!-- container -->
+
+<script type="text/javascript" src="damageCalc.js"></script>
+<script type="text/javascript" src="jquery-1.6.2.min.js"></script>
+</body>
+</html>

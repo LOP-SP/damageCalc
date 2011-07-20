@@ -1,0 +1,120 @@
+/*
+Author: Carlos Agarie
+Description: 
+Version: 
+License: MIT License
+**************************************************************/
+
+/* MAIN
+**************************************************************/
+
+body, p, h1, h2, h3, h4, h5, h6, div, span, ul, li, ol, table, td, tr {
+	padding: 0;
+	margin: 0;
+	font-family: verdana, arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+body {
+	background-color: #FFF;
+}
+	 
+/* CONTAINER
+**************************************************************/
+
+#container {
+	width: 960px;
+}
+
+/* HEADER
+**************************************************************/
+
+/* CONTENT
+**************************************************************/
+
+#content {
+	background-color: #43dcfa;
+}
+
+/* INFO
+**************************************************************/
+
+#info {
+	height: 195px;
+}
+
+/* OFFENSIVE
+**************************************************************/
+
+#offensive {
+	padding: 10px;
+	width: 300px;
+	height: 150px;
+	background-color: #627491;
+}
+
+/* DEFENSIVE
+**************************************************************/
+
+#defensive {
+	padding: 10px;
+	width: 300px;
+	height: 150px;
+	background-color: #2ACACA;
+}
+
+/* PARAMETERS
+**************************************************************/
+
+#parameters {
+	padding: 10px;
+	width: 300px;
+	height: 150px;
+	background-color: #9D9D9D;
+}
+
+/* DAMAGE
+**************************************************************/
+
+#damage {
+	height: 200px;
+	background-color: #89A0C9;
+	text-align: center;
+}  
+
+#damage h1 {
+	margin: 5px 0 5px 0;
+	font-size: 24px;
+}
+
+.damage_table {
+	margin: auto;
+	border: #000 solid 2px;
+}
+
+.damage_table th {
+	width: 100px;
+	padding: 5px;
+}
+
+.damage_table tr {
+	border-bottom: #000 solid 1px;
+}
+
+/* FOOTER
+**************************************************************/
+
+/* EXTRA CLASSES
+**************************************************************/
+
+.clear {
+	clear: both;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
