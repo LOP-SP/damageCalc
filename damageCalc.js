@@ -20,7 +20,6 @@ function Calculator() {
 	var minDamage_100 = CalcDamage(pokemonBattle, 100, 'min');
 	var maxDamage_100 = CalcDamage(pokemonBattle, 100, 'max');
 	
-	var 
 	
 }
 
