@@ -14,11 +14,8 @@ $("#calcButton").click(function Calculator() {
 	var minDamage_100 = CalcDamage(pokemonBattle, 100, 'min');
 	var maxDamage_100 = CalcDamage(pokemonBattle, 100, 'max');
 	
-<<<<<<< HEAD
-=======
 	var pokemonBattleResults = new PokemonBattleResults(minDamage_50, maxDamage_50, minDamage_100, maxDamage_100);
->>>>>>> 43dbb99dbc567a65df62ac51c3c784a6cb303d26
-	
+
 	CreateDamageTable(pokemonBattleResults);
 });
 
