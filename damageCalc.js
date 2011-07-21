@@ -24,7 +24,7 @@ function GetPokemonStats() {
 	var atk = $("#offensive input[name='atk']").val();
 	var def = $("#defensive input[name='def']").val();
 	var basePower = $("#parameters input[name='basePower']").val();
-	var stab = $("#parameters input[name='stab']").val();
+	var stab = $("#parameters input:checkbox:checked").val();
 	var effect = $("#effect").val();
 	
 	// Validation
@@ -113,10 +113,19 @@ function IsEffective(effect) {
 function IsStab(stab) {
 	var stab_multiplier;
 	
-	if (stab == 'on') { stab_multiplier = 1.5; }
+	if (stab === 'on') { stab_multiplier = 1.5; }
 	else { stab_multiplier = 1; }
 	
 	return parseFloat(stab_multiplier);
+}
+
+function Modifier1() {
+}
+
+function Modifier2() {
+}
+
+function Modifier3() {
 }
 
 function ValidateStatus(attribute, attribute_name) {

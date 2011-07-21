@@ -1,7 +1,7 @@
 DamageCalc
 Author: Carlos Agarie
 Author URL: www.onox.com.br
-Version: 0.1 Alpha
+Version: 0.2 Alpha
 License: MIT License 
 
 Copyright (c) 2011 Carlos Agarie

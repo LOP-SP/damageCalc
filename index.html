@@ -6,8 +6,6 @@
 <title>Calculadora de dano para os jogos Pok&eacute;mon</title>
 
 <link rel="stylesheet" type="text/css" href="calc_pkmn.css" />
-<script language="javascript" type="text/javascript" src="jquery-1.6.2.min.js"></script>
-<script language="javascript" type="text/javascript" src="damageCalc.js"></script>
 </head>
 <body>
 <div id="container">
@@ -16,12 +14,21 @@
 
 <div id="info">
 
-<div id="offensive" class="left">
+<div id="pkmn" class="left">
+<div id="offensive">
 <form>
-Pokemon: <input type="text" name="offensePkmn" /><br />
+<h2>Offensive</h2>
 Atk/SAtk: <input type="text" name="atk" />
 </form>
 </div> <!-- offensePkmn -->
+
+<div id="defensive">
+<form>
+<h2>Defensive</h2>
+Def/SDef: <input type="text" name="def" />
+</form>
+</div> <!-- defensePkmn -->
+</div> <!-- pkmn -->
 
 <div id="parameters" class="left">
 <form>
@@ -38,14 +45,7 @@ STAB: <input type="checkbox" name="stab" />
 </form>
 </div> <!-- parameters -->
 
-<div id="defensive" class="left">
-<form>
-Pokemon: <input type="text" name="defensePkmn" /><br />
-Def/SDef: <input type="text" name="def" />
-</form>
-</div> <!-- defensePkmn -->
-
-<button type="button" id="calcButton" >Calculate</button>
+<div id="calcButton" class="left"><button type="button">Calculate</button></div>
 
 </div> <!-- info -->
 
@@ -57,6 +57,7 @@ Def/SDef: <input type="text" name="def" />
 
 </div> <!-- container -->
 
-
+<script language="javascript" type="text/javascript" src="jquery-1.6.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="damageCalc.js"></script>
 </body>
 </html>
