@@ -62,17 +62,23 @@ function CalcDamage(pokemonBattle, level, value) {
 }
 
 function CreateDamageTable(pokemonBattleResults) {
-
-	// esconde a div, coloca todas as infos nela, mostra a div
-
-	damage_table = "<h1>Damage table</h1>";
 	
-	damage_table += "<table class='damage_table'>";
-	damage_table += "<tr><th></th><th>Normal</th><th>w/ SR</th><th>w/ Sandstorm</th></tr>";
-	damage_table += "<tr><td>1HKO</td><td>" + pokemonBattleResults.minDamage_50 + " - " + pokemonBattleResults.maxDamage_50 + "</td></tr>";
-	damage_table += "</table>";
+	// Must clean the previous calculation
+	$("#damage").empty();
 	
-	document.getElementById('damage').innerHTML = damage_table;
+	// Hide the div to avoid excessive repaints
+	$("#damage").hide();
+
+	var damage_table = "<h1>Damage results</h1>";
+	
+	damage_table += "<div class='damage_table'>";
+	damage_table += "<h2>Level 100</h2>";
+	damage_table += pokemonBattleResults.minDamage_100 + " - " + pokemonBattleResults.maxDamage_100;
+	damage_table += "<h2>Level 50</h2>";
+	damage_table += pokemonBattleResults.minDamage_50 + " - " + pokemonBattleResults.maxDamage_50;
+	damage_table += "</div>";
+	
+	$("#damage").append(damage_table).show();
 }
 
 //

@@ -37,13 +37,6 @@ body {
 	background-color: #43dcfa;
 }
 
-#content h2 {
-	padding-bottom: 5px;
-	margin-bottom: 20px;
-	text-align: center;
-	border-bottom: 1px solid #FFF;
-}
-
 /* INFO
 **************************************************************/
 
@@ -62,6 +55,14 @@ body {
 	background-color: #9CDE82;
 }
 
+#offensive h2,
+#defensive h2 {
+	padding-bottom: 5px;
+	margin-bottom: 20px;
+	text-align: center;
+	border-bottom: 1px solid #FFF;
+}
+
 /* PARAMETERS
 **************************************************************/
 
@@ -70,6 +71,13 @@ body {
 	width: 230px;
 	height: 320px;
 	background-color: #9CD9EC;
+}
+
+#parameters h2 {
+	padding-bottom: 5px;
+	margin-bottom: 20px;
+	text-align: center;
+	border-bottom: 1px solid #FFF;
 }
 
 /* CALCBUTTON
