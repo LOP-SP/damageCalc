@@ -1,10 +1,4 @@
-﻿/* 
-Author: Carlos "Onox" Agarie
-Version: 0.2
-Date: 07/19/2011
-*/
-
-$(document).ready(function() {
+﻿$(document).ready(function() {
 
 $("#calcButton").click(function Calculator() {	
 	var pokemonBattle = GetPokemonStats();
