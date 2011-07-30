@@ -44,6 +44,10 @@ body {
 	height: 195px;
 }
 
+#info input {
+	margin: 5px;
+}
+
 /* OFFENSIVE, DEFENSIVE
 **************************************************************/
 
@@ -61,6 +65,10 @@ body {
 	margin-bottom: 20px;
 	text-align: center;
 	border-bottom: 1px solid #FFF;
+}
+
+#offensive #level input {
+	width: 23px;
 }
 
 /* PARAMETERS
@@ -86,14 +94,22 @@ body {
 #calcButton {
 	width: 500px;
 	height: 40px;
-	background-color: #C1C1C1;
+	background-color: #FFF;
+	text-align: center;
+}
+
+#calcButton button {
+	width: 20%;
+	height: 60%;
+	position: relative;
+	top: 25%;
 }
 
 /* DAMAGE
 **************************************************************/
 
 #damage {
-	height: 200px;
+	height: 90px;
 	background-color: #F1B575;
 	text-align: center;
 }  

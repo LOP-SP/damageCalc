@@ -1,6 +1,11 @@
 ﻿$(document).ready(function() {
 
-$("#calcButton").click(function Calculator() {	
+// Initial settings
+
+// Set the initial value of the effectiveness' drop down list
+(function() { $("#effect").val("1x"); });
+
+$("#calcButton button").click(function Calculator() {	
 	var pokemonBattle = GetPokemonStats();
 	
 	var minDamage_50 = CalcDamage(pokemonBattle, 50, 'min');
@@ -8,7 +13,7 @@ $("#calcButton").click(function Calculator() {
 	var minDamage_100 = CalcDamage(pokemonBattle, 100, 'min');
 	var maxDamage_100 = CalcDamage(pokemonBattle, 100, 'max');
 	
-	var pokemonBattleResults = new PokemonBattleResults(minDamage_50, maxDamage_50, minDamage_100, maxDamage_100);
+	var pokemonBattleResults = new PokemonBattleResults(minDamage_50, maxDamage_50, minDamage_100, maxDamage_100, pokemonBattle.hp);
 
 	CreateDamageTable(pokemonBattleResults);
 });
@@ -17,6 +22,7 @@ function GetPokemonStats() {
 	// Get the necessary variables
 	var atk = $("#offensive input[name='atk']").val();
 	var def = $("#defensive input[name='def']").val();
+	var hp = $("#defensive input[name='hp']").val();
 	var basePower = $("#parameters input[name='basePower']").val();
 	var stab = $("#parameters input:checkbox:checked").val();
 	var effect = $("#effect").val();
@@ -24,13 +30,14 @@ function GetPokemonStats() {
 	// Validation
 	atk = ValidateStatus(atk, 'Attack');
 	def = ValidateStatus(def, 'Defense');
+	hp = ValidateStatus(hp, 'HP');
 	basePower = ValidateStatus(basePower, 'Base Power');
 	
 	// Converts into strings
 	var effectiveness = IsEffective(effect);
 	var stabMultiplier = IsStab(stab);
 	
-	var pokemonBattle = new PokemonBattle(atk, def, basePower, effectiveness, stabMultiplier);
+	var pokemonBattle = new PokemonBattle(atk, def, hp, basePower, effectiveness, stabMultiplier);
 	
 	return pokemonBattle;
 }
@@ -66,10 +73,15 @@ function CreateDamageTable(pokemonBattleResults) {
 	var damage_table = "<h1>Damage results</h1>";
 	
 	damage_table += "<div class='damage_table'>";
+	
 	damage_table += "<h2>Level 100</h2>";
-	damage_table += pokemonBattleResults.minDamage_100 + " - " + pokemonBattleResults.maxDamage_100;
-	damage_table += "<h2>Level 50</h2>";
-	damage_table += pokemonBattleResults.minDamage_50 + " - " + pokemonBattleResults.maxDamage_50;
+	damage_table += 100*(pokemonBattleResults.minDamage_100 / pokemonBattleResults.hp).toPrecision(3) + "% - " + 100*(pokemonBattleResults.maxDamage_100 / pokemonBattleResults.hp).toPrecision(3) + "% (";
+	damage_table += pokemonBattleResults.minDamage_100 + " - " + pokemonBattleResults.maxDamage_100 + ")";
+	
+	//damage_table += "<h2>Level 50</h2>";
+	//damage_table += 100*(pokemonBattleResults.minDamage_50 / pokemonBattleResults.hp) + "% - " + 100*(pokemonBattleResults.maxDamage_50 / pokemonBattleResults.hp) + "% (";
+	//damage_table += pokemonBattleResults.minDamage_50 + " - " + pokemonBattleResults.maxDamage_50 + ")";
+	
 	damage_table += "</div>";
 	
 	$("#damage").append(damage_table).show();
@@ -79,19 +91,21 @@ function CreateDamageTable(pokemonBattleResults) {
 // Object constructors
 //
 
-function PokemonBattle(attack, defense, basePower, effectiveness, stabMultiplier) {
+function PokemonBattle(attack, defense, hp, basePower, effectiveness, stabMultiplier) {
 	this.attack = attack;
 	this.defense = defense;
+	this.hp = hp;
 	this.basePower = basePower;
 	this.effectiveness = effectiveness;
 	this.stabMultiplier = stabMultiplier;
 }
 
-function PokemonBattleResults(min_50, max_50, min_100, max_100) {
+function PokemonBattleResults(min_50, max_50, min_100, max_100, hp) {
 	this.minDamage_50 = min_50;
 	this.maxDamage_50 = max_50;
 	this.minDamage_100 = min_100;
 	this.maxDamage_100 = max_100;
+	this.hp = hp;
 }
 
 //
@@ -137,7 +151,6 @@ function ValidateStatus(attribute, attribute_name) {
 	return Math.floor(attribute);
 }
 
-// Unnecessary because the calc uses only lv50 and lv100
 function ValidateLevel(level) {
 	if (level < 1 || level == null || level > 100) {
 		alert("You entered an invalid level value.");
