@@ -3,7 +3,7 @@
 // Initial settings
 
 // Set the initial value of the effectiveness' drop down list
-(function() { $("#effect").val("1x"); });
+$("#effect").val("1x");
 
 $("#calcButton button").click(function Calculator() {	
 	var pokemonBattle = GetPokemonStats();
