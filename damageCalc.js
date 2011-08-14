@@ -4,6 +4,7 @@
 
 // Set the initial value of the effectiveness' drop down list
 $("#effect").val("1x");
+$(".statModifier select").val("0");
 
 $("#calcButton button").click(function Calculator() {	
 	var pokemonBattle = GetPokemonStats();
@@ -21,7 +22,9 @@ $("#calcButton button").click(function Calculator() {
 function GetPokemonStats() {
 	// Get the necessary variables
 	var atk = $("#offensive input[name='atk']").val();
+	var atkStatModifier = $("#offensive .statModifier select").val();
 	var def = $("#defensive input[name='def']").val();
+	var defStatModifier = $("#defensive .statModifier select").val();
 	var hp = $("#defensive input[name='hp']").val();
 	var basePower = $("#parameters input[name='basePower']").val();
 	var stab = $("#parameters input:checkbox:checked").val();
@@ -34,8 +37,14 @@ function GetPokemonStats() {
 	basePower = ValidateStatus(basePower, 'Base Power');
 	
 	// Converts into strings
-	var effectiveness = IsEffective(effect);
+	atkStatModifier = IsStatModifier(atkStatModifier);
+	defStatModifier = IsStatModifier(defStatModifier);
 	var stabMultiplier = IsStab(stab);
+	var effectiveness = IsEffective(effect);
+	
+	// Updates the Attack and Defense stats
+	atk = atk * atkStatModifier;
+	def = def * defStatModifier;
 	
 	var pokemonBattle = new PokemonBattle(atk, def, hp, basePower, effectiveness, stabMultiplier);
 	
@@ -112,6 +121,37 @@ function PokemonBattleResults(min_50, max_50, min_100, max_100, hp) {
 // Functions for STAB translation, validation, stats calculation, etc
 //
 
+function IsStatModifier(statModifier) {
+	var statModifierValue;
+	
+	// The else-if structure order was optimized to 
+	
+	if (statModifier == '0') { statModifierValue = 1; }
+	else if (statModifier == '1') { statModifierValue = 1.5; }
+	else if (statModifier == '2') { statModifierValue = 2; }
+	else if (statModifier == '-1') { statModifierValue = 0.6667; }
+	else if (statModifier == '-2') { statModifierValue = 0.5; }
+	else if (statModifier == '3') { statModifierValue = 2.5; }
+	else if (statModifier == '4') { statModifierValue = 3; }
+	else if (statModifier == '5') { statModifierValue = 3.5; }
+	else if (statModifier == '6') { statModifierValue = 4; }
+	else if (statModifier == '-3') { statModifierValue = 0.4; }
+	else if (statModifier == '-4') { statModifierValue = 0.3333; }
+	else if (statModifier == '-5') { statModifierValue = 0.2857; }
+	else if (statModifier == '-6') { statModifierValue = 0.25; }
+	
+	return parseFloat(statModifierValue);
+}
+
+function IsStab(stab) {
+	var stab_multiplier;
+	
+	if (stab === 'on') { stab_multiplier = 1.5; }
+	else { stab_multiplier = 1; }
+	
+	return parseFloat(stab_multiplier);
+}
+
 function IsEffective(effect) {
 	var effectiveness;
 	
@@ -123,17 +163,9 @@ function IsEffective(effect) {
 	
 	return parseFloat(effectiveness);
 }
-	
-function IsStab(stab) {
-	var stab_multiplier;
-	
-	if (stab === 'on') { stab_multiplier = 1.5; }
-	else { stab_multiplier = 1; }
-	
-	return parseFloat(stab_multiplier);
-}
 
 function Modifier1() {
+	
 }
 
 function Modifier2() {
