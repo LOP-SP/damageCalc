@@ -2,7 +2,7 @@
 
 // Initial settings
 
-// Set the initial value of the effectiveness' drop down list
+// Set the initial value of drop down lists
 $("#effect").val("1x");
 
 $("#calcButton button").click(function Calculator() {	
@@ -19,7 +19,7 @@ $("#calcButton button").click(function Calculator() {
 });
 
 function GetPokemonStats() {
-	// Get the necessary variables
+	// Get the parameters from the UI
 	var atk = $("#offensive input[name='atk']").val();
 	var def = $("#defensive input[name='def']").val();
 	var hp = $("#defensive input[name='hp']").val();
