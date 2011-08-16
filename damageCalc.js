@@ -19,9 +19,14 @@ $("#calcButton button").click(function Calculator() {
 	CreateDamageTable(pokemonBattleResults);
 });
 
-// Colocar as funções GetPokemonStats e CalcDamage dentro de objetos
-// pokemonBattle.getStatsFromUi ???
-// pokemonBattleResults.
+// Colocar as funções GetPokemonStats e CalcDamage dentro 
+// de um objeto pokemonBattle
+//
+// pokemonBattle.getStatsFromUi = GetPokemonStats
+// pokemonBattle.calcResults = CalcDamage
+//
+// Deixar as variáveis obtidas a partir da UI dentro dessa closure
+
 function GetPokemonStats() {
 	// Get the parameters from the UI
 	var atk = $("#offensive input[name='atk']").val();
