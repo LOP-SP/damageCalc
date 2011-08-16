@@ -19,6 +19,9 @@ $("#calcButton button").click(function Calculator() {
 	CreateDamageTable(pokemonBattleResults);
 });
 
+// Colocar as funções GetPokemonStats e CalcDamage dentro de objetos
+// pokemonBattle.getStatsFromUi ???
+// pokemonBattleResults.
 function GetPokemonStats() {
 	// Get the parameters from the UI
 	var atk = $("#offensive input[name='atk']").val();
@@ -36,7 +39,8 @@ function GetPokemonStats() {
 	hp = ValidateStatus(hp, 'HP');
 	basePower = ValidateStatus(basePower, 'Base Power');
 	
-	// Converts into strings
+	// Converts parameters into numbers so we can update the stats
+	// before passing them to a new pokemonBattle object
 	atkStatModifier = IsStatModifier(atkStatModifier);
 	defStatModifier = IsStatModifier(defStatModifier);
 	var stabMultiplier = IsStab(stab);
@@ -72,19 +76,21 @@ function CalcDamage(pokemonBattle, level, value) {
 }
 
 function CreateDamageTable(pokemonBattleResults) {
-	
-	// Must clean the previous calculation
+	// Must clean the previous calculation's output
 	$("#damage").empty();
 	
-	// Hide the div to avoid excessive repaints
+	// Hide the div to avoid excessive repaints,
+	// speeding up the process.
 	$("#damage").hide();
 
+	// Creates the table with the damage calculations
+	// and perform the percentage calcs needed.
 	var damage_table = "<h1>Damage results</h1>";
-	
 	damage_table += "<div class='damage_table'>";
-	
 	damage_table += "<h2>Level 100</h2>";
+	
 	damage_table += 100*(pokemonBattleResults.minDamage_100 / pokemonBattleResults.hp).toPrecision(3) + "% - " + 100*(pokemonBattleResults.maxDamage_100 / pokemonBattleResults.hp).toPrecision(3) + "% (";
+	
 	damage_table += pokemonBattleResults.minDamage_100 + " - " + pokemonBattleResults.maxDamage_100 + ")";
 	
 	//damage_table += "<h2>Level 50</h2>";
@@ -100,6 +106,8 @@ function CreateDamageTable(pokemonBattleResults) {
 // Object constructors
 //
 
+// Transformar esses constructors em closures retornando funções
+// com representações escondidas da batalha.
 function PokemonBattle(attack, defense, hp, basePower, effectiveness, stabMultiplier) {
 	this.attack = attack;
 	this.defense = defense;
@@ -165,7 +173,6 @@ function IsEffective(effect) {
 }
 
 function Modifier1() {
-	
 }
 
 function Modifier2() {
