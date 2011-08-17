@@ -27,6 +27,7 @@ This software is made in JavaScript (using the jQuery library) and can be used f
 CHANGELOG
 ---------
 
-19 july, 2011 - Created the README.txt, 
+19 july, 2011 - Created the README.txt
+14 august, 2011 - Added stat modifier functionality for the offensive/defensive pokemon
 
 -------

@@ -126,19 +126,19 @@ function IsStatModifier(statModifier) {
 	
 	// The else-if structure order was optimized to 
 	
-	if (statModifier == '0') { statModifierValue = 1; }
-	else if (statModifier == '1') { statModifierValue = 1.5; }
-	else if (statModifier == '2') { statModifierValue = 2; }
-	else if (statModifier == '-1') { statModifierValue = 0.6667; }
-	else if (statModifier == '-2') { statModifierValue = 0.5; }
-	else if (statModifier == '3') { statModifierValue = 2.5; }
-	else if (statModifier == '4') { statModifierValue = 3; }
-	else if (statModifier == '5') { statModifierValue = 3.5; }
-	else if (statModifier == '6') { statModifierValue = 4; }
-	else if (statModifier == '-3') { statModifierValue = 0.4; }
-	else if (statModifier == '-4') { statModifierValue = 0.3333; }
-	else if (statModifier == '-5') { statModifierValue = 0.2857; }
-	else if (statModifier == '-6') { statModifierValue = 0.25; }
+	if (statModifier === '0') { statModifierValue = 1; }
+	else if (statModifier === '1') { statModifierValue = 1.5; }
+	else if (statModifier === '2') { statModifierValue = 2; }
+	else if (statModifier === '-1') { statModifierValue = 0.6667; }
+	else if (statModifier === '-2') { statModifierValue = 0.5; }
+	else if (statModifier === '3') { statModifierValue = 2.5; }
+	else if (statModifier === '4') { statModifierValue = 3; }
+	else if (statModifier === '5') { statModifierValue = 3.5; }
+	else if (statModifier === '6') { statModifierValue = 4; }
+	else if (statModifier === '-3') { statModifierValue = 0.4; }
+	else if (statModifier === '-4') { statModifierValue = 0.3333; }
+	else if (statModifier === '-5') { statModifierValue = 0.2857; }
+	else if (statModifier === '-6') { statModifierValue = 0.25; }
 	
 	return parseFloat(statModifierValue);
 }
@@ -155,11 +155,11 @@ function IsStab(stab) {
 function IsEffective(effect) {
 	var effectiveness;
 	
-	if (effect == '4x') { effectiveness = 4; }
-	else if (effect == '2x') { effectiveness = 2; }
-	else if (effect == '1x') { effectiveness = 1; }
-	else if (effect == '0.5x') { effectiveness = 0.5; }
-	else if (effect == '0.25x') { effectiveness = 0.25; }
+	if (effect === '4x') { effectiveness = 4; }
+	else if (effect === '2x') { effectiveness = 2; }
+	else if (effect === '1x') { effectiveness = 1; }
+	else if (effect === '0.5x') { effectiveness = 0.5; }
+	else if (effect === '0.25x') { effectiveness = 0.25; }
 	
 	return parseFloat(effectiveness);
 }
@@ -175,7 +175,7 @@ function Modifier3() {
 }
 
 function ValidateStatus(attribute, attribute_name) {
-	if (attribute < 1 || attribute == null) {
+	if (attribute < 1 || attribute === null) {
 		alert("You entered an invalid value for " + attribute_name);
 		return false;
 	}
@@ -184,7 +184,7 @@ function ValidateStatus(attribute, attribute_name) {
 }
 
 function ValidateLevel(level) {
-	if (level < 1 || level == null || level > 100) {
+	if (level < 1 || level === null || level > 100) {
 		alert("You entered an invalid level value.");
 		return false;
 	}
