@@ -1,0 +1,152 @@
+/*
+Author: Carlos Agarie
+Project URL: www.github.com/agarie/damagecalc
+Version: 0.3 Alpha
+License: MIT License
+**************************************************************/
+
+/* MAIN
+**************************************************************/
+
+body, p, h1, h2, h3, h4, h5, h6, div, span, ul, li, ol, table, td, tr {
+	padding: 0;
+	margin: 0;
+	font-family: verdana, arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+body {
+	background-color: #FFF;
+}
+	 
+/* CONTAINER
+**************************************************************/
+
+#container {
+	width: 500px;
+	margin: 0 auto;
+}
+
+/* HEADER
+**************************************************************/
+
+/* CONTENT
+**************************************************************/
+
+#content {
+	background-color: #43dcfa;
+}
+
+/* INFO
+**************************************************************/
+
+#info {
+	height: 195px;
+}
+
+#info input {
+	margin: 5px;
+}
+
+/* OFFENSIVE, DEFENSIVE
+**************************************************************/
+
+#offensive,
+#defensive {
+	padding: 10px;
+	width: 230px;
+	height: 150px;
+	background-color: #9CDE82;
+}
+
+#offensive h2,
+#defensive h2 {
+	padding-bottom: 5px;
+	margin-bottom: 20px;
+	text-align: center;
+	border-bottom: 1px solid #FFF;
+}
+
+#offensive #level input {
+	width: 23px;
+}
+
+/* PARAMETERS
+**************************************************************/
+
+#parameters {
+	padding: 10px;
+	width: 230px;
+	height: 320px;
+	background-color: #9CD9EC;
+}
+
+#parameters h2 {
+	padding-bottom: 5px;
+	margin-bottom: 20px;
+	text-align: center;
+	border-bottom: 1px solid #FFF;
+}
+
+/* CALCBUTTON
+**************************************************************/
+
+#calcButton {
+	width: 500px;
+	height: 40px;
+	background-color: #FFF;
+	text-align: center;
+}
+
+#calcButton button {
+	width: 20%;
+	height: 60%;
+	position: relative;
+	top: 25%;
+}
+
+/* DAMAGE
+**************************************************************/
+
+#damage {
+	height: 90px;
+	background-color: #F1B575;
+	text-align: center;
+}  
+
+#damage h1 {
+	margin: 5px 0 5px 0;
+	font-size: 24px;
+}
+
+.damage_table {
+	margin: auto;
+	border: #000 solid 2px;
+}
+
+.damage_table th {
+	width: 100px;
+	padding: 5px;
+}
+
+.damage_table tr {
+	border-bottom: #000 solid 1px;
+}
+
+/* FOOTER
+**************************************************************/
+
+/* EXTRA CLASSES
+**************************************************************/
+
+.clear {
+	clear: both;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
