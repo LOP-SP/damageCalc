@@ -8,7 +8,7 @@ $(".statModifier select").val("0");
 
 // Global object of the damage calculator.
 var DAMAGECALC = {
-	// Main object. Generate the battle calculation, record it and can post it on the UI.
+	// Main object. Generates the battle calculation, records it and can posts it on the UI.
 	var pokemonBattle = function () {
 		var _stats = {},
 			_results = {};
