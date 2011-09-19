@@ -36,9 +36,9 @@ With subject "Pokemon Damage Calculator".
 CHANGELOG
 ---------
 
-19 july, 2011 - Created the README.txt.
-14 august, 2011 - Added stat modifier functionality for the offensive/defensive pokemon
-16 august, 2011 - Reviewed the README.txt for better understanding.
 19 september, 2011 - Reviewed the code, created the folder structure, created _damagecalc.js for a object-oriented approach to the problem.
+16 august, 2011 - Reviewed the README.txt for better understanding.
+14 august, 2011 - Added stat modifier functionality for the offensive/defensive pokemon
+19 july, 2011 - Created the README.txt.
 
 -------
