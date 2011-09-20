@@ -8,12 +8,12 @@ $(".statModifier select").val("0");
 
 // Global object of the damage calculator.
 var DAMAGECALC = {
-	// Main object. Generates the battle calculation, records it and can posts it on the UI.
-	var pokemonBattle = function () {
+	// Main object. Generates the battle calculation, records it and can post it on the UI.
+	var pokemonBattle = (function () {
 		var _stats = {},
 			_results = {};
 			
-		//
+		// Creates a private local copy of the stats from the UI
 		var getPokemonStats = function () {
 			// Get the parameters from the UI
 			var atk = $("#offensive input[name='atk']").val();
@@ -47,8 +47,8 @@ var DAMAGECALC = {
 			return pokemonBattle;
 		};
 		
-		//
-		var calcResults = function () {
+		// Calculates the damage
+		var calcResults = function (pokemonBattle, level, value) {
 			var random = 0.85;
 
 			if (value === 'min') { random = 0.85; }
@@ -69,7 +69,7 @@ var DAMAGECALC = {
 		};
 		
 		//
-		var showResultsOnUi = function () {
+		var showResultsOnUi = function (pokemonBattleResults) {
 			// Must clean the previous calculation's output
 			$("#damage").empty();
 
@@ -101,22 +101,54 @@ var DAMAGECALC = {
 			calcResults,
 			showResultsOnUi
 		};
-	};
+	})();
 	
-	var battleModifiers = function () {
-		//
-		var parseStab = function () {
-			
+	// 
+	var battleModifiers = (function () {
+		// Turns the STAB identifier into a multiplying factor
+		var parseStab = function (stab) {
+			var stab_multiplier;
+
+			if (stab === 'on') { stab_multiplier = 1.5; }
+			else { stab_multiplier = 1; }
+
+			return parseFloat(stab_multiplier);
 		};
 		
-		//
-		var parseEffectiveness = function () {
-			
+		// Turns the Effect identifier into a multiplying factor
+		var parseEffectiveness = function (effect) {
+			var effectiveness;
+
+			if (effect === '4x') { effectiveness = 4; }
+			else if (effect === '2x') { effectiveness = 2; }
+			else if (effect === '1x') { effectiveness = 1; }
+			else if (effect === '0.5x') { effectiveness = 0.5; }
+			else if (effect === '0.25x') { effectiveness = 0.25; }
+
+			return parseFloat(effectiveness);
 		};
 		
-		//
-		var parseStatModifier = function () {
-			
+		// Turns the Stat Modifier identifier into a multiplying factor
+		var parseStatModifier = function (statModifier) {
+			var statModifierValue;
+
+			// The else-if structure order was optimized to 
+
+			if (statModifier === '0') { statModifierValue = 1; }
+			else if (statModifier === '1') { statModifierValue = 1.5; }
+			else if (statModifier === '2') { statModifierValue = 2; }
+			else if (statModifier === '-1') { statModifierValue = 0.6667; }
+			else if (statModifier === '-2') { statModifierValue = 0.5; }
+			else if (statModifier === '3') { statModifierValue = 2.5; }
+			else if (statModifier === '4') { statModifierValue = 3; }
+			else if (statModifier === '5') { statModifierValue = 3.5; }
+			else if (statModifier === '6') { statModifierValue = 4; }
+			else if (statModifier === '-3') { statModifierValue = 0.4; }
+			else if (statModifier === '-4') { statModifierValue = 0.3333; }
+			else if (statModifier === '-5') { statModifierValue = 0.2857; }
+			else if (statModifier === '-6') { statModifierValue = 0.25; }
+
+			return parseFloat(statModifierValue);
 		};
 		
 		//
@@ -142,21 +174,32 @@ var DAMAGECALC = {
 			getSecondModifier,
 			getThirdModifier
 		};
-	};
+	})();
 	
-	var validator = function () {
+	var validator = (function () {
 		//
-		var validateStats = function () {
-			
+		var validateStats = function (attribute, attribute_name) {
+			if (attribute < 1 || attribute === null) {
+				alert("You entered an invalid value for " + attribute_name);
+				return false;
+			}
+
+			return Math.floor(attribute);
 		};
 		
 		//
-		var validateLevel = function () {
-			
+		var validateLevel = function (level) {
+			if (level < 1 || level === null || level > 100) {
+				alert("You entered an invalid level value.");
+				return false;
+			}
+
+			return Math.floor(level);
 		};
 		
 		return {
 			validateStats,
 			validateLevel
 		};
-	};
+	})();
+}; // DAMAGECALC

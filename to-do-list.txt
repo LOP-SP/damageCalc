@@ -1,0 +1,76 @@
+damageCalc TO DO LIST
+
+- refactor pokemonBattle's methods, they're too long and disorganized
+- implement the full damage formula
+
+- Adicionar inputs para saber se há Burn, Reflect/LScreen, 2vs2, SunnyDay/RainDance, FlashFire, Solid Rock, Expert Belt, Tinted Lens, type-resist berry, Life Orb
+- Adicionar funções que calculam Mod1, Mod2 e Mod3
+- Criar funções para verificar dano total que levam em conta Hail/Sandstorm, Stealth Rock, Spikes (1, 2 e 3 layers), Leftovers, etc
+
+LISTA DE VARIÁVEIS
+- Level: do atacante
+- Base Power: do golpe sendo usado; pode ser calculado a partir da fórmula BasePower = HH x BP x IT x CHG x MS × WS × UA × FA
+→ HH: 1.5 se houver helping hand, senão é 1
+→ BP: base power do golpe
+→ IT: item multiplier, depende do item segurado: http://www.smogon.com/dp/articles/damage_formula#bp_items
+→ CHG: 2 se foi usado charge anteriormente e o tipo do golpe é elétrico
+→ MS: 0.5 if one of the Pokémon in play used the move Mud Sport and this move's type is Electric, and 1 otherwise.
+→ WS: 0.5 if one of the Pokémon in play used the move Water Sport and this move's type is Fire, and 1 otherwise.
+→ UA: The user ability multiplier. A list of user abilities that affect Base Power, together with their effects, is given in Section 2C
+→ FA: The foe ability multiplier. A list of foe abilities that affect Base Power, together with their effects, is given in Section 2D.
+- [Sp]Atk: do atacante; = Stat × SM × AM × IM
+⇒ Stat: stat normal de atk/satk
+⇒ SM é:
+→ +6 = 4 
+→ +5 = 3.5
+→ +4 = 3
+→ +3 = 2.5
+→ +2 = 2
+→ +1 = 1.5
+→ 0 = 1
+→ -1 = 0.6667
+→ -2 = 0.5
+→ -3 = 0.4
+→ -4 = 0.3333
+→ -5 = 0.2857
+→ -6 = 0.25
+⇒ AM: ability modifier, precisa ser atualizado 
+⇒ IM: item modifier, precisa ser atualizado
+- [Sp]Def: do defensor; = Stat × SM × Mod × SX
+⇒ Stat: stat normal de atk/satk
+⇒ SM é:
+→ +6 = 4 
+→ +5 = 3.5
+→ +4 = 3
+→ +3 = 2.5
+→ +2 = 2
+→ +1 = 2
+→ 0 = 1
+→ -1 = 0.6667
+→ -2 = 0.5
+→ -3 = 0.4
+→ -4 = 0.3333
+→ -5 = 0.2857
+→ -6 = 0.25
+⇒ Mod: modifier que depende de alguns fatores; precisa ser atualizado 
+⇒SX: 0.5 se o atacante usar self-destruct/explosion, precisa ser atualizado; INATIVADO EM BW!!
+- Mod1: Primeiro modifier; Mod1 = BRN × RL × TVT × SR × FF
+→ BRN: .5 se o golpe for físico, o atacante estiver com status BRN e não possuir guts
+→ RL: reflect/light screen; .5 se o oponente settou uma wall que protege contra o tipo de golpe (físico/especial) e estivermos em single battle; .6667 se tivermos essas condições numa double; se der crit, RL = 1 independente desses fatores
+→ TVT: 0.75 em golpes que afetam mais de um pokémon em doubles; nem todos os golpes dão trigger nessa condição
+→ SR: sunny day/rain dance modifier; 1.5 se o golpe for fire/water em sunny day/rain dance; 0.5 se for fire/water em rain dance/sunny day
+→ FF: Flash fire, 1.5 se tiver tomado golpe fire antes e está usando um golpe fire
+- Mod2: Segundo modifier
+1.3 if the user is holding the item Life Orb.
+1, 1.1, 1.2, 1.3, ..., 2 if the user is holding the item Metronome and has used the same move once, twice, three times, four times, ... etc. consecutively.
+1.5 if the user is attacking with the move Me First.
+1 otherwise.
+
+- Mod3: Terceiro modifier; Mod2 = SRF × EB × TL × TRB
+→ SRF: Solid Rock/Filter, se o oponente tiver a ability e o golpe der SE (effect > 1), é 0.75; é 1 de outra forma
+→ EB: expert belt; 1.2 se o golpe tiver effect > 1 no oponente; é 1 de outra forma
+→ TL: tinted lens, 2 se o atacante tiver essa ability e o golpe tiver effect < 1 contra o oponente; 1 de outra forma
+→ TRB: type-resisting berry, 0.5 se o oponente tiver a berry que protege contra o tipo do golpe e effect > 1; 1 de outra forma
+- CH: 3 se der crit e o atacante tiver Sniper, 2 se der crit com outra ability e 1 de outra forma
+- R: (rand x 100) / 255; resulta em 0.85 <= R <= 1.00
+- Type1, Type2: Modificador de super effectiveness; chamado de “effect”/”effectiveness”, assume os valores 0.25, 0.50, 1.00, 2.00 ou 4.00
