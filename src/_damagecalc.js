@@ -6,31 +6,32 @@ New designed Pokemon damageCalc
 $("#effect").val("1x");
 $(".statModifier select").val("0");
 
-// Global object of the damage calculator.
+// Global variables = evil
 var DAMAGECALC = {
-	// Main object. Generates the battle calculation, records it and can post it on the UI.
+	
+	//
+	// Main object 
+	//
 	var pokemonBattle = (function () {
 		var _stats = {},
 			_results = {};
 			
-		// Creates a private local copy of the stats from the UI
-		var getPokemonStats = function () {
+		var getPokemonStats = function (_stats) {
 			// Get the parameters from the UI
-			var atk = $("#offensive input[name='atk']").val();
-			var atkStatModifier = $("#offensive .statModifier select").val();
-			var def = $("#defensive input[name='def']").val();
-			var defStatModifier = $("#defensive .statModifier select").val();
-			var hp = $("#defensive input[name='hp']").val();
-			var basePower = $("#parameters input[name='basePower']").val();
-			var stab = $("#parameters input:checkbox:checked").val();
-			var effect = $("#effect").val();
-
-			// Validation
-			atk = ValidateStatus(atk, 'Attack');
-			def = ValidateStatus(def, 'Defense');
-			hp = ValidateStatus(hp, 'HP');
-			basePower = ValidateStatus(basePower, 'Base Power');
-
+			_stats.atk = $("#offensive input[name='atk']").val();
+			_stats.atkStatModifier = $("#offensive .statModifier select").val();
+			_stats.def = $("#defensive input[name='def']").val();
+			_stats.defStatModifier = $("#defensive .statModifier select").val();
+			_stats.hp = $("#defensive input[name='hp']").val();
+			_stats.basePower = $("#parameters input[name='basePower']").val();
+			_stats.stab = $("#parameters input:checkbox:checked").val();
+			_stats.effect = $("#effect").val();
+			
+			return _stats;
+		};
+		
+		var updateStats = function (_stats) {
+			
 			// Converts parameters into numbers so we can update the stats
 			// before passing them to a new pokemonBattle object
 			atkStatModifier = IsStatModifier(atkStatModifier);
@@ -41,13 +42,10 @@ var DAMAGECALC = {
 			// Updates the Attack and Defense stats
 			atk = atk * atkStatModifier;
 			def = def * defStatModifier;
-
-			var pokemonBattle = new PokemonBattle(atk, def, hp, basePower, effectiveness, stabMultiplier);
-
-			return pokemonBattle;
+			
+			return _stats;
 		};
 		
-		// Calculates the damage
 		var calcResults = function (pokemonBattle, level, value) {
 			var random = 0.85;
 
@@ -68,7 +66,6 @@ var DAMAGECALC = {
 			return damage;
 		};
 		
-		//
 		var showResultsOnUi = function (pokemonBattleResults) {
 			// Must clean the previous calculation's output
 			$("#damage").empty();
@@ -103,9 +100,10 @@ var DAMAGECALC = {
 		};
 	})();
 	
-	// 
+	//
+	// Everything about modifiers is found here!
+	//
 	var battleModifiers = (function () {
-		// Turns the STAB identifier into a multiplying factor
 		var parseStab = function (stab) {
 			var stab_multiplier;
 
@@ -115,7 +113,6 @@ var DAMAGECALC = {
 			return parseFloat(stab_multiplier);
 		};
 		
-		// Turns the Effect identifier into a multiplying factor
 		var parseEffectiveness = function (effect) {
 			var effectiveness;
 
@@ -128,7 +125,6 @@ var DAMAGECALC = {
 			return parseFloat(effectiveness);
 		};
 		
-		// Turns the Stat Modifier identifier into a multiplying factor
 		var parseStatModifier = function (statModifier) {
 			var statModifierValue;
 
@@ -151,34 +147,27 @@ var DAMAGECALC = {
 			return parseFloat(statModifierValue);
 		};
 		
-		//
 		var getFirstModifier = function () {
 			
 		};
 		
-		//
 		var getSecondModifier = function () {
 			
 		};
 		
-		//
 		var getThirdModifier = function () {
 			
 		};
 		
-		return {
-			parseStab,
-			parseEffectiveness,
-			parseStatModifier,
-			getFirstModifier,
-			getSecondModifier,
-			getThirdModifier
-		};
+		return {};
 	})();
 	
+	//
+	// This object encapsulates all the validation steps needed for a real battle calculation.
+	//
 	var validator = (function () {
-		//
-		var validateStats = function (attribute, attribute_name) {
+		// Helper functions
+		var validateAttribute = function (attribute, attribute_name) {
 			if (attribute < 1 || attribute === null) {
 				alert("You entered an invalid value for " + attribute_name);
 				return false;
@@ -187,7 +176,6 @@ var DAMAGECALC = {
 			return Math.floor(attribute);
 		};
 		
-		//
 		var validateLevel = function (level) {
 			if (level < 1 || level === null || level > 100) {
 				alert("You entered an invalid level value.");
@@ -197,9 +185,17 @@ var DAMAGECALC = {
 			return Math.floor(level);
 		};
 		
+		var validateStats = function (stats) {
+			stats.atk = validateAttribute(atk, 'Attack');
+			stats.def = validateAttribute(def, 'Defense');
+			stats.hp = validateAttribute(hp, 'HP');
+			stats.basePower = validateAttribute(basePower, 'Base Power');
+			
+			return stats;
+		};
+		
 		return {
-			validateStats,
-			validateLevel
+			validateStats
 		};
 	})();
 }; // DAMAGECALC
