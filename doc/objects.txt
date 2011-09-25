@@ -1,16 +1,19 @@
 damageCalc design
 
-objects:
+__List of objects and their methods
 
 => pokemonBattle : central object, gets the battle information from the UI and calculates the damage
-- _battleStats : armazena o estado da batalha, status dos pokemon, etc
-- _results : armazena os resultados (max / min damages) do golpe, armazena porcentagens
--- setPokemonStats : creates a local copy of the information contained in the UI.
 -- getResults : getter for _results.
 -- calcResults : utilizes the _stats' data to generate the results.
--- showResultsOnUI : prints _results on the UI.
 
-=> battleModifiers : Stateless object that encapsulate parsing and intermediary modifiers
+=> calculatorModel : encapsulates everything about calculation
+-- calcMinDamage : returns min damage
+-- calcMaxDamage : returns max damage
+
+=> interfaceView : handles output to the screen
+-- showResultsOnUI : prints results on the UI.
+
+=> battleModifiers : encapsulates parsing and intermediary modifiers
 -- parseStab
 -- parseEffectiveness
 -- parseStatModifier
@@ -18,6 +21,14 @@ objects:
 -- getSecondModifier
 -- getThirdModifier
 
-=> : Validator used to verify the inputs BEFORE they're given to the other objects
+=> validator : performs form validation
 -- validateStats : self-explanatory
 -- validateLevel : self-explanatory
+
+---o---
+
+__Objects used to transport data
+
+=> stats : all the information from the UI is stored here; supports default values
+
+=> results : you'll find the calculation results in here, coupled with percentages (if applicable)

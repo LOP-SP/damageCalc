@@ -1,7 +1,10 @@
 damageCalc TO DO LIST
 
-- refactor pokemonBattle's methods, they're too long and disorganized
 - implement the full damage formula
+
+- create a more generic validator object for further reuse
+
+- results data structure: may add some fields for specific calculations
 
 - Adicionar inputs para saber se há Burn, Reflect/LScreen, 2vs2, SunnyDay/RainDance, FlashFire, Solid Rock, Expert Belt, Tinted Lens, type-resist berry, Life Orb
 - Adicionar funções que calculam Mod1, Mod2 e Mod3

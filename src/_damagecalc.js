@@ -16,12 +16,12 @@ var DAMAGECALC = {
 		var _stats = {},
 			_results = {};
 			
-		var setPokemonStats = function (_stats) {
+		var setPokemonStats = function () {
 			// Get the parameters from the UI
-			_stats.atk = $("#offensive input[name='atk']").val();
-			_stats.atkStatModifier = $("#offensive .statModifier select").val();
+			_stats.atk = $("#offensive input[name='atk']").val() || 100;
+			_stats.atkStatModifier = $("#offensive .statModifier select").val() || 0;
 			_stats.def = $("#defensive input[name='def']").val();
-			_stats.defStatModifier = $("#defensive .statModifier select").val();
+			_stats.defStatModifier = $("#defensive .statModifier select").val() || 0;
 			_stats.hp = $("#defensive input[name='hp']").val();
 			_stats.basePower = $("#parameters input[name='basePower']").val();
 			_stats.stab = $("#parameters input:checkbox:checked").val();
@@ -34,7 +34,8 @@ var DAMAGECALC = {
 			return _results;
 		};
 		
-		var updateStats = function (_stats) {
+		var updateStats = function () {
+			// This function can't be used before setPokemonStats() is called at least once
 			
 			// Converts parameters into numbers so we can update the stats
 			// before passing them to a new pokemonBattle object
@@ -50,14 +51,48 @@ var DAMAGECALC = {
 			return _stats;
 		};
 		
-		var calcResults = function (pokemonBattle, level, value) {
-		s
+		// Calculates the damage usign calculatorModel's method damageCalc()
+		// and assigns it to the _results private variable.
+		var calcResults = function () {
+			setPokemonStats();
+			updateStats();
+			
+			_results.minDamage = calculatorModel.calcMinDamage(_stats);
+			_results.maxDamage = calculatorModel.calcMaxDamage(_stats);
+			
+			// Calculation of the damage percentages
+			_results.minDamagePercentage = calculatorModel.minDamagePercentage(_stats, _results);
+			_results.maxDamagePercentage = calculatorModel.maxDamagePercentage(_stats, _results);
 		};
 		
 		return {
-			setPokemonStats,
 			getResults,
 			calcResults
+		};
+	})();
+	
+	var calculatorModel = (function () {
+		var calcMinDamage = function (stats) {
+			// min damage calculation is done here!
+			
+			return minDamage;
+		};
+		
+		var calcMaxDamage = function (stats) {
+			// max damage calculation is done here!
+			
+			return maxDamage;
+		};
+		
+		var minDamagePercentage = function (stats, results) {
+			var hp = 0;
+			
+			
+		};
+		
+		return {
+			calcMinDamage,
+			calcMaxDamage
 		};
 	})();
 	
@@ -96,16 +131,30 @@ var DAMAGECALC = {
 	//
 	var battleModifiers = (function () {
 		var parseStab = function (stab) {
-			var stab_multiplier;
+			var stabMultiplier;
+			
+			// No problem if you call me twice!
+			if (typeof stab === "number") {
+				stabMultiplier = stab;
+			}
+			
+			if (stab === 'on') {
+				stabMultiplier = 1.5;
+			}
+			else {
+				stabMultiplier = 1;
+			}
 
-			if (stab === 'on') { stab_multiplier = 1.5; }
-			else { stab_multiplier = 1; }
-
-			return parseFloat(stab_multiplier);
+			return parseFloat(stabMultiplier);
 		};
 		
 		var parseEffectiveness = function (effect) {
 			var effectiveness;
+			
+			// No problem if you call me twice!
+			if (typeof effect === "number") {
+				effectiveness = effect;
+			}
 
 			if (effect === '4x') { effectiveness = 4; }
 			else if (effect === '2x') { effectiveness = 2; }
@@ -118,8 +167,11 @@ var DAMAGECALC = {
 		
 		var parseStatModifier = function (statModifier) {
 			var statModifierValue;
-
-			// The else-if structure order was optimized to 
+			
+			// This function can't be easily protected with the typeof trick
+			// used in the above functions. So, consider searching for a
+			// double call to this function when debugging some bizarre
+			// damage outputs.
 
 			if (statModifier === '0') { statModifierValue = 1; }
 			else if (statModifier === '1') { statModifierValue = 1.5; }
