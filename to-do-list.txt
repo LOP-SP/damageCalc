@@ -1,7 +1,6 @@
 damageCalc TO DO LIST
 
 __URGENT
--> pokemonBattle.updateStats must be corrected (some calls to validator must be enough)
 -> showResultsOnUi must be updated (results object helps us!)
 -> 
 

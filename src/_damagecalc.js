@@ -7,6 +7,7 @@ $("#effect").val("1x");
 $(".statModifier select").val("0");
 
 // Global variables = evil
+// Need to create a namespace
 var DAMAGECALC = {};
 	
 	//
@@ -24,7 +25,7 @@ var DAMAGECALC = {};
 			_stats.defStatModifier = $("#defensive .statModifier select").val() || 0;
 			_stats.hp = $("#defensive input[name='hp']").val();
 			_stats.basePower = $("#parameters input[name='basePower']").val();
-			_stats.stab = $("#parameters input:checkbox:checked").val();
+			_stats.stab = $("#parameters input:checkbox:checked").val() || "off";
 			_stats.effect = $("#effect").val();
 			
 			return _stats;
@@ -39,14 +40,19 @@ var DAMAGECALC = {};
 			
 			// Converts parameters into numbers so we can update the stats
 			// before passing them to a new pokemonBattle object
-			atkStatModifier = IsStatModifier(atkStatModifier);
-			defStatModifier = IsStatModifier(defStatModifier);
-			var stabMultiplier = IsStab(stab);
-			var effectiveness = IsEffective(effect);
+			_stats.atkStatModifier = battleModifier.parseStatModifier(_stats.atkStatModifier);
+			_stats.defStatModifier = battleModifier.parseStatModifier(_stats.defStatModifier);
+			
+			_stats.stab = battleModifier.parseStab(_stats.stab);
+			_stats.effect = battleModifier.parseEffectiveness(_stats.effect);
 
-			// Updates the Attack and Defense stats
-			atk = atk * atkStatModifier;
-			def = def * defStatModifier;
+			// Updates the Attack and Defense stats with the modifiers
+			_stats.atk = _stats.atk * _stats.atkStatModifier;
+			_stats.def = _stats.def * _stats.defStatModifier;
+			
+			// Other battleModifier methods should be used HERE
+			// aka: this is where the brute stats from the UI
+			// are transformed to a calc-friendly format
 			
 			return _stats;
 		};
@@ -104,6 +110,8 @@ var DAMAGECALC = {};
 	var interfaceView = (function () {
 		
 		var showResultsOnUi = function (pokemonBattleResults) {
+			var damage_table;
+			
 			// Must clean the previous calculation's output
 			// Is it better to print everything? Maybe include a "clearscreen" button?
 			//$("#damage").empty();
@@ -115,7 +123,7 @@ var DAMAGECALC = {};
 			// and perform the percentage calcs needed.
 			
 			// MUST PUT THE PERCENTAGE CALCS SOMEHWERE ELSE!!!
-			var damage_table = "<h1>Damage results</h1>";
+			damage_table = "<h1>Damage results</h1>";
 			damage_table += "<div class='damage_table'>";
 			damage_table += "<h2>Level 100</h2>";
 
