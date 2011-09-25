@@ -16,7 +16,7 @@ var DAMAGECALC = {
 		var _stats = {},
 			_results = {};
 			
-		var getPokemonStats = function (_stats) {
+		var setPokemonStats = function (_stats) {
 			// Get the parameters from the UI
 			_stats.atk = $("#offensive input[name='atk']").val();
 			_stats.atkStatModifier = $("#offensive .statModifier select").val();
@@ -28,6 +28,10 @@ var DAMAGECALC = {
 			_stats.effect = $("#effect").val();
 			
 			return _stats;
+		};
+		
+		var getResults = function () {
+			return _results;
 		};
 		
 		var updateStats = function (_stats) {
@@ -47,9 +51,12 @@ var DAMAGECALC = {
 		};
 		
 		var calcResults = function (pokemonBattle, level, value) {
+		s
+		};
 		
 		return {
-			getPokemonStats,
+			setPokemonStats,
+			getResults,
 			calcResults
 		};
 	})();
@@ -58,14 +65,16 @@ var DAMAGECALC = {
 		
 		var showResultsOnUi = function (pokemonBattleResults) {
 			// Must clean the previous calculation's output
-			$("#damage").empty();
+			// Is it better to print everything? Maybe include a "clearscreen" button?
+			//$("#damage").empty();
 
-			// Hide the div to avoid excessive repaints,
-			// speeding up the process.
+			// Hide the div to avoid excessive repaints.
 			$("#damage").hide();
 
 			// Creates the table with the damage calculations
 			// and perform the percentage calcs needed.
+			
+			// MUST PUT THE PERCENTAGE CALCS SOMEHWERE ELSE!!!
 			var damage_table = "<h1>Damage results</h1>";
 			damage_table += "<div class='damage_table'>";
 			damage_table += "<h2>Level 100</h2>";

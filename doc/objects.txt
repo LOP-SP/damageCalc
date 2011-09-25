@@ -4,10 +4,11 @@ objects:
 
 => pokemonBattle : central object, gets the battle information from the UI and calculates the damage
 - _battleStats : armazena o estado da batalha, status dos pokemon, etc
-- _results : armazena os resultados (max / min damages) do golpe
--- getPokemonStats : pega stats da UI
--- calcResults : efetivamente calcula o dano
--- showResultsOnUI : mostra na UI o calculo de dano realizado
+- _results : armazena os resultados (max / min damages) do golpe, armazena porcentagens
+-- setPokemonStats : creates a local copy of the information contained in the UI.
+-- getResults : getter for _results.
+-- calcResults : utilizes the _stats' data to generate the results.
+-- showResultsOnUI : prints _results on the UI.
 
 => battleModifiers : Stateless object that encapsulate parsing and intermediary modifiers
 -- parseStab
