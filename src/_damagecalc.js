@@ -7,7 +7,7 @@ $("#effect").val("1x");
 $(".statModifier select").val("0");
 
 // Global variables = evil
-var DAMAGECALC = {
+var DAMAGECALC = {};
 	
 	//
 	// Main object 
@@ -66,8 +66,8 @@ var DAMAGECALC = {
 		};
 		
 		return {
-			getResults,
-			calcResults
+			getResults: getResults,
+			calcResults: calcResults
 		};
 	})(); // pokemonBattle
 	
@@ -92,9 +92,9 @@ var DAMAGECALC = {
 		};
 		
 		return {
-			calcMinDamage,
-			calcMaxDamage,
-			damagePercentage
+			calcMinDamage: calcMinDamage,
+			calcMaxDamage: calcMaxDamage,
+			damagePercentage: damagePercentage
 		};
 	})(); // calculatorModel
 	
@@ -242,8 +242,5 @@ var DAMAGECALC = {
 			return stats;
 		};
 		
-		return {
-			validateStats
-		};
+		return validateStats;
 	})(); // validator
-}; // DAMAGECALC

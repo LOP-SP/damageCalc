@@ -1,5 +1,10 @@
 damageCalc TO DO LIST
 
+__URGENT
+-> pokemonBattle.updateStats must be corrected (some calls to validator must be enough)
+-> showResultsOnUi must be updated (results object helps us!)
+-> 
+
 - implement the full damage formula
 
 - create a more generic validator object for further reuse
