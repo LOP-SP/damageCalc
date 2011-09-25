@@ -7,23 +7,23 @@ __List of objects and their methods
 -- calcResults : utilizes the _stats' data to generate the results.
 
 => calculatorModel : encapsulates everything about calculation
--- calcMinDamage : returns min damage
--- calcMaxDamage : returns max damage
+-- calcMinDamage (stats)
+-- calcMaxDamage (stats)
+-- damagePercentage (hp, damage)
 
 => interfaceView : handles output to the screen
--- showResultsOnUI : prints results on the UI.
+-- showResultsOnUI (???)
 
 => battleModifiers : encapsulates parsing and intermediary modifiers
--- parseStab
--- parseEffectiveness
--- parseStatModifier
+-- parseStab (stab)
+-- parseEffectiveness (effect)
+-- parseStatModifier (statModifier)
 -- getFirstModifier
 -- getSecondModifier
 -- getThirdModifier
 
 => validator : performs form validation
--- validateStats : self-explanatory
--- validateLevel : self-explanatory
+-- validateStats (stats)
 
 ---o---
 

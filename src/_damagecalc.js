@@ -51,7 +51,7 @@ var DAMAGECALC = {
 			return _stats;
 		};
 		
-		// Calculates the damage usign calculatorModel's method damageCalc()
+		// Calculates the damage usign calculatorModel's methods
 		// and assigns it to the _results private variable.
 		var calcResults = function () {
 			setPokemonStats();
@@ -69,8 +69,11 @@ var DAMAGECALC = {
 			getResults,
 			calcResults
 		};
-	})();
+	})(); // pokemonBattle
 	
+	//
+	// All the bizarre calculations are done by this guy.
+	//
 	var calculatorModel = (function () {
 		var calcMinDamage = function (stats) {
 			// min damage calculation is done here!
@@ -93,8 +96,11 @@ var DAMAGECALC = {
 			calcMaxDamage,
 			damagePercentage
 		};
-	})();
+	})(); // calculatorModel
 	
+	//
+	// The output showed in the UI is created here.
+	//
 	var interfaceView = (function () {
 		
 		var showResultsOnUi = function (pokemonBattleResults) {
@@ -123,7 +129,7 @@ var DAMAGECALC = {
 		};
 		
 		return showResultsOnUi;
-	})();
+	})(); // interfaceView
 	
 	//
 	// Everything about modifiers is found here!
@@ -202,16 +208,16 @@ var DAMAGECALC = {
 		};
 		
 		return {};
-	})();
+	})(); // battleModifiers
 	
 	//
 	// This object encapsulates all the validation steps needed for a real battle calculation.
 	//
 	var validator = (function () {
 		// Helper functions
-		var validateAttribute = function (attribute, attribute_name) {
+		var validateAttribute = function (attribute, attributeName) {
 			if (attribute < 1 || attribute === null) {
-				alert("You entered an invalid value for " + attribute_name);
+				alert("You entered an invalid value for " + attributeName);
 				return false;
 			}
 
@@ -228,10 +234,10 @@ var DAMAGECALC = {
 		};
 		
 		var validateStats = function (stats) {
-			stats.atk = validateAttribute(atk, 'Attack');
-			stats.def = validateAttribute(def, 'Defense');
-			stats.hp = validateAttribute(hp, 'HP');
-			stats.basePower = validateAttribute(basePower, 'Base Power');
+			stats.atk = validateAttribute(atk, "Attack");
+			stats.def = validateAttribute(def, "Defense");
+			stats.hp = validateAttribute(hp, "HP");
+			stats.basePower = validateAttribute(basePower, "Base Power");
 			
 			return stats;
 		};
@@ -239,5 +245,5 @@ var DAMAGECALC = {
 		return {
 			validateStats
 		};
-	})();
+	})(); // validator
 }; // DAMAGECALC
