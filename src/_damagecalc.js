@@ -61,8 +61,8 @@ var DAMAGECALC = {
 			_results.maxDamage = calculatorModel.calcMaxDamage(_stats);
 			
 			// Calculation of the damage percentages
-			_results.minDamagePercentage = calculatorModel.minDamagePercentage(_stats, _results);
-			_results.maxDamagePercentage = calculatorModel.maxDamagePercentage(_stats, _results);
+			_results.minDamagePercentage = calculatorModel.damagePercentage(_stats.hp, _results.minDamage);
+			_results.maxDamagePercentage = calculatorModel.damagePercentage(_stats.hp, _results.maxDamage);
 		};
 		
 		return {
@@ -84,15 +84,14 @@ var DAMAGECALC = {
 			return maxDamage;
 		};
 		
-		var minDamagePercentage = function (stats, results) {
-			var hp = 0;
-			
-			
+		var damagePercentage = function (hp, damage) {
+			return (damage / hp);
 		};
 		
 		return {
 			calcMinDamage,
-			calcMaxDamage
+			calcMaxDamage,
+			damagePercentage
 		};
 	})();
 	
