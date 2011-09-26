@@ -94,7 +94,7 @@ var DAMAGECALC = {};
 		};
 		
 		var damagePercentage = function (hp, damage) {
-			return (damage / hp);
+			return 100*(damage / hp).toPrecision(2);
 		};
 		
 		return {
@@ -109,8 +109,11 @@ var DAMAGECALC = {};
 	//
 	var interfaceView = (function () {
 		
-		var showResultsOnUi = function (pokemonBattleResults) {
-			var damage_table;
+		var showResultsOnUi = function () {
+			var damage_table,
+				results;
+			
+			results = pokemonBattle.getResults();
 			
 			// Must clean the previous calculation's output
 			// Is it better to print everything? Maybe include a "clearscreen" button?
@@ -119,17 +122,13 @@ var DAMAGECALC = {};
 			// Hide the div to avoid excessive repaints.
 			$("#damage").hide();
 
-			// Creates the table with the damage calculations
-			// and perform the percentage calcs needed.
-			
-			// MUST PUT THE PERCENTAGE CALCS SOMEHWERE ELSE!!!
 			damage_table = "<h1>Damage results</h1>";
 			damage_table += "<div class='damage_table'>";
 			damage_table += "<h2>Level 100</h2>";
 
-			damage_table += 100*(pokemonBattleResults.minDamage_100 / pokemonBattleResults.hp).toPrecision(3) + "% - " + 100*(pokemonBattleResults.maxDamage_100 / pokemonBattleResults.hp).toPrecision(3) + "% (";
+			damage_table += 100*results.minDamagePercentage + "% - " + 100*results.maxDamagePercentage + "% (";
 
-			damage_table += pokemonBattleResults.minDamage_100 + " - " + pokemonBattleResults.maxDamage_100 + ")";
+			damage_table += results.minDamage + " - " + results.maxDamage + ")";
 
 			damage_table += "</div>";
 
