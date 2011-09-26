@@ -14,29 +14,29 @@ var DAMAGECALC = {};
 	// Main object 
 	//
 	var pokemonBattle = (function () {
-		var _stats = {},
-			_results = {};
+		var stats = {},
+			results = {};
 			
 		var setPokemonStats = function () {
 			// Get the parameters from the UI
-			_stats.atk = $("#offensive input[name='atk']").val() || 100;
-			_stats.atkStatModifier = $("#offensive .statModifier select").val() || 0;
-			_stats.def = $("#defensive input[name='def']").val();
-			_stats.defStatModifier = $("#defensive .statModifier select").val() || 0;
-			_stats.hp = $("#defensive input[name='hp']").val();
-			_stats.basePower = $("#parameters input[name='basePower']").val();
-			_stats.stab = $("#parameters input:checkbox:checked").val() || "off";
-			_stats.effect = $("#effect").val();
-			_stats.isBurn = $("#parameters input[name='isBurn']").val();
-			_stats.isReflectLightScreen = $("#parameters input[name='isReflectLightScreen']").val();
-			_stats.isDoubleBattle = $("#parameters input[name='isDoubleBattle']").val();
-			_stats.isSunnyDayRainDanceActive = $("#parameters input=[name='isSunnyDayRainDanceActive']").val();
-			_stats.isFlashFireActive = $("#parameters input=[name='isFlashFireActive']").val();
-			_stats.equipLifeOrb = $("#parameters input=[name='equipLifeOrb']").val();
+			stats.atk = $("#offensive input[name='atk']").val() || 100;
+			stats.atkStatModifier = $("#offensive .statModifier select").val() || 0;
+			stats.def = $("#defensive input[name='def']").val();
+			stats.defStatModifier = $("#defensive .statModifier select").val() || 0;
+			stats.hp = $("#defensive input[name='hp']").val();
+			stats.basePower = $("#parameters input[name='basePower']").val();
+			stats.stab = $("#parameters input:checkbox:checked").val() || "off";
+			stats.effect = $("#effect").val();
+			stats.isBurn = $("#parameters input[name='isBurn']").val();
+			stats.isReflectLightScreen = $("#parameters input[name='isReflectLightScreen']").val();
+			stats.isDoubleBattle = $("#parameters input[name='isDoubleBattle']").val();
+			stats.isSunnyDayRainDanceActive = $("#parameters input=[name='isSunnyDayRainDanceActive']").val();
+			stats.isFlashFireActive = $("#parameters input=[name='isFlashFireActive']").val();
+			stats.equipLifeOrb = $("#parameters input=[name='equipLifeOrb']").val();
 		};
 		
 		var getResults = function () {
-			return _results;
+			return results;
 		};
 		
 		var updateStats = function () {
@@ -44,15 +44,15 @@ var DAMAGECALC = {};
 			
 			// Converts parameters into numbers so we can update the stats
 			// before passing them to a new pokemonBattle object
-			_stats.atkStatModifier = battleModifier.parseStatModifier(_stats.atkStatModifier);
-			_stats.defStatModifier = battleModifier.parseStatModifier(_stats.defStatModifier);
+			stats.atkStatModifier = battleModifier.parseStatModifier(stats.atkStatModifier);
+			stats.defStatModifier = battleModifier.parseStatModifier(stats.defStatModifier);
 			
-			_stats.stab = battleModifier.parseStab(_stats.stab);
-			_stats.effect = battleModifier.parseEffectiveness(_stats.effect);
+			stats.stab = battleModifier.parseStab(stats.stab);
+			stats.effect = battleModifier.parseEffectiveness(stats.effect);
 
 			// Updates the Attack and Defense stats with the modifiers
-			_stats.atk = _stats.atk * _stats.atkStatModifier;
-			_stats.def = _stats.def * _stats.defStatModifier;
+			stats.atk = stats.atk * stats.atkStatModifier;
+			stats.def = stats.def * stats.defStatModifier;
 			
 			// Other battleModifier methods should be used HERE
 			// aka: this is where the brute stats from the UI
@@ -60,17 +60,17 @@ var DAMAGECALC = {};
 		};
 		
 		// Calculates the damage usign calculatorModel's methods
-		// and assigns it to the _results private variable.
+		// and assigns it to the results private variable.
 		var calcResults = function () {
 			setPokemonStats();
 			updateStats();
 			
-			_results.minDamage = calculatorModel.calcMinDamage(_stats);
-			_results.maxDamage = calculatorModel.calcMaxDamage(_stats);
+			results.minDamage = calculatorModel.calcMinDamage(stats);
+			results.maxDamage = calculatorModel.calcMaxDamage(stats);
 			
 			// Calculation of the damage percentages
-			_results.minDamagePercentage = calculatorModel.damagePercentage(_stats.hp, _results.minDamage);
-			_results.maxDamagePercentage = calculatorModel.damagePercentage(_stats.hp, _results.maxDamage);
+			results.minDamagePercentage = calculatorModel.damagePercentage(stats.hp, results.minDamage);
+			results.maxDamagePercentage = calculatorModel.damagePercentage(stats.hp, results.maxDamage);
 		};
 		
 		return {
@@ -112,7 +112,7 @@ var DAMAGECALC = {};
 	var interfaceView = (function () {
 		
 		var showResultsOnUi = function () {
-			var damage_table,
+			var damageTable,
 				results;
 			
 			results = pokemonBattle.getResults();
@@ -124,17 +124,17 @@ var DAMAGECALC = {};
 			// Hide the div to avoid excessive repaints.
 			$("#damage").hide();
 
-			damage_table = "<h1>Damage results</h1>";
-			damage_table += "<div class='damage_table'>";
-			damage_table += "<h2>Level 100</h2>";
+			damageTable = "<h1>Damage results</h1>";
+			damageTable += "<div class='damageTable'>";
+			damageTable += "<h2>Level 100</h2>";
 
-			damage_table += 100*results.minDamagePercentage + "% - " + 100*results.maxDamagePercentage + "% (";
+			damageTable += 100*results.minDamagePercentage + "% - " + 100*results.maxDamagePercentage + "% (";
 
-			damage_table += results.minDamage + " - " + results.maxDamage + ")";
+			damageTable += results.minDamage + " - " + results.maxDamage + ")";
 
-			damage_table += "</div>";
+			damageTable += "</div>";
 
-			$("#damage").append(damage_table).show();
+			$("#damage").append(damageTable).show();
 		};
 		
 		return showResultsOnUi;
