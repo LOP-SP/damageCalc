@@ -27,8 +27,12 @@ var DAMAGECALC = {};
 			_stats.basePower = $("#parameters input[name='basePower']").val();
 			_stats.stab = $("#parameters input:checkbox:checked").val() || "off";
 			_stats.effect = $("#effect").val();
-			
-			return _stats;
+			_stats.isBurn = $("#parameters input[name='isBurn']").val();
+			_stats.isReflectLightScreen = $("#parameters input[name='isReflectLightScreen']").val();
+			_stats.isDoubleBattle = $("#parameters input[name='isDoubleBattle']").val();
+			_stats.isSunnyDayRainDanceActive = $("#parameters input=[name='isSunnyDayRainDanceActive']").val();
+			_stats.isFlashFireActive = $("#parameters input=[name='isFlashFireActive']").val();
+			_stats.equipLifeOrb = $("#parameters input=[name='equipLifeOrb']").val();
 		};
 		
 		var getResults = function () {
@@ -53,8 +57,6 @@ var DAMAGECALC = {};
 			// Other battleModifier methods should be used HERE
 			// aka: this is where the brute stats from the UI
 			// are transformed to a calc-friendly format
-			
-			return _stats;
 		};
 		
 		// Calculates the damage usign calculatorModel's methods
@@ -202,15 +204,28 @@ var DAMAGECALC = {};
 			return parseFloat(statModifierValue);
 		};
 		
-		var getFirstModifier = function () {
+		var setFirstModifier = function (stats) {
+			var Mod1 = 1;
 			
+			// Mod1 = BRN × RL × TVT × SR × FF
+			// Must parse the stats received from the UI
 		};
 		
-		var getSecondModifier = function () {
+		var setSecondModifier = function (stats) {
+			// This modifier concerns about Me First, Life Orb and Metronome
+			// I wont support Me First and Metronome for now, so its basically
+			// a Life Orb implementation
 			
+			var Mod2 = 1;
+			
+			if (stats.equipLifeOrb === "on") {
+				Mod2 = parseFloat(1.3);
+			}
+			
+			return Mod2;
 		};
 		
-		var getThirdModifier = function () {
+		var setThirdModifier = function () {
 			
 		};
 		

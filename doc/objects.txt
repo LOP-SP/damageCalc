@@ -30,5 +30,19 @@ __List of objects and their methods
 __Objects used to transport data
 
 => stats : all the information from the UI is stored here; supports default values
+atk
+atkModifier
+def
+defModifier
+hp
+basePower
+stab
+effect
+isBurn
+isReflectLightScreen
+isDoubleBattle
+isSunnyDayRainDanceActive
+isFlashFireActive
+equipLifeOrb
 
 => results : you'll find the calculation results in here, coupled with percentages (if applicable)
