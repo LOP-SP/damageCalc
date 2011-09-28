@@ -27,6 +27,7 @@ var DAMAGECALC = {};
 			stats.basePower = $("#parameters input[name='basePower']").val();
 			stats.stab = $("#parameters input:checkbox:checked").val() || "off";
 			stats.effect = $("#effect").val();
+			// The following info aren't implemented in the UI (yet)
 			stats.isBurn = $("#parameters input[name='isBurn']").val();
 			stats.isReflectLightScreen = $("#parameters input[name='isReflectLightScreen']").val();
 			stats.isDoubleBattle = $("#parameters input[name='isDoubleBattle']").val();
@@ -65,8 +66,8 @@ var DAMAGECALC = {};
 			setPokemonStats();
 			updateStats();
 			
-			results.minDamage = calculatorModel.calcMinDamage(stats);
-			results.maxDamage = calculatorModel.calcMaxDamage(stats);
+			results.minDamage = calculatorModel.calcDamage(stats, "min");
+			results.maxDamage = calculatorModel.calcDamage(stats, "max");
 			
 			// Calculation of the damage percentages
 			results.minDamagePercentage = calculatorModel.damagePercentage(stats.hp, results.minDamage);
@@ -83,16 +84,41 @@ var DAMAGECALC = {};
 	// All the bizarre calculations are done by this guy.
 	//
 	var calculatorModel = (function () {
-		var calcMinDamage = function (stats) {
-			// min damage calculation is done here!
-			
-			return minDamage;
-		};
 		
-		var calcMaxDamage = function (stats) {
-			// max damage calculation is done here!
+		//
+		// Receives a stats object with the necessary data and a string
+		// specifying if it's max or min damage. Returns max damage by default
+		// if the string passed isn't "max" or "min" (case ignored).
+		//
+		// To do: Implement a way to calculate the probability that a move
+		// will OHKO (or 2HKO, 3HKO, etc) a certain pokemon.
+		var calcDamage = function (stats, isMaxOrMin) {
+			var damage = 0,
+				randomMultiplier = 1;
 			
-			return maxDamage;
+			if (typeof isMaxOrMin !== "string") {
+				alert("ERROR: isMaxOrMin (in calculatorModel.calcDamage) must be a string!");
+				return 0;
+			}
+			else {
+				// Should I use "max", "Max" or "MaX"?!
+				// No need to worry!
+				isMaxOrMin.toLowerCase();
+				
+				if (isMaxOrMin === "min") {
+					randomMultiplier = parseFloat(0.85);
+				}
+				else {
+					randomMultiplier = parseFloat(1);
+				}
+			
+			// The damage calculation is done here. The damage formula is:
+			// 
+			// 
+			
+			damage = 
+			
+			return damage;
 		};
 		
 		var damagePercentage = function (hp, damage) {

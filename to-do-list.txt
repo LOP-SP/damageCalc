@@ -7,6 +7,9 @@ Must update index.html, UI needs new parameters (refer to pokemonBattle.setPokem
 
 - create a more generic validator object for further reuse
 
+- To do: Implement a way to calculate the probability that a move will OHKO (or 2HKO, 3HKO, etc) a certain pokemon
+-- Must use all the possible values for the randomMultiplier variable, calculate the damage dealt with each of them and sum the probability of the multipliers that were sufficient to faint the opposite pokemon.
+
 - neglect the item Metronome for the moment
 
 - neglected moves implementation: Me First, 
