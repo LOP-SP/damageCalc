@@ -14,6 +14,8 @@ Must update index.html, UI needs new parameters (refer to pokemonBattle.setPokem
 
 - neglected moves implementation: Me First, 
 
+- SNIPER NOT CONSIDERED
+
 - Solid Rock, Expert Belt, Tinted Lens, type-resist berry
 - Adicionar funções que calculam Mod1 e Mod3
 - Criar funções para verificar dano total que levam em conta Hail/Sandstorm, Stealth Rock, Spikes (1, 2 e 3 layers), Leftovers, etc
@@ -38,21 +40,8 @@ LISTA DE VARIÁVEIS
 ⇒ IM: item modifier, precisa ser atualizado
 - [Sp]Def: do defensor; = Stat × SM × Mod
 
-⇒ Mod: modifier que depende de alguns fatores; precisa ser atualizado 
+- Mod1 = BRN × RL × TVT × SR × FF
 
+- Mod2 = equipLifeOrb
 
-- Mod1: Primeiro modifier; Mod1 = BRN × RL × TVT × SR × FF
-→ BRN: .5 se o golpe for físico, o atacante estiver com status BRN e não possuir guts
-→ RL: reflect/light screen; .5 se o oponente settou uma wall que protege contra o tipo de golpe (físico/especial) e estivermos em single battle; .6667 se tivermos essas condições numa double; se der crit, RL = 1 independente desses fatores
-→ TVT: 0.75 em golpes que afetam mais de um pokémon em doubles; nem todos os golpes dão trigger nessa condição
-→ SR: sunny day/rain dance modifier; 1.5 se o golpe for fire/water em sunny day/rain dance; 0.5 se for fire/water em rain dance/sunny day
-→ FF: Flash fire, 1.5 se tiver tomado golpe fire antes e está usando um golpe fire
-
-- Mod3: Terceiro modifier; Mod2 = SRF × EB × TL × TRB
-→ SRF: Solid Rock/Filter, se o oponente tiver a ability e o golpe der SE (effect > 1), é 0.75; é 1 de outra forma
-→ EB: expert belt; 1.2 se o golpe tiver effect > 1 no oponente; é 1 de outra forma
-→ TL: tinted lens, 2 se o atacante tiver essa ability e o golpe tiver effect < 1 contra o oponente; 1 de outra forma
-→ TRB: type-resisting berry, 0.5 se o oponente tiver a berry que protege contra o tipo do golpe e effect > 1; 1 de outra forma
-- CH: 3 se der crit e o atacante tiver Sniper, 2 se der crit com outra ability e 1 de outra forma
-- R: (rand x 100) / 255; resulta em 0.85 <= R <= 1.00
-- Type1, Type2: Modificador de super effectiveness; chamado de “effect”/”effectiveness”, assume os valores 0.25, 0.50, 1.00, 2.00 ou 4.00
+- Mod3 = SRF × EB × TL × TRB

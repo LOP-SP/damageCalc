@@ -27,14 +27,22 @@ var DAMAGECALC = {
 			stats.hp = $("#defensive input[name='hp']").val();
 			stats.basePower = $("#parameters input[name='basePower']").val();
 			stats.stab = $("#parameters input:checkbox:checked").val() || "off";
-			stats.effect = $("#effect").val();
 			// The following info aren't implemented in the UI (yet)!
+			// Mod1
 			stats.isBurn = $("#parameters input[name='isBurn']").val();
-			stats.isReflectLightScreen = $("#parameters input[name='isReflectLightScreen']").val();
+			stats.isReflectLightScreenActive = $("#parameters input[name='isReflectLightScreenActive']").val();
 			stats.isDoubleBattle = $("#parameters input[name='isDoubleBattle']").val();
-			stats.isSunnyDayRainDanceActive = $("#parameters input=[name='isSunnyDayRainDanceActive']").val();
-			stats.isFlashFireActive = $("#parameters input=[name='isFlashFireActive']").val();
-			stats.equipLifeOrb = $("#parameters input=[name='equipLifeOrb']").val();
+			stats.isSunnyDayRainDanceActive = $("#parameters input[name='isSunnyDayRainDanceActive']").val();
+			stats.isFlashFireActive = $("#parameters input[name='isFlashFireActive']").val();
+			// Mod 2
+			stats.equipLifeOrb = $("#parameters input[name='equipLifeOrb']").val();
+			// Mod3
+			stats.hasSolidRockFilter = $("#parameters input[name='hasSolidRockFilter']");
+			stats.equipExpertBelt = $("#parameters input[name='equipExpertBelt']");
+			stats.hasTintedLens = $("#parameters input[name='hasTintedLens']");
+			stats.isResistBerryActive = $("#parameters input[name='isResistBerryActive']");
+			stats.isCriticalHit = $("#parameters input[name='isCriticalHit']");
+			stats.effect = $("#effect").val(); // currently implemented
 		};
 		
 		var getResults = function () {
