@@ -5,8 +5,11 @@ New designed Pokemon damageCalc
 "use strict";
 
 // Set the initial value of drop down lists
-$("#effect").val("1x");
-$(".statModifier select").val("0");
+$("#parameters select[name='effect']").val("1x");
+$("#pkmn select[name='statModifier']").val("0");
+
+// If you need to set a checkbox, use this:
+// $(SELECTOR).attr("checked", true);
 
 // Global variables = evil
 var DAMAGECALC = {
@@ -92,7 +95,6 @@ var DAMAGECALC = {
 	// All the bizarre calculations are done by this guy.
 	//
 	calculatorModel : (function () {
-		
 		//
 		// Receives a stats object with the necessary data and a string
 		// specifying if it's max or min damage. Returns max damage by default
@@ -100,6 +102,7 @@ var DAMAGECALC = {
 		//
 		// To do: Implement a way to calculate the probability that a move
 		// will OHKO (or 2HKO, 3HKO, etc) a certain pokemon.
+		//
 		var calcDamage = function (stats, isMaxOrMin) {
 			var damage = 0,
 				randomMultiplier = 1;
@@ -119,6 +122,7 @@ var DAMAGECALC = {
 				else {
 					randomMultiplier = parseFloat(1);
 				}
+			}s
 			
 			// The damage calculation is done here. The damage formula is:
 			// 

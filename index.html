@@ -45,8 +45,8 @@
 <form>
 <h2>Defensive</h2>
 Def/SDef: <input type="text" name="def" /><br />
-HP: <input type="text" name="hp" />
-<div class="statModifier"><label for="statModifier">Stat Modifier:</label> <select name="statModifier">
+HP: <input type="text" name="hp" /><br>
+<label for="statModifier">Stat Modifier:</label><select name="statModifier">
 	<option value="6">+6</option>
 	<option value="5">+5</option>
 	<option value="4">+4</option>
@@ -60,7 +60,7 @@ HP: <input type="text" name="hp" />
 	<option value="-4">-4</option>
 	<option value="-5">-5</option>
 	<option value="-6">-6</option>
-</select></div>
+</select>
 </form>
 </div> <!-- defensePkmn -->
 </div> <!-- pkmn -->
@@ -70,20 +70,25 @@ HP: <input type="text" name="hp" />
 <form>
 <label for="basePower">Base Power:</label><input type="text" name="basePower"/><br />
 <label for="effect">Effectiveness:</label>
-	<select name="effect" id="effect">
+	<select name="effect">
 	<option value="4x">4x</option>
     <option value="2x">2x</option>
     <option value="1x">1x</option>
     <option value="0.5x">0.5x</option>
     <option value="0.25x">0.25x</option>
     </select><br />	
-<label for="stab">STAB:</label><input type="checkbox" name="stab" />
-<label for="isBurn">Burned?</label><input type="checkbox" name="isBurn" />
-<label for="isReflectLightScreenActive">Reflect/Light Screen?</label><input type="checkbox" name="isReflectLightScreenActive" />
-<label for="isDoubleBattle">Double Battle?</label><input type="checkbox" name="isDoubleBattle" />
-<label for="isSunnyDayRainDanceActive">Sunny Day / Rain Dance?</label><input type="checkbox" name="isSunnyDayRainDanceActive" />
-<label for="isFlashFireActive">Flash Fire activated?</label><input type="checkbox" name="isFlashFireActive" />
-
+<label for="stab">STAB:</label><input type="checkbox" name="stab" /><br />
+<label for="isBurn">Burned?</label><input type="checkbox" name="isBurn" /><br />
+<label for="isReflectLightScreenActive">Reflect/Light Screen?</label><input type="checkbox" name="isReflectLightScreenActive" /><br />
+<label for="isDoubleBattle">Double Battle?</label><input type="checkbox" name="isDoubleBattle" /><br>
+<label for="isSunnyDayRainDanceActive">Sunny Day / Rain Dance?</label><input type="checkbox" name="isSunnyDayRainDanceActive" /><br>
+<label for="isFlashFireActive">Flash Fire activated?</label><input type="checkbox" name="isFlashFireActive" /><br>
+<label for="equipLifeOrb">Is Life Orb equipped?</label><input type="checkbox" name="equipLifeOrb" /><br>
+<label for="hasSolidRockFilter">Solid Rock / Filter?</label><input type="checkbox" name="hasSolidRockFilter" /><br>
+<label for="equipExpertBelt">Is Expert Belt equipped?</label><input type="checkbox" name="equipExpertBelt" /><br>
+<label for="hasTintedLens">Tinted Lens?</label><input type="checkbox" name="hasTintedLens" /><br>
+<label for="isResistBerryActive">Resist berry activated?</label><input type="checkbox" name="isResistBerryActive" /><br>
+<label for="isCriticalHit">Critical Hit?</label><input type="checkbox" name="isCriticalHit" /><br>
 </form>
 </div> <!-- parameters -->
 
