@@ -16,7 +16,8 @@ Must update index.html, UI needs new parameters (refer to pokemonBattle.setPokem
 
 - SNIPER NOT CONSIDERED
 
-- Solid Rock, Expert Belt, Tinted Lens, type-resist berry
+- add <label> tags to index.html
+
 - Adicionar funções que calculam Mod1 e Mod3
 - Criar funções para verificar dano total que levam em conta Hail/Sandstorm, Stealth Rock, Spikes (1, 2 e 3 layers), Leftovers, etc
 

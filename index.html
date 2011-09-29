@@ -68,8 +68,8 @@ HP: <input type="text" name="hp" />
 <div id="parameters" class="left">
 <h2>Parameters</h2>
 <form>
-Base Power: <input type="text" name="basePower"/><br />
-Effectiveness: 
+<label for="basePower">Base Power:</label><input type="text" name="basePower"/><br />
+<label for="effect">Effectiveness:</label>
 	<select name="effect" id="effect">
 	<option value="4x">4x</option>
     <option value="2x">2x</option>
@@ -77,7 +77,13 @@ Effectiveness:
     <option value="0.5x">0.5x</option>
     <option value="0.25x">0.25x</option>
     </select><br />	
-STAB: <input type="checkbox" name="stab" />
+<label for="stab">STAB:</label><input type="checkbox" name="stab" />
+<label for="isBurn">Burned?</label><input type="checkbox" name="isBurn" />
+<label for="isReflectLightScreenActive">Reflect/Light Screen?</label><input type="checkbox" name="isReflectLightScreenActive" />
+<label for="isDoubleBattle">Double Battle?</label><input type="checkbox" name="isDoubleBattle" />
+<label for="isSunnyDayRainDanceActive">Sunny Day / Rain Dance?</label><input type="checkbox" name="isSunnyDayRainDanceActive" />
+<label for="isFlashFireActive">Flash Fire activated?</label><input type="checkbox" name="isFlashFireActive" />
+
 </form>
 </div> <!-- parameters -->
 
