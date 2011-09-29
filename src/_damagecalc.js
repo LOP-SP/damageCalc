@@ -2,6 +2,8 @@
 New designed Pokemon damageCalc
 */
 
+"use strict"
+
 // Set the initial value of drop down lists
 $("#effect").val("1x");
 $(".statModifier select").val("0");
@@ -13,7 +15,7 @@ var DAMAGECALC = {};
 	//
 	// Main object 
 	//
-	var pokemonBattle = (function () {
+DAMAGECALC.pokemonBattle = (function () {
 		var stats = {},
 			results = {};
 			
@@ -27,7 +29,7 @@ var DAMAGECALC = {};
 			stats.basePower = $("#parameters input[name='basePower']").val();
 			stats.stab = $("#parameters input:checkbox:checked").val() || "off";
 			stats.effect = $("#effect").val();
-			// The following info aren't implemented in the UI (yet)
+			// The following info aren't implemented in the UI (yet)!
 			stats.isBurn = $("#parameters input[name='isBurn']").val();
 			stats.isReflectLightScreen = $("#parameters input[name='isReflectLightScreen']").val();
 			stats.isDoubleBattle = $("#parameters input[name='isDoubleBattle']").val();
@@ -83,7 +85,7 @@ var DAMAGECALC = {};
 	//
 	// All the bizarre calculations are done by this guy.
 	//
-	var calculatorModel = (function () {
+DAMAGECALC.calculatorModel = (function () {
 		
 		//
 		// Receives a stats object with the necessary data and a string
@@ -126,8 +128,7 @@ var DAMAGECALC = {};
 		};
 		
 		return {
-			calcMinDamage: calcMinDamage,
-			calcMaxDamage: calcMaxDamage,
+			calcDamage: calcDamage,
 			damagePercentage: damagePercentage
 		};
 	})(); // calculatorModel
@@ -135,7 +136,7 @@ var DAMAGECALC = {};
 	//
 	// The output showed in the UI is created here.
 	//
-	var interfaceView = (function () {
+DAMAGECALC.interfaceView = (function () {
 		
 		var showResultsOnUi = function () {
 			var damageTable,
@@ -261,7 +262,7 @@ var DAMAGECALC = {};
 	//
 	// This object encapsulates all the validation steps needed for a real battle calculation.
 	//
-	var validator = (function () {
+DAMAGECALC.validator = (function () {
 		// Helper functions
 		var validateAttribute = function (attribute, attributeName) {
 			if (attribute < 1 || attribute === null) {
