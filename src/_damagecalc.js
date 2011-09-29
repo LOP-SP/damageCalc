@@ -301,4 +301,4 @@ var DAMAGECALC = {
 	})() // validator
 }; // DAMAGECALC
 
-// Assign a method to a button onclick event at the UI
+// Assign a method to a button click event at the UI
