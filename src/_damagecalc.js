@@ -2,7 +2,7 @@
 New designed Pokemon damageCalc
 */
 
-"use strict"
+"use strict";
 
 // Set the initial value of drop down lists
 $("#effect").val("1x");
@@ -10,12 +10,11 @@ $(".statModifier select").val("0");
 
 // Global variables = evil
 // Need to create a namespace
-var DAMAGECALC = {};
-	
+var DAMAGECALC = {
 	//
 	// Main object 
 	//
-DAMAGECALC.pokemonBattle = (function () {
+	pokemonBattle : (function () {
 		var stats = {},
 			results = {};
 			
@@ -80,12 +79,12 @@ DAMAGECALC.pokemonBattle = (function () {
 			getResults: getResults,
 			calcResults: calcResults
 		};
-	})(); // pokemonBattle
+	})(), // pokemonBattle
 	
 	//
 	// All the bizarre calculations are done by this guy.
 	//
-DAMAGECALC.calculatorModel = (function () {
+	calculatorModel : (function () {
 		
 		//
 		// Receives a stats object with the necessary data and a string
@@ -118,7 +117,7 @@ DAMAGECALC.calculatorModel = (function () {
 			// 
 			// 
 			
-			damage = 
+			//damage = 
 			
 			return damage;
 		};
@@ -131,12 +130,12 @@ DAMAGECALC.calculatorModel = (function () {
 			calcDamage: calcDamage,
 			damagePercentage: damagePercentage
 		};
-	})(); // calculatorModel
+	})(), // calculatorModel
 	
 	//
 	// The output showed in the UI is created here.
 	//
-DAMAGECALC.interfaceView = (function () {
+	interfaceView : (function () {
 		
 		var showResultsOnUi = function () {
 			var damageTable,
@@ -165,12 +164,12 @@ DAMAGECALC.interfaceView = (function () {
 		};
 		
 		return showResultsOnUi;
-	})(); // interfaceView
+	})(), // interfaceView
 	
 	//
 	// Everything about modifiers is found here!
 	//
-	var battleModifiers = (function () {
+	battleModifiers : (function () {
 		var parseStab = function (stab) {
 			var stabMultiplier;
 			
@@ -257,12 +256,12 @@ DAMAGECALC.interfaceView = (function () {
 		};
 		
 		return {};
-	})(); // battleModifiers
+	})(), // battleModifiers
 	
 	//
 	// This object encapsulates all the validation steps needed for a real battle calculation.
 	//
-DAMAGECALC.validator = (function () {
+	validator : (function () {
 		// Helper functions
 		var validateAttribute = function (attribute, attributeName) {
 			if (attribute < 1 || attribute === null) {
@@ -292,4 +291,5 @@ DAMAGECALC.validator = (function () {
 		};
 		
 		return validateStats;
-	})(); // validator
+	})() // validator
+}; // DAMAGECALC
