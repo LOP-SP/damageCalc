@@ -9,7 +9,6 @@ $("#effect").val("1x");
 $(".statModifier select").val("0");
 
 // Global variables = evil
-// Need to create a namespace
 var DAMAGECALC = {
 	//
 	// Main object 
@@ -106,7 +105,7 @@ var DAMAGECALC = {
 				randomMultiplier = 1;
 			
 			if (typeof isMaxOrMin !== "string") {
-				alert("ERROR: isMaxOrMin (in calculatorModel.calcDamage) must be a string!");
+				console.log("ERROR: isMaxOrMin (in calculatorModel.calcDamage) must be a string!");
 				return 0;
 			}
 			else {
@@ -273,7 +272,7 @@ var DAMAGECALC = {
 		// Helper functions
 		var validateAttribute = function (attribute, attributeName) {
 			if (attribute < 1 || attribute === null) {
-				alert("You entered an invalid value for " + attributeName);
+				console.log("You entered an invalid value for " + attributeName);
 				return false;
 			}
 
@@ -282,7 +281,7 @@ var DAMAGECALC = {
 		
 		var validateLevel = function (level) {
 			if (level < 1 || level === null || level > 100) {
-				alert("You entered an invalid level value.");
+				console.log("You entered an invalid level value.");
 				return false;
 			}
 
@@ -301,3 +300,5 @@ var DAMAGECALC = {
 		return validateStats;
 	})() // validator
 }; // DAMAGECALC
+
+// Assign a method to a button onclick event at the UI
