@@ -1,5 +1,7 @@
 damageCalc design
 
+---> Use github's integrated wiki instead of this file.
+
 __List of objects and their methods
 
 => pokemonBattle : central object, gets the battle information from the UI and calculates the damage

@@ -1,9 +1,9 @@
 damageCalc TO DO LIST
 
+---> Must organize this mess...
+
 __URGENT
 Must update index.html, UI needs new parameters (refer to pokemonBattle.setPokemonStats to know what)
-
-- implement the full damage formula
 
 - create a more generic validator object for further reuse
 
