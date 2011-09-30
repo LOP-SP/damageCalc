@@ -15,7 +15,7 @@ The damage formula considered is found in the Smogon University's site (www.smog
 USE
 ---
 
-This software is made in JavaScript (with minor uses of the jQuery library) and can be used from any browser that supports it. This version doesn't contain database information for pokemon attacks and stats. Also, you can use this library in your own projects, according to the license in use (MIT License).
+This software is made in JavaScript (with minor uses of the jQuery library) and can be used from any browser that supports it. This version doesn't contain database information for pokemon attacks and stats. Also, you can use this calculator in your own projects, according to the license in use (MIT License).
 
 Any issue or trouble can be emailed to me at:
 
