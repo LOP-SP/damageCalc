@@ -8,9 +8,13 @@ __URGENT
 
 Must update index.html, UI needs new parameters (refer to pokemonBattle.setPokemonStats to know what)
 
---> Create a third object in pokemonBattle that'll hold the battle's current state with the parameters for the damage formula
+- Create a third object in pokemonBattle that'll hold the battle's current state with the parameters for the damage formula
 
 - add <label> tags to index.html
+
+- What is the (current) best target for refactoring?
+
+- Must create test suites with JsTestDriver asap!
 
 
 __MEDIUM
