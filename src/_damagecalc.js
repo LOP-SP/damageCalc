@@ -34,7 +34,7 @@ var pokemonBattle = (function () {
 		stats.isDoubleBattle = $("#parameters input[name='isDoubleBattle']").val();
 		stats.isSunnyDayRainDanceActive = $("#parameters input[name='isSunnyDayRainDanceActive']").val();
 		stats.isFlashFireActive = $("#parameters input[name='isFlashFireActive']").val();
-		// Mod 2
+		// Mod2
 		stats.equipLifeOrb = $("#parameters input[name='equipLifeOrb']").val();
 		// Mod3
 		stats.hasSolidRockFilter = $("#parameters input[name='hasSolidRockFilter']");
@@ -127,7 +127,13 @@ var calculatorModel = (function () {
 		// Damage Formula = (((((((Level × 2 ÷ 5) + 2) × BasePower × [Sp]Atk ÷ 50) ÷ [Sp]Def) × Mod1) + 2) × 
 		//                 CH × Mod2 × R ÷ 100) × STAB × Type1 × Type2 × Mod3)
 		
-		//damage = 
+		// After each "step" in the damage formula, we need to round down the result.
+		damage = Math.floor( ( stats.level * 2 ) / 5 );
+		damage = Math.floor( ( damage * stats.basePower * stats.atk ) / 50 );
+		damage = Math.floor( damage / stats.def );
+		damage = Math.floor( ( damage * stats.mod1 + 2 ) * stats.criticalHit * mod2 );
+		damage = Math.floor( damage * isMaxOrMin );
+		damage = Math.floor( damage * stats.stab * effect * mod3 );
 		
 		return damage;
 	};
@@ -242,28 +248,35 @@ var battleModifier = (function () {
 		return parseFloat(statModifierValue);
 	};
 	
-	var setFirstModifier = function (stats) {
-		var Mod1 = 1;
+	var setMod1 = function (stats) {
+		var mod1 = 1;
 		
 		// Mod1 = BRN × RL × TVT × SR × FF
 		// Must parse the stats received from the UI
+		
+		mod1 = Math.floor( isBurn * isReflectLightScreenActive );
+		mod1 = Math.floor( mod1 * isDouble );
+		mod1 = Math.floor( mod1 * hasSolidRockFilter );
+		mod1 = Math.floor( mod1 * isFlashFireActive );
+		
+		return mod1;
 	};
 	
-	var setSecondModifier = function (stats) {
+	var setMod2 = function (stats) {
 		// This modifier concerns about Me First, Life Orb and Metronome
 		// I wont support Me First and Metronome for now, so its basically
-		// a Life Orb implementation
+		// a Life Orb implementation.
 		
-		var Mod2 = 1;
+		var mod2 = 1;
 		
 		if (stats.equipLifeOrb === "on") {
-			Mod2 = parseFloat(1.3);
+			mod2 = parseFloat(1.3);
 		}
 		
-		return Mod2;
+		return mod2;
 	};
 	
-	var setThirdModifier = function () {
+	var setMod3 = function () {
 		
 	};
 	

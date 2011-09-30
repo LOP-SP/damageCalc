@@ -44,5 +44,14 @@ isDoubleBattle
 isSunnyDayRainDanceActive
 isFlashFireActive
 equipLifeOrb
+...
+
+==> CRIAR NOVO OBJETO QUE GUARDA OS VALORES USADOS PELA FORMULA DE DANO, PRONTOS PARA USO
+(baseado no stats)
+
+mod1
+mod2
+mod3
+
 
 => results : you'll find the calculation results in here, coupled with percentages (if applicable)
