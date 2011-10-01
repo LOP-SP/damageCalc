@@ -194,8 +194,11 @@ var DAMAGECALC = (function () {
 		var parseStab = function (stab) {
 			var stabMultiplier;
 		
-			// No problem if you call me twice!
-			if (typeof stab === "number") {
+			// Protection from misuse
+			if (typeof stab === "number" && (stab !== 1.5 || stab !== 1)) {
+				console.log("ERROR: stab must be a string or, if a number, 1 or 1.5");
+			}
+			else {
 				stabMultiplier = stab;
 			}
 		
@@ -212,7 +215,7 @@ var DAMAGECALC = (function () {
 		var parseEffectiveness = function (effect) {
 			var effectiveness;
 		
-			// No problem if you call me twice!
+			// Protection from misuse
 			if (typeof effect === "number") {
 				effectiveness = effect;
 			}
@@ -252,47 +255,223 @@ var DAMAGECALC = (function () {
 		};
 		
 		var parseBurn = function (isBurn) {
-			
+			var burnMultiplier;
+
+			// Protection from misuse
+			if (typeof isBurn === "number" && (isBurn !== 0.5 || isBurn !== 1)) {
+				console.log("ERROR: isBurn must be a string or, if a number, 1 or 0.5");
+			}
+			else {
+				burnMultiplier = isBurn;
+			}
+
+			if (isBurn === 'on') {
+				burnMultiplier = 0.5;
+			}
+			else {
+				burnMultiplier = 1;
+			}
+
+			return parseFloat(burnMultiplier);
 		};
 		
 		var parseReflectLightScreen = function (isReflectLightScreenActive) {
-			
+			var reflectLightScreenMultiplier;
+
+			// Protection from misuse
+			if (typeof isReflectLightScreenActive === "number" && (isReflectLightScreenActive !== 0.5 || isReflectLightScreenActive !== 1)) {
+				console.log("ERROR: isReflectLightScreenActive must be a string or, if a number, 1 or 0.5");
+			}
+			else {
+				reflectLightScreenMultiplier = isReflectLightScreenActive;
+			}
+
+			if (isReflectLightScreenActive === 'on' && isDoubleBattle === 'on') {
+				reflectLightScreenMultiplier = (2/3);
+			}
+			else if (isReflectLightScreenActive === 'on') {
+				ReflectLightScreenMultiplier = (0.5);
+			else {
+				reflectLightScreenMultiplier = 1;
+			}
+
+			return parseFloat(reflectLightScreenMultiplier);
 		};
 		
+		// This function isn't implemented yet, because there are moves that work
+		// strangely in double battles, not being affected by the multiplier
 		var parseDoubleBattle = function (isDoubleBattle) {
-			
 		};
 		
+		// This function ASSUMES that the move being used is boosted by the weather
+		// aka: You won't weaken a fire move with rain dance using this
 		var parseSunnyDayRainDance = function (isSunnyDayRainDanceActive) {
-			
+			var rainSunMultiplier;
+
+			// Protection from misuse
+			if (typeof isRainDanceSunnyDayActive === "number" && (isRainDanceSunnyDayActive !== 1.5 || isRainDanceSunnyDayActive !== 1)) {
+				console.log("ERROR: isRainDanceSunnyDayActive must be a string or, if a number, 1 or 1.5");
+			}
+			else {
+				rainSunMultiplier = isRainDanceSunnyDayActive;
+			}
+
+			if (isRainDanceSunnyDayActive === 'on') {
+				rainSunMultiplier = 1.5;
+			}
+			else {
+				rainSunMultiplier = 1;
+			}
+
+			return parseFloat(rainSunMultiplier);
 		};
 		
 		var parseFlashFire = function (isFlashFireActive) {
-			
+			var flashFireMultiplier;
+
+			// Protection from misuse
+			if (typeof isFlashFireActive === "number" && (isFlashFireActive !== 1.5 || isFlashFireActive !== 1)) {
+				console.log("ERROR: isFlashFireActive must be a string or, if a number, 1 or 1.5");
+			}
+			else {
+				flashFireMultiplier = isFlashFireActive;
+			}
+
+			if (isFlashFireActive === 'on') {
+				flashFireMultiplier = 1.5;
+			}
+			else {
+				flashFireMultiplier = 1;
+			}
+
+			return parseFloat(flashFireMultiplier);
 		};
 		
 		var parseLifeOrb = function (equipLifeOrb) {
-			
+			var lifeOrbMultiplier;
+
+			// Protection from misuse
+			if (typeof equipLifeOrb === "number" && (equipLifeOrb !== 1.5 || equipLifeOrb !== 1)) {
+				console.log("ERROR: equipLifeOrb must be a string or, if a number, 1 or 1.5");
+			}
+			else {
+				lifeOrbMultiplier = equipLifeOrb;
+			}
+
+			if (equipLifeOrb === 'on') {
+				lifeOrbMultiplier = 1.5;
+			}
+			else {
+				lifeOrbMultiplier = 1;
+			}
+
+			return parseFloat(lifeOrbMultiplier);
 		};
 		
 		var parseSolidRockFilter = function (hasSolidRockFilter) {
-			
+			var solidRockFilterMultiplier;
+
+			// Protection from misuse
+			if (typeof hasSolidRockFilter === "number" && (hasSolidRockFilter !== 0.75 || hasSolidRockFilter !== 1)) {
+				console.log("ERROR: hasSolidRockFilter must be a string or, if a number, 1 or 0.75");
+			}
+			else {
+				solidRockFilterMultiplier = hasSolidRockFilter;
+			}
+
+			if (hasSolidRockFilter === 'on') {
+				solidRockFilterMultiplier = 0.75;
+			}
+			else {
+				solidRockFilterMultiplier = 1;
+			}
+
+			return parseFloat(solidRockFilterMultiplier);
 		};
 		
 		var parseExpertBelt = function (equipExpertBelt) {
-			
+			var expertBeltMultiplier;
+
+			// Protection from misuse
+			if (typeof equipExpertBelt === "number" && (equipExpertBelt !== 1.2 || equipExpertBelt !== 1)) {
+				console.log("ERROR: equipExpertBelt must be a string or, if a number, 1 or 1.2");
+			}
+			else {
+				expertBeltMultiplier = equipExpertBelt;
+			}
+
+			if (equipExpertBelt === 'on') {
+				expertBeltMultiplier = 1.2;
+			}
+			else {
+				expertBeltMultiplier = 1;
+			}
+
+			return parseFloat(expertBeltMultiplier);	
 		};
 		
-		var parseTintedLens = function (hasTintedLens) {
-			
+		var parseTintedLens = function (hasTintedLens, effectiveness) {
+			var tintedLensMultiplier;
+
+			// Protection from misuse
+			if (typeof hasTintedLens === "number" && (hasTintedLens !== 2 || hasTintedLens !== 1)) {
+				console.log("ERROR: hasTintedLens must be a string or, if a number, 1 or 2");
+			}
+			else {
+				tintedLensMultiplier = hasTintedLens;
+			}
+
+			if (hasTintedLens === 'on' && effectiveness > 1) {
+				tintedLensMultiplier = 2;
+			}
+			else {
+				tintedLensMultiplier = 1;
+			}
+
+			return parseFloat(tintedLensMultiplier);
 		};
 		
 		var parseResistBerry = function (isResistBerryActive) {
-			
+			var resistBerryMultiplier;
+
+			// Protection from misuse
+			if (typeof isResistBerryActive === "number" && (isResistBerryActive !== 0.5 || isResistBerryActive !== 1)) {
+				console.log("ERROR: isResistBerryActive must be a string or, if a number, 1 or 0.5");
+			}
+			else {
+				resistBerryMultiplier = isResistBerryActive;
+			}
+
+			if (isResistBerryActive === 'on') {
+				resistBerryMultiplier = 0.5;
+			}
+			else {
+				resistBerryMultiplier = 1;
+			}
+
+			return parseFloat(resistBerryMultiplier);
 		};
 		
+		// This function DOESNT consider if the user has the Sniper ability
 		var parseCriticalHit = function (isCriticalHit) {
-			
+			var criticalHitMultiplier;
+
+			// Protection from misuse
+			if (typeof isCriticalHit === "number" && (isCriticalHit !== 2 || isCriticalHit !== 1)) {
+				console.log("ERROR: isCriticalHit must be a string or, if a number, 1 or 2");
+			}
+			else {
+				criticalHitMultiplier = isCriticalHit;
+			}
+
+			if (isCriticalHit === 'on') {
+				criticalHitMultiplier = 2;
+			}
+			else {
+				criticalHitMultiplier = 1;
+			}
+
+			return parseFloat(criticalHitMultiplier);
 		};
 		
 		var setMod1 = function (stats) {
