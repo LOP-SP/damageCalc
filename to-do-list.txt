@@ -6,8 +6,6 @@ damageCalc TO DO LIST
 __URGENT
 
 
-- add <label> tags to index.html
-
 - implement parser functions in battleModifiers for isBurn, etc
 -- implement mod1, mod2 and mod3 calculations
 -- integrate it into the damage formula

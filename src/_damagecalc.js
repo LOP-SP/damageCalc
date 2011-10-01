@@ -250,6 +250,8 @@ var DAMAGECALC = (function () {
 
 			return parseFloat(statModifierValue);
 		};
+		
+		var 
 	
 		var setMod1 = function (stats) {
 			var mod1 = 1;
@@ -291,7 +293,7 @@ var DAMAGECALC = (function () {
 	})(); // battleModifiers
 
 	//
-	// This object encapsulates all the validation steps needed for a real battle calculation.
+	// This object encapsulates all the validation steps
 	//
 	var validator = (function () {
 		// Helper functions
