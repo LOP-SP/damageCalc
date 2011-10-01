@@ -251,8 +251,50 @@ var DAMAGECALC = (function () {
 			return parseFloat(statModifierValue);
 		};
 		
-		var 
-	
+		var parseBurn = function (isBurn) {
+			
+		};
+		
+		var parseReflectLightScreen = function (isReflectLightScreenActive) {
+			
+		};
+		
+		var parseDoubleBattle = function (isDoubleBattle) {
+			
+		};
+		
+		var parseSunnyDayRainDance = function (isSunnyDayRainDanceActive) {
+			
+		};
+		
+		var parseFlashFire = function (isFlashFireActive) {
+			
+		};
+		
+		var parseLifeOrb = function (equipLifeOrb) {
+			
+		};
+		
+		var parseSolidRockFilter = function (hasSolidRockFilter) {
+			
+		};
+		
+		var parseExpertBelt = function (equipExpertBelt) {
+			
+		};
+		
+		var parseTintedLens = function (hasTintedLens) {
+			
+		};
+		
+		var parseResistBerry = function (isResistBerryActive) {
+			
+		};
+		
+		var parseCriticalHit = function (isCriticalHit) {
+			
+		};
+		
 		var setMod1 = function (stats) {
 			var mod1 = 1;
 		
