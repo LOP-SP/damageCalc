@@ -23,12 +23,12 @@ var DAMAGECALC = (function () {
 			// Get the parameters from the UI
 			stats.level = $("#offensive input[name='level']").val();
 			stats.atk = $("#offensive input[name='atk']").val();
-			stats.atkStatModifier = $("#offensive .statModifier select").val() || "0";
+			stats.atkStatModifier = $("#offensive .statModifier select").val();
 			stats.def = $("#defensive input[name='def']").val();
-			stats.defStatModifier = $("#defensive .statModifier select").val() || "0";
+			stats.defStatModifier = $("#defensive .statModifier select").val();
 			stats.hp = $("#defensive input[name='hp']").val();
 			stats.basePower = $("#parameters input[name='basePower']").val();
-			stats.stab = $("#parameters input:checkbox:checked").val() || "off";
+			stats.stab = $("#parameters input:checkbox:checked").val();
 			// Mod1
 			stats.isBurn = $("#parameters input[name='isBurn']").val();
 			stats.isReflectLightScreenActive = $("#parameters input[name='isReflectLightScreenActive']").val();
@@ -38,11 +38,11 @@ var DAMAGECALC = (function () {
 			// Mod2
 			stats.equipLifeOrb = $("#parameters input[name='equipLifeOrb']").val();
 			// Mod3
-			stats.hasSolidRockFilter = $("#parameters input[name='hasSolidRockFilter']");
-			stats.equipExpertBelt = $("#parameters input[name='equipExpertBelt']");
-			stats.hasTintedLens = $("#parameters input[name='hasTintedLens']");
-			stats.isResistBerryActive = $("#parameters input[name='isResistBerryActive']");
-			stats.isCriticalHit = $("#parameters input[name='isCriticalHit']") || "on";
+			stats.hasSolidRockFilter = $("#parameters input[name='hasSolidRockFilter']").val();
+			stats.equipExpertBelt = $("#parameters input[name='equipExpertBelt']").val();
+			stats.hasTintedLens = $("#parameters input[name='hasTintedLens']").val();
+			stats.isResistBerryActive = $("#parameters input[name='isResistBerryActive']").val();
+			stats.isCriticalHit = $("#parameters input[name='isCriticalHit']").val();
 			stats.effect = $("#parameters select[name='effect']").val();
 		};
 	

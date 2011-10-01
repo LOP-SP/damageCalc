@@ -1,107 +1,108 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<title>Calculadora de dano para os jogos Pok&eacute;mon</title>
+	<title>Calculadora de dano para os jogos Pok&eacute;mon</title>
 
-<link rel="stylesheet" type="text/css" href="stylesheet/calc_pkmn.css" />
+	<link rel="stylesheet" type="text/css" href="stylesheet/calc_pkmn.css" />
 </head>
+
 <body>
 <div id="container">
+	<div id="content">
 
-<div id="content">
+		<div id="info">
 
-<div id="info">
+			<div id="pkmn" class="left">
 
-<div id="pkmn" class="left">
-<div id="offensive">
-<form>
-<h2>Offensive</h2>
+			<div id="offensive">
+			<form>
+				<h2>Offensive</h2>
+				
+				<label for="atk">Atk/SAtk:</label> <input type="text" name="atk" /><br />
+				<label for="level">Level:</label> <input type="text" name="level" value="100" />
+				<label for="statModifier">Stat Modifier:</label> <select name="statModifier">
+					<option value="6">+6</option>
+					<option value="5">+5</option>
+					<option value="4">+4</option>
+					<option value="3">+3</option>
+					<option value="2">+2</option>
+					<option value="1">+1</option>
+					<option value="0">0</option>
+					<option value="-1">-1</option>
+					<option value="-2">-2</option>
+					<option value="-3">-3</option>
+					<option value="-4">-4</option>
+					<option value="-5">-5</option>
+					<option value="-6">-6</option>
+				</select>
+			</form>
+			</div> <!-- offensive -->
 
-<label for="atk">Atk/SAtk:</label> <input type="text" name="atk" /><br />
+			<div id="defensive">
+			<form>
+				<h2>Defensive</h2>
+				
+				<label for="def">Def/SDef:</label> <input type="text" name="def" /><br />
+				<label for="hp">HP:</label> <input type="text" name="hp" /><br>
+				<label for="statModifier">Stat Modifier:</label> 
+					<select name="statModifier">
+						<option value="6">+6</option>
+						<option value="5">+5</option>
+						<option value="4">+4</option>
+						<option value="3">+3</option>
+						<option value="2">+2</option>
+						<option value="1">+1</option>
+						<option value="0">0</option>
+						<option value="-1">-1</option>
+						<option value="-2">-2</option>
+						<option value="-3">-3</option>
+						<option value="-4">-4</option>
+						<option value="-5">-5</option>
+						<option value="-6">-6</option>
+					</select>
+			</form>
+			</div> <!-- defensive -->
+			</div> <!-- pkmn -->
 
-<div id="level"><label for="level">Level:</label> <input type="text" name="level" value="100" /></div>
-<div class="statModifier"><label for="statModifier">Stat Modifier:</label> <select name="statModifier">
-	<option value="6">+6</option>
-	<option value="5">+5</option>
-	<option value="4">+4</option>
-	<option value="3">+3</option>
-	<option value="2">+2</option>
-	<option value="1">+1</option>
-	<option value="0">0</option>
-	<option value="-1">-1</option>
-	<option value="-2">-2</option>
-	<option value="-3">-3</option>
-	<option value="-4">-4</option>
-	<option value="-5">-5</option>
-	<option value="-6">-6</option>
-</select></div>
+			<div id="parameters" class="left">
+			<form>
+				<h2>Parameters</h2>
+				
+				<label for="basePower">Base Power:</label> <input type="text" name="basePower"/><br />
+				<label for="effect">Effectiveness:</label>
+					<select name="effect">
+						<option value="4x">4x</option>
+					    <option value="2x">2x</option>
+					    <option value="1x">1x</option>
+					    <option value="0.5x">0.5x</option>
+					    <option value="0.25x">0.25x</option>
+				    </select><br />	
+				<label for="stab">STAB:</label> <input type="checkbox" name="stab" /><br />
+				<label for="isBurn">Burned?</label> <input type="checkbox" name="isBurn" /><br />
+				<label for="isReflectLightScreenActive">Reflect/Light Screen?</label> <input type="checkbox" name="isReflectLightScreenActive" /><br />
+				<label for="isDoubleBattle">Double Battle?</label> <input type="checkbox" name="isDoubleBattle" /><br>
+				<label for="isSunnyDayRainDanceActive">Sunny Day / Rain Dance?</label> <input type="checkbox" name="isSunnyDayRainDanceActive" /><br>
+				<label for="isFlashFireActive">Flash Fire activated?</label> <input type="checkbox" name="isFlashFireActive" /><br>
+				<label for="equipLifeOrb">Is Life Orb equipped?</label> <input type="checkbox" name="equipLifeOrb" /><br>
+				<label for="hasSolidRockFilter">Solid Rock / Filter?</label> <input type="checkbox" name="hasSolidRockFilter" /><br>
+				<label for="equipExpertBelt">Is Expert Belt equipped?</label> <input type="checkbox" name="equipExpertBelt" /><br>
+				<label for="hasTintedLens">Tinted Lens?</label> <input type="checkbox" name="hasTintedLens" /><br>
+				<label for="isResistBerryActive">Resist berry activated?</label> <input type="checkbox" name="isResistBerryActive" /><br>
+				<label for="isCriticalHit">Critical Hit?</label> <input type="checkbox" name="isCriticalHit" /><br>
+			</form>
+			</div> <!-- parameters -->
 
-</form>
-</div> <!-- offensePkmn -->
+			<div id="calcButton" class="left"><button type="button">CALCULATE</button></div>
 
-<div id="defensive">
-<form>
-<h2>Defensive</h2>
-Def/SDef: <input type="text" name="def" /><br />
-HP: <input type="text" name="hp" /><br>
-<label for="statModifier">Stat Modifier:</label><select name="statModifier">
-	<option value="6">+6</option>
-	<option value="5">+5</option>
-	<option value="4">+4</option>
-	<option value="3">+3</option>
-	<option value="2">+2</option>
-	<option value="1">+1</option>
-	<option value="0">0</option>
-	<option value="-1">-1</option>
-	<option value="-2">-2</option>
-	<option value="-3">-3</option>
-	<option value="-4">-4</option>
-	<option value="-5">-5</option>
-	<option value="-6">-6</option>
-</select>
-</form>
-</div> <!-- defensePkmn -->
-</div> <!-- pkmn -->
+		</div> <!-- info -->
 
-<div id="parameters" class="left">
-<h2>Parameters</h2>
-<form>
-<label for="basePower">Base Power:</label><input type="text" name="basePower"/><br />
-<label for="effect">Effectiveness:</label>
-	<select name="effect">
-	<option value="4x">4x</option>
-    <option value="2x">2x</option>
-    <option value="1x">1x</option>
-    <option value="0.5x">0.5x</option>
-    <option value="0.25x">0.25x</option>
-    </select><br />	
-<label for="stab">STAB:</label><input type="checkbox" name="stab" /><br />
-<label for="isBurn">Burned?</label><input type="checkbox" name="isBurn" /><br />
-<label for="isReflectLightScreenActive">Reflect/Light Screen?</label><input type="checkbox" name="isReflectLightScreenActive" /><br />
-<label for="isDoubleBattle">Double Battle?</label><input type="checkbox" name="isDoubleBattle" /><br>
-<label for="isSunnyDayRainDanceActive">Sunny Day / Rain Dance?</label><input type="checkbox" name="isSunnyDayRainDanceActive" /><br>
-<label for="isFlashFireActive">Flash Fire activated?</label><input type="checkbox" name="isFlashFireActive" /><br>
-<label for="equipLifeOrb">Is Life Orb equipped?</label><input type="checkbox" name="equipLifeOrb" /><br>
-<label for="hasSolidRockFilter">Solid Rock / Filter?</label><input type="checkbox" name="hasSolidRockFilter" /><br>
-<label for="equipExpertBelt">Is Expert Belt equipped?</label><input type="checkbox" name="equipExpertBelt" /><br>
-<label for="hasTintedLens">Tinted Lens?</label><input type="checkbox" name="hasTintedLens" /><br>
-<label for="isResistBerryActive">Resist berry activated?</label><input type="checkbox" name="isResistBerryActive" /><br>
-<label for="isCriticalHit">Critical Hit?</label><input type="checkbox" name="isCriticalHit" /><br>
-</form>
-</div> <!-- parameters -->
+	<div id="damage" class="clear">
+	<!-- Table para inserir calculos de dano -->
+	</div> <!-- damage -->
 
-<div id="calcButton" class="left"><button type="button">CALCULATE</button></div>
-
-</div> <!-- info -->
-
-<div id="damage" class="clear">
-<!-- Table para inserir calculos de dano -->
-</div> <!-- damage -->
-
-</div> <!-- content -->
-
+	</div> <!-- content -->
 </div> <!-- container -->
 
 <script language="javascript" type="text/javascript" src="lib/jquery-1.6.2.min.js"></script>

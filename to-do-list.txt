@@ -6,9 +6,6 @@ damageCalc TO DO LIST
 __URGENT
 
 
-- Create a third object in pokemonBattle that'll hold the battle's current state with the parameters for the damage formula
--- it'll be passed to calculatorModel.calcDamage method instead of stats
-
 - add <label> tags to index.html
 
 - implement parser functions in battleModifiers for isBurn, etc
