@@ -6,7 +6,8 @@ New designed Pokemon damageCalc
 
 // Set the initial value of drop down lists
 $("#parameters select[name='effect']").val("1x");
-$("#pkmn select[name='statModifier']").val("0");
+$("#pkmn select[name='atkStatModifier']").val("0");
+$("#pkmn select[name='defStatModifier']").val("0");
 
 // If you need to set a checkbox, use this:
 // $(SELECTOR).attr("checked", true);
@@ -21,29 +22,29 @@ var DAMAGECALC = (function () {
 		
 		var setPokemonStats = function () {
 			// Get the parameters from the UI
-			stats.level = $("#offensive input[name='level']").val() || 100;
-			stats.atk = $("#offensive input[name='atk']").val();
-			stats.atkStatModifier = $("#offensive .statModifier select").val();
-			stats.def = $("#defensive input[name='def']").val();
-			stats.defStatModifier = $("#defensive .statModifier select").val();
-			stats.hp = $("#defensive input[name='hp']").val();
+			stats.level = $("#pkmn input[name='level']").val() || 100;
+			stats.atk = $("#pkmn input[name='atk']").val();
+			stats.atkStatModifier = $("#pkmn select[name='atkStatModifier']").val();
+			stats.def = $("#pkmn input[name='def']").val();
+			stats.defStatModifier = $("#pkmn select[name='defStatModifier']").val();
+			stats.hp = $("#pkmn input[name='hp']").val();
 			stats.basePower = $("#parameters input[name='basePower']").val();
-			stats.stab = $("#parameters input:checkbox:checked").val();
-			stats.isCriticalHit = $("#parameters input[name='isCriticalHit']").val();
+			stats.stab = $("#parameters input[name='stab']").is(':checked');
+			stats.isCriticalHit = $("#parameters input[name='isCriticalHit']").is(':checked');
 			stats.effect = $("#parameters select[name='effect']").val();
 			// Mod1 variables
-			stats.isBurn = $("#parameters input[name='isBurn']").val();
-			stats.isReflectLightScreenActive = $("#parameters input[name='isReflectLightScreenActive']").val();
-			stats.isDoubleBattle = $("#parameters input[name='isDoubleBattle']").val();
-			stats.isSunnyDayRainDanceActive = $("#parameters input[name='isSunnyDayRainDanceActive']").val();
-			stats.isFlashFireActive = $("#parameters input[name='isFlashFireActive']").val();
+			stats.isBurn = $("#parameters input[name='isBurn']").is(':checked');
+			stats.isReflectLightScreenActive = $("#parameters input[name='isReflectLightScreenActive']").is(':checked');
+			stats.isDoubleBattle = $("#parameters input[name='isDoubleBattle']").is(':checked');
+			stats.isSunnyDayRainDanceActive = $("#parameters input[name='isSunnyDayRainDanceActive']").is(':checked');
+			stats.isFlashFireActive = $("#parameters input[name='isFlashFireActive']").is(':checked');
 			// Mod2 variables
-			stats.equipLifeOrb = $("#parameters input[name='equipLifeOrb']").val();
+			stats.equipLifeOrb = $("#parameters input[name='equipLifeOrb']").is(':checked');
 			// Mod3 variables
-			stats.hasSolidRockFilter = $("#parameters input[name='hasSolidRockFilter']").val();
-			stats.equipExpertBelt = $("#parameters input[name='equipExpertBelt']").val();
-			stats.hasTintedLens = $("#parameters input[name='hasTintedLens']").val();
-			stats.isResistBerryActive = $("#parameters input[name='isResistBerryActive']").val();
+			stats.hasSolidRockFilter = $("#parameters input[name='hasSolidRockFilter']").is(':checked');
+			stats.equipExpertBelt = $("#parameters input[name='equipExpertBelt']").is(':checked');
+			stats.hasTintedLens = $("#parameters input[name='hasTintedLens']").is(':checked');
+			stats.isResistBerryActive = $("#parameters input[name='isResistBerryActive']").is(':checked');
 			
 			stats.mod1 = 1;
 			stats.mod2 = 1;
@@ -58,7 +59,7 @@ var DAMAGECALC = (function () {
 		// and assigns it to the results private variable.
 		var calcResults = function () {
 			setPokemonStats();
-			stats = battleModifier.superParser(stats);
+			battleModifier.superParser(stats);
 		
 			results.minDamage = calculatorModel.calcDamage(stats, "min");
 			results.maxDamage = calculatorModel.calcDamage(stats, "max");
@@ -114,13 +115,17 @@ var DAMAGECALC = (function () {
 		
 			// After each "step" in the damage formula, we need to round down the result.
 			damage = Math.floor( ( stats.level * 2 ) / 5 );
-			damage = Math.floor( ( damage * stats.basePower * stats.atk ) / 50 );
+			damage = Math.floor( damage * stats.basePower );
+			damage = Math.floor( damage * stats.atk );
+			damage = Math.floor( damage / 50 ) ;
 			damage = Math.floor( damage / stats.def );
-			damage = Math.floor( ( damage * stats.mod1 + 2 ) * stats.isCriticalHit * stats.mod2 );
-			damage = Math.floor( ( damage + 2 ) );
+			damage = Math.floor( damage * stats.mod1 + 2 );
+			damage = Math.floor( damage * stats.isCriticalHit );
+			damage = Math.floor( damage * stats.mod2 );
 			damage = Math.floor( damage * isMaxOrMin );
-			damage = Math.floor( damage * stats.stab * stats.effect * stats.mod3 );
-			damage = Math.floor( damage * stats.stab * stats.effect );
+			damage = Math.floor( damage * stats.stab );
+			damage = Math.floor( damage * stats.effect );
+			damage = Math.floor( damage * stats.mod3 );
 		
 			return damage;
 		};
@@ -177,7 +182,7 @@ var DAMAGECALC = (function () {
 	var battleModifier = (function () {
 		var parseStab = function (stab) {
 			var stabMultiplier;
-		
+
 			// Protection from misuse
 			if (typeof stab === "number" && (stab !== 1.5 || stab !== 1)) {
 				console.log("ERROR: stab must be a string or, if a number, 1 or 1.5");
@@ -185,8 +190,8 @@ var DAMAGECALC = (function () {
 			else {
 				stabMultiplier = stab;
 			}
-		
-			if (stab === 'on') {
+
+			if (stab === true) {
 				stabMultiplier = 1.5;
 			}
 			else {
@@ -195,10 +200,10 @@ var DAMAGECALC = (function () {
 
 			return parseFloat(stabMultiplier);
 		};
-	
+
 		var parseEffectiveness = function (effect) {
 			var effectiveness;
-		
+
 			// Protection from misuse
 			if (typeof effect === "number") {
 				effectiveness = effect;
@@ -212,10 +217,10 @@ var DAMAGECALC = (function () {
 
 			return parseFloat(effectiveness);
 		};
-	
+
 		var parseStatModifier = function (statModifier) {
 			var statModifierValue;
-		
+
 			// This function can't be easily protected with the typeof trick
 			// used in the above functions. So, consider searching for a
 			// double call to this function when debugging some bizarre
@@ -237,7 +242,7 @@ var DAMAGECALC = (function () {
 
 			return parseFloat(statModifierValue);
 		};
-		
+
 		var parseBurn = function (isBurn) {
 			var burnMultiplier;
 
@@ -245,21 +250,21 @@ var DAMAGECALC = (function () {
 			if (typeof isBurn === "number" && (isBurn !== 0.5 || isBurn !== 1)) {
 				console.log("ERROR: isBurn must be a string or, if a number, 1 or 0.5");
 			}
-			else {
+			else if (typeof isBurn === "number") {
 				burnMultiplier = isBurn;
 			}
 
-			if (isBurn === 'on') {
+			if (isBurn === true) {
 				burnMultiplier = 0.5;
 			}
 			else {
 				burnMultiplier = 1;
 			}
-
+			
 			return parseFloat(burnMultiplier);
 		};
-		
-		var parseReflectLightScreen = function (isReflectLightScreenActive) {
+
+		var parseReflectLightScreen = function (isReflectLightScreenActive, isDoubleBattle) {
 			var reflectLightScreenMultiplier;
 
 			// Protection from misuse
@@ -270,23 +275,24 @@ var DAMAGECALC = (function () {
 				reflectLightScreenMultiplier = isReflectLightScreenActive;
 			}
 
-			if (isReflectLightScreenActive === 'on' && isDoubleBattle === 'on') {
+			if (isReflectLightScreenActive === true && isDoubleBattle === true) {
 				reflectLightScreenMultiplier = (2/3);
 			}
-			else if (isReflectLightScreenActive === 'on') {
+			else if (isReflectLightScreenActive === true) {
 				ReflectLightScreenMultiplier = (0.5);
+			}
 			else {
 				reflectLightScreenMultiplier = 1;
 			}
 
 			return parseFloat(reflectLightScreenMultiplier);
 		};
-		
+
 		// This function isn't implemented yet, because there are moves that work
 		// strangely in double battles, not being affected by the multiplier
 		var parseDoubleBattle = function (isDoubleBattle) {
 		};
-		
+
 		// This function ASSUMES that the move being used is boosted by the weather
 		// aka: You won't weaken a fire move with rain dance using this
 		var parseSunnyDayRainDance = function (isSunnyDayRainDanceActive) {
@@ -300,7 +306,7 @@ var DAMAGECALC = (function () {
 				sunRainMultiplier = isSunnyDayRainDanceActive;
 			}
 
-			if (isSunnyDayRainDanceActive === 'on') {
+			if (isSunnyDayRainDanceActive === true) {
 				sunRainMultiplier = 1.5;
 			}
 			else {
@@ -309,7 +315,7 @@ var DAMAGECALC = (function () {
 
 			return parseFloat(sunRainMultiplier);
 		};
-		
+
 		var parseFlashFire = function (isFlashFireActive) {
 			var flashFireMultiplier;
 
@@ -321,7 +327,7 @@ var DAMAGECALC = (function () {
 				flashFireMultiplier = isFlashFireActive;
 			}
 
-			if (isFlashFireActive === 'on') {
+			if (isFlashFireActive === true) {
 				flashFireMultiplier = 1.5;
 			}
 			else {
@@ -330,7 +336,7 @@ var DAMAGECALC = (function () {
 
 			return parseFloat(flashFireMultiplier);
 		};
-		
+
 		var parseLifeOrb = function (equipLifeOrb) {
 			var lifeOrbMultiplier;
 
@@ -342,7 +348,7 @@ var DAMAGECALC = (function () {
 				lifeOrbMultiplier = equipLifeOrb;
 			}
 
-			if (equipLifeOrb === 'on') {
+			if (equipLifeOrb === true) {
 				lifeOrbMultiplier = 1.5;
 			}
 			else {
@@ -351,7 +357,7 @@ var DAMAGECALC = (function () {
 
 			return parseFloat(lifeOrbMultiplier);
 		};
-		
+
 		var parseSolidRockFilter = function (hasSolidRockFilter) {
 			var solidRockFilterMultiplier;
 
@@ -363,7 +369,7 @@ var DAMAGECALC = (function () {
 				solidRockFilterMultiplier = hasSolidRockFilter;
 			}
 
-			if (hasSolidRockFilter === 'on') {
+			if (hasSolidRockFilter === true) {
 				solidRockFilterMultiplier = 0.75;
 			}
 			else {
@@ -372,7 +378,7 @@ var DAMAGECALC = (function () {
 
 			return parseFloat(solidRockFilterMultiplier);
 		};
-		
+
 		var parseExpertBelt = function (equipExpertBelt) {
 			var expertBeltMultiplier;
 
@@ -384,7 +390,7 @@ var DAMAGECALC = (function () {
 				expertBeltMultiplier = equipExpertBelt;
 			}
 
-			if (equipExpertBelt === 'on') {
+			if (equipExpertBelt === true) {
 				expertBeltMultiplier = 1.2;
 			}
 			else {
@@ -393,19 +399,19 @@ var DAMAGECALC = (function () {
 
 			return parseFloat(expertBeltMultiplier);	
 		};
-		
+
 		var parseTintedLens = function (hasTintedLens, effect) {
-			var tintedLensMultiplier;
+			var tintedLensMultiplier = 1;
 
 			// Protection from misuse
 			if (typeof hasTintedLens === "number" && (hasTintedLens !== 2 || hasTintedLens !== 1)) {
 				console.log("ERROR: hasTintedLens must be a string or, if a number, 1 or 2");
 			}
-			else {
+			else if (typeof hasTintedLens === "number") {
 				tintedLensMultiplier = hasTintedLens;
 			}
 
-			if (hasTintedLens === 'on' && (effect > 1 || effect === "on")) {
+			if (hasTintedLens === true && (effect > 1 || effect === "on")) {
 				tintedLensMultiplier = 2;
 			}
 			else {
@@ -414,7 +420,7 @@ var DAMAGECALC = (function () {
 
 			return parseFloat(tintedLensMultiplier);
 		};
-		
+
 		var parseResistBerry = function (isResistBerryActive) {
 			var resistBerryMultiplier;
 
@@ -426,7 +432,7 @@ var DAMAGECALC = (function () {
 				resistBerryMultiplier = isResistBerryActive;
 			}
 
-			if (isResistBerryActive === 'on') {
+			if (isResistBerryActive === true) {
 				resistBerryMultiplier = 0.5;
 			}
 			else {
@@ -435,7 +441,7 @@ var DAMAGECALC = (function () {
 
 			return parseFloat(resistBerryMultiplier);
 		};
-		
+
 		// This function DOESNT consider if the user has the Sniper ability
 		var parseCriticalHit = function (isCriticalHit) {
 			var criticalHitMultiplier;
@@ -448,7 +454,7 @@ var DAMAGECALC = (function () {
 				criticalHitMultiplier = isCriticalHit;
 			}
 
-			if (isCriticalHit === 'on') {
+			if (isCriticalHit === true) {
 				criticalHitMultiplier = 2;
 			}
 			else {
@@ -457,79 +463,77 @@ var DAMAGECALC = (function () {
 
 			return parseFloat(criticalHitMultiplier);
 		};
-		
+
 		// Must be called AFTER the other parser methods
 		var setMod1 = function (stats) {
 			var mod1 = 1;
-		
+
 			// Mod1 = BRN × RL × TVT × SR × FF
-		
+
 			mod1 = mod1 * stats.isBurn;
 			mod1 = mod1 * stats.isReflectLightScreenActive;
-			//mod1 = mod1 * stats.isDouble;
+			//mod1 = mod1 * stats.isDoubleBattle;
 			mod1 = mod1 * stats.hasSolidRockFilter;
 			mod1 = mod1 * stats.isFlashFireActive;
-		
+
 			return mod1;
 		};
-	
+
 		// Must be called AFTER the other parser methods
 		var setMod2 = function (stats) {
 			// This modifier concerns about Me First, Life Orb and Metronome
 			// I wont support Me First and Metronome for now, so its basically
 			// a Life Orb implementation.
-		
+
 			var mod2 = 1;
-			
+
 			mod2 = stats.equipLifeOrb;
-			
+
 			return mod2;
 		};
-	
+
 		// Must be called AFTER the other parser methods
 		var setMod3 = function (stats) {
 			var mod3 = 1;
-			
+
 			mod3 = mod3 * stats.hasSolidRockFilter;
 			mod3 = mod3 * stats.equipExpertBelt;
 			mod3 = mod3 * stats.hasTintedLens;
 			mod3 = mod3 * stats.isResistBerryActive;
-			
+
 			return mod3;
 		};
-	
+
 		return {
 			superParser : function (stats) {
 				// Use this method to turn stats into an object acceptable by calculatorModel
-				
+
 				// This function can't be used before setPokemonStats() is called at least once
 
 				stats.atkStatModifier = parseStatModifier(stats.atkStatModifier);
 				stats.defStatModifier = parseStatModifier(stats.defStatModifier);
-				
+
 				// Updates the Attack and Defense stats with the modifiers
 				stats.atk = stats.atk * stats.atkStatModifier;
 				stats.def = stats.def * stats.defStatModifier;
-				
+
 				stats.stab = parseStab(stats.stab);
 				stats.effect = parseEffectiveness(stats.effect);
 				stats.isBurn = parseBurn(stats.isBurn);	
-				stats.isReflectLightScreenActive = parseReflectLightScreen(stats.isReflectLightScreenActive);
+				stats.isReflectLightScreenActive = parseReflectLightScreen(stats.isReflectLightScreenActive, stats.isDoubleBattle);
 				stats.isSunnyDayRainDanceActive = parseSunnyDayRainDance(stats.isSunnyDayRainDanceActive);
 				stats.isFlashFireActive = parseFlashFire(stats.isFlashFireActive);
 				stats.equipLifeOrb = parseLifeOrb(stats.equipLifeOrb);
 				stats.hasSolidRockFilter = parseSolidRockFilter(stats.hasSolidRockFilter);
 				stats.equipExpertBelt = parseExpertBelt(stats.equipExpertBelt);
-				stats.hasTintedLents = parseTintedLens(stats.hasTintedLens, stats.effect);
+				stats.hasTintedLens = parseTintedLens(stats.hasTintedLens, stats.effect);
 				stats.isResistBerryActive = parseResistBerry(stats.isResistBerryActive);
 				stats.isCriticalHit = parseCriticalHit(stats.isCriticalHit);
-				
+
 				// Modifiers 1, 2 and 3 are calculated
 				stats.mod1 = setMod1(stats);
 				stats.mod2 = setMod2(stats);
 				stats.mod3 = setMod3(stats);
-				
-				return stats;
 			}
 		};
 	})(); // battleModifiers
