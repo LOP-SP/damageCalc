@@ -10,6 +10,10 @@ __URGENT
 -- Separate the modules into files
 -- parsers.js? MVC?
 
+- calculatorModel
+-- Refactor isMaxOrMin; place it in its own function
+-- Maybe its time to implement the probability calculator for ohko, 2hko?
+
 ==> updateStats must be transformed into a superParser method from battleModifiers
 
 -- implement mod1, mod2 and mod3 calculations

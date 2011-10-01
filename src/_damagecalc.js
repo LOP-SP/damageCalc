@@ -54,15 +54,11 @@ var DAMAGECALC = (function () {
 			return results;
 		};
 	
-		var updateStats = function () {
-			
-		};
-	
 		// Calculates the damage usign calculatorModel's methods
 		// and assigns it to the results private variable.
 		var calcResults = function () {
 			setPokemonStats();
-			updateStats();
+			stats = battleModifier.superParser(stats);
 		
 			results.minDamage = calculatorModel.calcDamage(stats, "min");
 			results.maxDamage = calculatorModel.calcDamage(stats, "max");
@@ -93,6 +89,7 @@ var DAMAGECALC = (function () {
 		var calcDamage = function (stats, isMaxOrMin) {
 			var damage = 0;
 		
+			// this piece of code must be transported somewhere else...
 			if (typeof isMaxOrMin !== "string") {
 				console.log("ERROR: isMaxOrMin (in calculatorModel.calcDamage) must be a string!");
 				return 0;
@@ -119,11 +116,10 @@ var DAMAGECALC = (function () {
 			damage = Math.floor( ( stats.level * 2 ) / 5 );
 			damage = Math.floor( ( damage * stats.basePower * stats.atk ) / 50 );
 			damage = Math.floor( damage / stats.def );
-			//damage = Math.floor( ( damage * stats.mod1 + 2 ) * stats.criticalHit * mod2 );
-			//damage = Math.floor( ( damage + 2 ) * stats.criticalHit );
+			damage = Math.floor( ( damage * stats.mod1 + 2 ) * stats.isCriticalHit * stats.mod2 );
 			damage = Math.floor( ( damage + 2 ) );
 			damage = Math.floor( damage * isMaxOrMin );
-			//damage = Math.floor( damage * stats.stab * effect * mod3 );
+			damage = Math.floor( damage * stats.stab * stats.effect * stats.mod3 );
 			damage = Math.floor( damage * stats.stab * stats.effect );
 		
 			return damage;
