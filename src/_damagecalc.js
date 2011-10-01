@@ -142,7 +142,7 @@ var DAMAGECALC = (function () {
 		};
 	
 		var damagePercentage = function (hp, damage) {
-			return 100*(damage / hp).toPrecision(3);
+			return ((damage / hp)*10*10).toFixed(2);
 		};
 	
 		return {
