@@ -21,14 +21,14 @@ var DAMAGECALC = (function () {
 		
 		var setPokemonStats = function () {
 			// Get the parameters from the UI
-			stats.atk = $("#offensive input[name='atk']").val() || 100;
-			stats.atkStatModifier = $("#offensive .statModifier select").val() || 0;
+			stats.level = $("#offensive input[name='level']").val();
+			stats.atk = $("#offensive input[name='atk']").val();
+			stats.atkStatModifier = $("#offensive .statModifier select").val() || "0";
 			stats.def = $("#defensive input[name='def']").val();
-			stats.defStatModifier = $("#defensive .statModifier select").val() || 0;
+			stats.defStatModifier = $("#defensive .statModifier select").val() || "0";
 			stats.hp = $("#defensive input[name='hp']").val();
 			stats.basePower = $("#parameters input[name='basePower']").val();
 			stats.stab = $("#parameters input:checkbox:checked").val() || "off";
-			// The following info aren't implemented in the UI (yet)!
 			// Mod1
 			stats.isBurn = $("#parameters input[name='isBurn']").val();
 			stats.isReflectLightScreenActive = $("#parameters input[name='isReflectLightScreenActive']").val();
@@ -42,8 +42,8 @@ var DAMAGECALC = (function () {
 			stats.equipExpertBelt = $("#parameters input[name='equipExpertBelt']");
 			stats.hasTintedLens = $("#parameters input[name='hasTintedLens']");
 			stats.isResistBerryActive = $("#parameters input[name='isResistBerryActive']");
-			stats.isCriticalHit = $("#parameters input[name='isCriticalHit']");
-			stats.effect = $("#effect").val(); // currently implemented
+			stats.isCriticalHit = $("#parameters input[name='isCriticalHit']") || "on";
+			stats.effect = $("#parameters select[name='effect']").val();
 		};
 	
 		var getResults = function () {
@@ -103,8 +103,7 @@ var DAMAGECALC = (function () {
 		// will OHKO (or 2HKO, 3HKO, etc) a certain pokemon.
 		//
 		var calcDamage = function (stats, isMaxOrMin) {
-			var damage = 0,
-				randomMultiplier = 1;
+			var damage = 0;
 		
 			if (typeof isMaxOrMin !== "string") {
 				console.log("ERROR: isMaxOrMin (in calculatorModel.calcDamage) must be a string!");
@@ -116,12 +115,12 @@ var DAMAGECALC = (function () {
 				isMaxOrMin.toLowerCase();
 			
 				if (isMaxOrMin === "min") {
-					randomMultiplier = parseFloat(0.85);
+					isMaxOrMin = parseFloat(0.85);
 				}
 				else {
-					randomMultiplier = parseFloat(1);
+					isMaxOrMin = parseFloat(1);
 				}
-			}
+			}	
 		
 			// The damage calculation is done here. The damage formula is:
 			// 
@@ -132,15 +131,18 @@ var DAMAGECALC = (function () {
 			damage = Math.floor( ( stats.level * 2 ) / 5 );
 			damage = Math.floor( ( damage * stats.basePower * stats.atk ) / 50 );
 			damage = Math.floor( damage / stats.def );
-			damage = Math.floor( ( damage * stats.mod1 + 2 ) * stats.criticalHit * mod2 );
+			//damage = Math.floor( ( damage * stats.mod1 + 2 ) * stats.criticalHit * mod2 );
+			//damage = Math.floor( ( damage + 2 ) * stats.criticalHit );
+			damage = Math.floor( ( damage + 2 ) );
 			damage = Math.floor( damage * isMaxOrMin );
-			damage = Math.floor( damage * stats.stab * effect * mod3 );
+			//damage = Math.floor( damage * stats.stab * effect * mod3 );
+			damage = Math.floor( damage * stats.stab * stats.effect );
 		
 			return damage;
 		};
 	
 		var damagePercentage = function (hp, damage) {
-			return 100*(damage / hp).toPrecision(2);
+			return 100*(damage / hp).toPrecision(3);
 		};
 	
 		return {
@@ -162,7 +164,7 @@ var DAMAGECALC = (function () {
 		
 			// Must clean the previous calculation's output
 			// Is it better to print everything? Maybe include a "clearscreen" button?
-			//$("#damage").empty();
+			$("#damage").empty();
 
 			// Hide the div to avoid excessive repaints.
 			$("#damage").hide();
@@ -171,7 +173,7 @@ var DAMAGECALC = (function () {
 			damageTable += "<div class='damageTable'>";
 			damageTable += "<h2>Level 100</h2>";
 
-			damageTable += 100*results.minDamagePercentage + "% - " + 100*results.maxDamagePercentage + "% (";
+			damageTable += results.minDamagePercentage + "% - " + results.maxDamagePercentage + "% (";
 
 			damageTable += results.minDamage + " - " + results.maxDamage + ")";
 
@@ -336,7 +338,7 @@ var DAMAGECALC = (function () {
 	// Assign a method to a button click event at the UI
 	$("#calcButton button").click(function () {
 		// Updates the internal representation of the battle
-		pokemonBattle.calcResults();
+		DAMAGECALC.pokemonBattle.calcResults();
 		// Prints the results on the UI
-		interfaceView.showResultsOnUi();
+		DAMAGECALC.interfaceView.showResultsOnUi();
 	});
