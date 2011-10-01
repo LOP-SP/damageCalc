@@ -21,7 +21,7 @@ var DAMAGECALC = (function () {
 		
 		var setPokemonStats = function () {
 			// Get the parameters from the UI
-			stats.level = $("#offensive input[name='level']").val();
+			stats.level = $("#offensive input[name='level']").val() || 100;
 			stats.atk = $("#offensive input[name='atk']").val();
 			stats.atkStatModifier = $("#offensive .statModifier select").val();
 			stats.def = $("#defensive input[name='def']").val();
@@ -29,21 +29,25 @@ var DAMAGECALC = (function () {
 			stats.hp = $("#defensive input[name='hp']").val();
 			stats.basePower = $("#parameters input[name='basePower']").val();
 			stats.stab = $("#parameters input:checkbox:checked").val();
-			// Mod1
+			stats.isCriticalHit = $("#parameters input[name='isCriticalHit']").val();
+			stats.effect = $("#parameters select[name='effect']").val();
+			// Mod1 variables
 			stats.isBurn = $("#parameters input[name='isBurn']").val();
 			stats.isReflectLightScreenActive = $("#parameters input[name='isReflectLightScreenActive']").val();
 			stats.isDoubleBattle = $("#parameters input[name='isDoubleBattle']").val();
 			stats.isSunnyDayRainDanceActive = $("#parameters input[name='isSunnyDayRainDanceActive']").val();
 			stats.isFlashFireActive = $("#parameters input[name='isFlashFireActive']").val();
-			// Mod2
+			// Mod2 variables
 			stats.equipLifeOrb = $("#parameters input[name='equipLifeOrb']").val();
-			// Mod3
+			// Mod3 variables
 			stats.hasSolidRockFilter = $("#parameters input[name='hasSolidRockFilter']").val();
 			stats.equipExpertBelt = $("#parameters input[name='equipExpertBelt']").val();
 			stats.hasTintedLens = $("#parameters input[name='hasTintedLens']").val();
 			stats.isResistBerryActive = $("#parameters input[name='isResistBerryActive']").val();
-			stats.isCriticalHit = $("#parameters input[name='isCriticalHit']").val();
-			stats.effect = $("#parameters select[name='effect']").val();
+			
+			stats.mod1 = 1;
+			stats.mod2 = 1;
+			stats.mod3 = 1;
 		};
 	
 		var getResults = function () {
@@ -51,23 +55,7 @@ var DAMAGECALC = (function () {
 		};
 	
 		var updateStats = function () {
-			// This function can't be used before setPokemonStats() is called at least once
-		
-			// Converts parameters into numbers so we can update the stats
-			// before passing them to a new pokemonBattle object
-			stats.atkStatModifier = battleModifier.parseStatModifier(stats.atkStatModifier);
-			stats.defStatModifier = battleModifier.parseStatModifier(stats.defStatModifier);
-		
-			stats.stab = battleModifier.parseStab(stats.stab);
-			stats.effect = battleModifier.parseEffectiveness(stats.effect);
-
-			// Updates the Attack and Defense stats with the modifiers
-			stats.atk = stats.atk * stats.atkStatModifier;
-			stats.def = stats.def * stats.defStatModifier;
-		
-			// Other battleModifier methods should be used HERE
-			// aka: this is where the brute stats from the UI
-			// are transformed to a calc-friendly format
+			
 		};
 	
 		// Calculates the damage usign calculatorModel's methods
@@ -306,24 +294,24 @@ var DAMAGECALC = (function () {
 		// This function ASSUMES that the move being used is boosted by the weather
 		// aka: You won't weaken a fire move with rain dance using this
 		var parseSunnyDayRainDance = function (isSunnyDayRainDanceActive) {
-			var rainSunMultiplier;
+			var sunRainMultiplier;
 
 			// Protection from misuse
-			if (typeof isRainDanceSunnyDayActive === "number" && (isRainDanceSunnyDayActive !== 1.5 || isRainDanceSunnyDayActive !== 1)) {
+			if (typeof isSunnyDayRainDanceActive === "number" && (isSunnyDayRainDanceActive !== 1.5 || isRSunnyDayRainDanceActive !== 1)) {
 				console.log("ERROR: isRainDanceSunnyDayActive must be a string or, if a number, 1 or 1.5");
 			}
 			else {
-				rainSunMultiplier = isRainDanceSunnyDayActive;
+				sunRainMultiplier = isSunnyDayRainDanceActive;
 			}
 
-			if (isRainDanceSunnyDayActive === 'on') {
-				rainSunMultiplier = 1.5;
+			if (isSunnyDayRainDanceActive === 'on') {
+				sunRainMultiplier = 1.5;
 			}
 			else {
-				rainSunMultiplier = 1;
+				sunRainMultiplier = 1;
 			}
 
-			return parseFloat(rainSunMultiplier);
+			return parseFloat(sunRainMultiplier);
 		};
 		
 		var parseFlashFire = function (isFlashFireActive) {
@@ -410,7 +398,7 @@ var DAMAGECALC = (function () {
 			return parseFloat(expertBeltMultiplier);	
 		};
 		
-		var parseTintedLens = function (hasTintedLens, effectiveness) {
+		var parseTintedLens = function (hasTintedLens, effect) {
 			var tintedLensMultiplier;
 
 			// Protection from misuse
@@ -421,7 +409,7 @@ var DAMAGECALC = (function () {
 				tintedLensMultiplier = hasTintedLens;
 			}
 
-			if (hasTintedLens === 'on' && effectiveness > 1) {
+			if (hasTintedLens === 'on' && (effect > 1 || effect === "on")) {
 				tintedLensMultiplier = 2;
 			}
 			else {
@@ -474,42 +462,79 @@ var DAMAGECALC = (function () {
 			return parseFloat(criticalHitMultiplier);
 		};
 		
+		// Must be called AFTER the other parser methods
 		var setMod1 = function (stats) {
 			var mod1 = 1;
 		
 			// Mod1 = BRN × RL × TVT × SR × FF
-			// Must parse the stats received from the UI
 		
-			mod1 = Math.floor( isBurn * isReflectLightScreenActive );
-			mod1 = Math.floor( mod1 * isDouble );
-			mod1 = Math.floor( mod1 * hasSolidRockFilter );
-			mod1 = Math.floor( mod1 * isFlashFireActive );
+			mod1 = mod1 * stats.isBurn;
+			mod1 = mod1 * stats.isReflectLightScreenActive;
+			//mod1 = mod1 * stats.isDouble;
+			mod1 = mod1 * stats.hasSolidRockFilter;
+			mod1 = mod1 * stats.isFlashFireActive;
 		
 			return mod1;
 		};
 	
+		// Must be called AFTER the other parser methods
 		var setMod2 = function (stats) {
 			// This modifier concerns about Me First, Life Orb and Metronome
 			// I wont support Me First and Metronome for now, so its basically
 			// a Life Orb implementation.
 		
 			var mod2 = 1;
-		
-			if (stats.equipLifeOrb === "on") {
-				mod2 = parseFloat(1.3);
-			}
-		
+			
+			mod2 = stats.equipLifeOrb;
+			
 			return mod2;
 		};
 	
-		var setMod3 = function () {
-		
+		// Must be called AFTER the other parser methods
+		var setMod3 = function (stats) {
+			var mod3 = 1;
+			
+			mod3 = mod3 * stats.hasSolidRockFilter;
+			mod3 = mod3 * stats.equipExpertBelt;
+			mod3 = mod3 * stats.hasTintedLens;
+			mod3 = mod3 * stats.isResistBerryActive;
+			
+			return mod3;
 		};
 	
 		return {
-			parseStab : parseStab,
-			parseEffectiveness : parseEffectiveness,
-			parseStatModifier : parseStatModifier
+			superParser : function (stats) {
+				// Use this method to turn stats into an object acceptable by calculatorModel
+				
+				// This function can't be used before setPokemonStats() is called at least once
+
+				stats.atkStatModifier = parseStatModifier(stats.atkStatModifier);
+				stats.defStatModifier = parseStatModifier(stats.defStatModifier);
+				
+				// Updates the Attack and Defense stats with the modifiers
+				stats.atk = stats.atk * stats.atkStatModifier;
+				stats.def = stats.def * stats.defStatModifier;
+				
+				stats.stab = parseStab(stats.stab);
+				stats.effect = parseEffectiveness(stats.effect);
+				stats.isBurn = parseBurn(stats.isBurn);	
+				stats.isReflectLightScreenActive = parseReflectLightScreen(stats.isReflectLightScreenActive);
+				stats.isSunnyDayRainDanceActive = parseSunnyDayRainDance(stats.isSunnyDayRainDanceActive);
+				stats.isFlashFireActive = parseFlashFire(stats.isFlashFireActive);
+				stats.equipLifeOrb = parseLifeOrb(stats.equipLifeOrb);
+				stats.hasSolidRockFilter = parseSolidRockFilter(stats.hasSolidRockFilter);
+				stats.equipExpertBelt = parseExpertBelt(stats.equipExpertBelt);
+				stats.hasTintedLents = parseTintedLens(stats.hasTintedLens, stats.effect);
+				stats.isResistBerryActive = parseResistBerry(stats.isResistBerryActive);
+				stats.isCriticalHit = parseCriticalHit(stats.isCriticalHit);
+				
+				// Modifiers 1, 2 and 3 are calculated
+				stats.mod1 = setMod1(stats);
+				stats.mod2 = setMod2(stats);
+				stats.mod3 = setMod3(stats);
+				
+				return stats;
+			}
 		};
 	})(); // battleModifiers
 
@@ -519,18 +544,16 @@ var DAMAGECALC = (function () {
 	var validator = (function () {
 		// Helper functions
 		var validateAttribute = function (attribute, attributeName) {
-			if (attribute < 1 || attribute === null) {
+			if (attribute < 1 || attribute === null || typeof attribute !== "number") {
 				console.log("You entered an invalid value for " + attributeName);
-				return false;
 			}
 
 			return Math.floor(attribute);
 		};
 	
 		var validateLevel = function (level) {
-			if (level < 1 || level === null || level > 100) {
+			if (level < 1 || level === null || level > 100 || typeof level !== "number") {
 				console.log("You entered an invalid level value.");
-				return false;
 			}
 
 			return Math.floor(level);

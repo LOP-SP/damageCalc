@@ -6,13 +6,19 @@ damageCalc TO DO LIST
 __URGENT
 
 
-- implement parser functions in battleModifiers for isBurn, etc
+- Redesign the calculator
+-- Separate the modules into files
+-- parsers.js? MVC?
+
+==> updateStats must be transformed into a superParser method from battleModifiers
+
 -- implement mod1, mod2 and mod3 calculations
 -- integrate it into the damage formula
 
 - What is the (current) best target for refactoring?
 
 - Must create test suites with JsTestDriver asap!
+-- parser functions first
 
 
 __MEDIUM
