@@ -271,20 +271,20 @@ var DAMAGECALC = (function () {
 			if (typeof isReflectLightScreenActive === "number" && (isReflectLightScreenActive !== 0.5 || isReflectLightScreenActive !== 1)) {
 				console.log("ERROR: isReflectLightScreenActive must be a string or, if a number, 1 or 0.5");
 			}
-			else {
+			else if (typeof isReflectLightScreenActive === "number") {
 				reflectLightScreenMultiplier = isReflectLightScreenActive;
 			}
 
 			if (isReflectLightScreenActive === true && isDoubleBattle === true) {
-				reflectLightScreenMultiplier = (2/3);
+				reflectLightScreenMultiplier = 0.66667;
 			}
 			else if (isReflectLightScreenActive === true) {
-				ReflectLightScreenMultiplier = (0.5);
+				reflectLightScreenMultiplier = 0.5;
 			}
 			else {
 				reflectLightScreenMultiplier = 1;
 			}
-
+			
 			return parseFloat(reflectLightScreenMultiplier);
 		};
 
@@ -299,10 +299,10 @@ var DAMAGECALC = (function () {
 			var sunRainMultiplier;
 
 			// Protection from misuse
-			if (typeof isSunnyDayRainDanceActive === "number" && (isSunnyDayRainDanceActive !== 1.5 || isRSunnyDayRainDanceActive !== 1)) {
+			if (typeof isSunnyDayRainDanceActive === "number" && (isSunnyDayRainDanceActive !== 1.5 || isSunnyDayRainDanceActive !== 1)) {
 				console.log("ERROR: isRainDanceSunnyDayActive must be a string or, if a number, 1 or 1.5");
 			}
-			else {
+			else if (typeof isSunnyDayRainDanceActive === "number") {
 				sunRainMultiplier = isSunnyDayRainDanceActive;
 			}
 
@@ -312,7 +312,7 @@ var DAMAGECALC = (function () {
 			else {
 				sunRainMultiplier = 1;
 			}
-
+			
 			return parseFloat(sunRainMultiplier);
 		};
 
@@ -341,15 +341,15 @@ var DAMAGECALC = (function () {
 			var lifeOrbMultiplier;
 
 			// Protection from misuse
-			if (typeof equipLifeOrb === "number" && (equipLifeOrb !== 1.5 || equipLifeOrb !== 1)) {
-				console.log("ERROR: equipLifeOrb must be a string or, if a number, 1 or 1.5");
+			if (typeof equipLifeOrb === "number" && (equipLifeOrb !== 1.3 || equipLifeOrb !== 1)) {
+				console.log("ERROR: equipLifeOrb must be a string or, if a number, 1 or 1.3");
 			}
 			else {
 				lifeOrbMultiplier = equipLifeOrb;
 			}
 
 			if (equipLifeOrb === true) {
-				lifeOrbMultiplier = 1.5;
+				lifeOrbMultiplier = 1.3;
 			}
 			else {
 				lifeOrbMultiplier = 1;
@@ -411,13 +411,13 @@ var DAMAGECALC = (function () {
 				tintedLensMultiplier = hasTintedLens;
 			}
 
-			if (hasTintedLens === true && (effect > 1 || effect === "on")) {
+			if (hasTintedLens === true && (effect < 1 || effect === "0.5x" || effect === "0.25x")) {
 				tintedLensMultiplier = 2;
 			}
 			else {
 				tintedLensMultiplier = 1;
 			}
-
+			
 			return parseFloat(tintedLensMultiplier);
 		};
 
@@ -474,6 +474,7 @@ var DAMAGECALC = (function () {
 			mod1 = mod1 * stats.isReflectLightScreenActive;
 			//mod1 = mod1 * stats.isDoubleBattle;
 			mod1 = mod1 * stats.hasSolidRockFilter;
+			mod1 = mod1 * stats.isSunnyDayRainDanceActive;
 			mod1 = mod1 * stats.isFlashFireActive;
 
 			return mod1;

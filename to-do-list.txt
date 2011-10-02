@@ -6,18 +6,14 @@ damageCalc TO DO LIST
 __URGENT
 
 
+
 - Redesign the calculator
 -- Separate the modules into files
--- parsers.js? MVC?
+-- Create a namespace DAMAGECALC for all the files
+-- MVC architecture?
 
 - calculatorModel
 -- Refactor isMaxOrMin; place it in its own function
--- Maybe its time to implement the probability calculator for ohko, 2hko?
-
-==> updateStats must be transformed into a superParser method from battleModifiers
-
--- implement mod1, mod2 and mod3 calculations
--- integrate it into the damage formula
 
 - What is the (current) best target for refactoring?
 
@@ -39,8 +35,10 @@ __MEDIUM
 __NOT IMPLEMENTED YET
 
 
-- The item Metronome
+- Metronome item
 
-- Moves implementation: Me First, 
+- Double battle moves won't be weakened... well, you can't select a move yet anyway. The isDoubleBattle flag is used for Reflect/LightScreen only
+
+- Me First
 
 - SNIPER NOT CONSIDERED
