@@ -68,10 +68,23 @@ var DAMAGECALC = (function () {
 			results.minDamagePercentage = calculatorModel.damagePercentage(stats.hp, results.minDamage);
 			results.maxDamagePercentage = calculatorModel.damagePercentage(stats.hp, results.maxDamage);
 		};
-	
+		
+		// This method calculates all the possible damage values
+		var calcAllResults = function () {
+			setPokemonStats();
+			battleModifier.superParser(stats);
+			
+			results.allValues = [];
+			
+			for (var i = 0; i < 16; i += 1) {
+				result.allValues[i] = calculatorModel.calcDamage(stats, 0.85 + i);
+			}
+		};
+		
 		return {
 			getResults: getResults,
-			calcResults: calcResults
+			calcResults: calcResults,
+			calcAllResults : calcAllResults
 		};
 	})(); // pokemonBattle
 
@@ -87,10 +100,18 @@ var DAMAGECALC = (function () {
 		// To do: Implement a way to calculate the probability that a move
 		// will OHKO (or 2HKO, 3HKO, etc) a certain pokemon.
 		//
+		// Also implement a way to generalize this function, for it to return all the possible values,
+		// not just the max or min. 
 		var calcDamage = function (stats, isMaxOrMin) {
 			var damage = 0;
 		
-			isMaxOrMin = randomMultiplier(isMaxOrMin);
+			if (typeof isMaxOrMin !== "string" || isMaxOrMin > 1 || isMaxOrMin < 0.85) {
+				console.log("ERROR: isMaxOrMin (in calculatorModel) must be a string or a number between 0.85 and 1!");
+				return 0;
+			}
+			else if (typeof isMaxOrMin === "string") {
+				isMaxOrMin = randomMultiplier(isMaxOrMin);
+			}
 		
 			// The damage calculation is done here. The damage formula is:
 			// 
@@ -120,21 +141,15 @@ var DAMAGECALC = (function () {
 		};
 		
 		var randomMultiplier = function (isMaxOrMin) {
-			if (typeof isMaxOrMin !== "string") {
-				console.log("ERROR: isMaxOrMin (in calculatorModel.calcDamage) must be a string!");
-				return 0;
+			// Should I use "max", "Max" or "MaX"?!
+			// No need to worry!
+			isMaxOrMin.toLowerCase();
+		
+			if (isMaxOrMin === "min") {
+				isMaxOrMin = parseFloat(0.85);
 			}
 			else {
-				// Should I use "max", "Max" or "MaX"?!
-				// No need to worry!
-				isMaxOrMin.toLowerCase();
-			
-				if (isMaxOrMin === "min") {
-					isMaxOrMin = parseFloat(0.85);
-				}
-				else {
-					isMaxOrMin = parseFloat(1);
-				}
+				isMaxOrMin = parseFloat(1);
 			}
 			
 			return isMaxOrMin;
@@ -166,7 +181,7 @@ var DAMAGECALC = (function () {
 
 			damageTable = "<h1>Damage results</h1>";
 			damageTable += "<div class='damageTable'>";
-			damageTable += "<h2>Level 100</h2>";
+			damageTable += "<h2>Level 100 </h2>";
 
 			damageTable += results.minDamagePercentage + "% - " + results.maxDamagePercentage + "% (";
 
