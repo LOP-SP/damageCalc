@@ -114,13 +114,11 @@ var DAMAGECALC = (function () {
 			//                 CH × Mod2 × R ÷ 100) × STAB × Type1 × Type2 × Mod3)
 		
 			// After each "step" in the damage formula, we need to round down the result.
-			damage = Math.floor( ( stats.level * 2 ) / 5 );
-			damage = Math.floor( damage * stats.basePower );
-			damage = Math.floor( damage * stats.atk );
-			damage = Math.floor( damage / 50 ) ;
+			damage = Math.floor( ( ( stats.level * 2 ) / 5 ) + 2 );
+			damage = Math.floor( damage * stats.basePower * stats.atk / 50 );
 			damage = Math.floor( damage / stats.def );
 			damage = Math.floor( damage * stats.mod1 + 2 );
-			damage = Math.floor( damage * stats.isCriticalHit );
+			damage = Math.floor( damage * stats.isCriticalHit ); // CHANGE THIS +2
 			damage = Math.floor( damage * stats.mod2 );
 			damage = Math.floor( damage * isMaxOrMin );
 			damage = Math.floor( damage * stats.stab );
@@ -476,7 +474,7 @@ var DAMAGECALC = (function () {
 			mod1 = mod1 * stats.hasSolidRockFilter;
 			mod1 = mod1 * stats.isSunnyDayRainDanceActive;
 			mod1 = mod1 * stats.isFlashFireActive;
-
+			
 			return mod1;
 		};
 
@@ -489,7 +487,7 @@ var DAMAGECALC = (function () {
 			var mod2 = 1;
 
 			mod2 = stats.equipLifeOrb;
-
+			
 			return mod2;
 		};
 
@@ -501,7 +499,7 @@ var DAMAGECALC = (function () {
 			mod3 = mod3 * stats.equipExpertBelt;
 			mod3 = mod3 * stats.hasTintedLens;
 			mod3 = mod3 * stats.isResistBerryActive;
-
+			
 			return mod3;
 		};
 
