@@ -24,9 +24,6 @@ __List of objects and their methods
 -- getSecondModifier
 -- getThirdModifier
 
-=> validator : performs form validation
--- validateStats (stats)
-
 ---o---
 
 __Objects used to transport data
@@ -47,9 +44,6 @@ isSunnyDayRainDanceActive
 isFlashFireActive
 equipLifeOrb
 ...
-
-==> CRIAR NOVO OBJETO QUE GUARDA OS VALORES USADOS PELA FORMULA DE DANO, PRONTOS PARA USO
-(baseado no stats)
 
 mod1
 mod2

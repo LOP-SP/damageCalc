@@ -90,7 +90,36 @@ var DAMAGECALC = (function () {
 		var calcDamage = function (stats, isMaxOrMin) {
 			var damage = 0;
 		
-			// this piece of code must be transported somewhere else...
+			isMaxOrMin = randomMultiplier(isMaxOrMin);
+		
+			// The damage calculation is done here. The damage formula is:
+			// 
+			// Damage Formula = (((((((Level × 2 ÷ 5) + 2) × BasePower × [Sp]Atk ÷ 50) ÷ [Sp]Def) × Mod1) + 2) × 
+			//                 CH × Mod2 × R ÷ 100) × STAB × Type1 × Type2 × Mod3)
+		
+			// After each "step" in the damage formula, we need to round down the result.
+			damage = Math.floor( ( ( stats.level * 2 ) / 5 ) + 2 );
+			damage = Math.floor( damage * stats.basePower * stats.atk / 50 );
+			damage = Math.floor( damage / stats.def );
+			damage = Math.floor( damage * stats.mod1 + 2 );
+			damage = Math.floor( damage * stats.isCriticalHit );
+			damage = Math.floor( damage * stats.mod2 );
+			
+			// This is where the randomness takes place.
+			// Cache the damage before here and loop through the possible values for the random multiplier (0.85, 0.86, ..., 0.99, 1)
+			damage = Math.floor( damage * isMaxOrMin );
+			damage = Math.floor( damage * stats.stab );
+			damage = Math.floor( damage * stats.effect );
+			damage = Math.floor( damage * stats.mod3 );
+		
+			return damage;
+		};
+	
+		var damagePercentage = function (hp, damage) {
+			return ((damage / hp)*10*10).toFixed(2);
+		};
+		
+		var randomMultiplier = function (isMaxOrMin) {
 			if (typeof isMaxOrMin !== "string") {
 				console.log("ERROR: isMaxOrMin (in calculatorModel.calcDamage) must be a string!");
 				return 0;
@@ -106,32 +135,11 @@ var DAMAGECALC = (function () {
 				else {
 					isMaxOrMin = parseFloat(1);
 				}
-			}	
-		
-			// The damage calculation is done here. The damage formula is:
-			// 
-			// Damage Formula = (((((((Level × 2 ÷ 5) + 2) × BasePower × [Sp]Atk ÷ 50) ÷ [Sp]Def) × Mod1) + 2) × 
-			//                 CH × Mod2 × R ÷ 100) × STAB × Type1 × Type2 × Mod3)
-		
-			// After each "step" in the damage formula, we need to round down the result.
-			damage = Math.floor( ( ( stats.level * 2 ) / 5 ) + 2 );
-			damage = Math.floor( damage * stats.basePower * stats.atk / 50 );
-			damage = Math.floor( damage / stats.def );
-			damage = Math.floor( damage * stats.mod1 + 2 );
-			damage = Math.floor( damage * stats.isCriticalHit ); // CHANGE THIS +2
-			damage = Math.floor( damage * stats.mod2 );
-			damage = Math.floor( damage * isMaxOrMin );
-			damage = Math.floor( damage * stats.stab );
-			damage = Math.floor( damage * stats.effect );
-			damage = Math.floor( damage * stats.mod3 );
-		
-			return damage;
+			}
+			
+			return isMaxOrMin;
 		};
-	
-		var damagePercentage = function (hp, damage) {
-			return ((damage / hp)*10*10).toFixed(2);
-		};
-	
+		
 		return {
 			calcDamage: calcDamage,
 			damagePercentage: damagePercentage

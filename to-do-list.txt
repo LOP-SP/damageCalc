@@ -6,14 +6,13 @@ damageCalc TO DO LIST
 __URGENT
 
 
-
 - Redesign the calculator
 -- Separate the modules into files
 -- Create a namespace DAMAGECALC for all the files
 -- MVC architecture?
 
-- calculatorModel
--- Refactor isMaxOrMin; place it in its own function
+- To do: Implement a way to calculate the probability that a move will OHKO (or 2HKO, 3HKO, etc) a certain pokemon
+-- Must use all the possible values for the randomMultiplier variable, calculate the damage dealt with each of them and sum the probability of the multipliers that were sufficient to faint the opposite pokemon.
 
 - What is the (current) best target for refactoring?
 
@@ -23,11 +22,6 @@ __URGENT
 
 __MEDIUM
 
-
-- To do: Implement a way to calculate the probability that a move will OHKO (or 2HKO, 3HKO, etc) a certain pokemon
--- Must use all the possible values for the randomMultiplier variable, calculate the damage dealt with each of them and sum the probability of the multipliers that were sufficient to faint the opposite pokemon.
-
-- create a more generic validator object for further reuse
 
 - Criar funções para verificar dano total que levam em conta Hail/Sandstorm, Stealth Rock, Spikes (1, 2 e 3 layers), Leftovers, etc
 
