@@ -45,7 +45,7 @@ var DAMAGECALC = (function () {
 			stats.equipExpertBelt = $("#parameters input[name='equipExpertBelt']").is(':checked');
 			stats.hasTintedLens = $("#parameters input[name='hasTintedLens']").is(':checked');
 			stats.isResistBerryActive = $("#parameters input[name='isResistBerryActive']").is(':checked');
-			
+
 			stats.mod1 = 1;
 			stats.mod2 = 1;
 			stats.mod3 = 1;
