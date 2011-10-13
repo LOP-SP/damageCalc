@@ -167,17 +167,16 @@ var DAMAGECALC = (function () {
 	var interfaceView = (function () {
 	
 		var showResultsOnUi = function () {
-			var outputTable,
-				results;
+			var outputTable = "",
+				results = {};
 		
 			results = pokemonBattle.getResults();
 		
 			// Must clean the previous calculation's output
-			// Is it better to print everything? Maybe include a "clearscreen" button?
-			$("#damage").empty();
-
+			//
 			// Hide the div to avoid excessive repaints.
-			$("#damage").hide();
+			//
+			$("#damage").empty().hide();
 
 			outputTable = "<h1>Damage results</h1>";
 			outputTable += "<div class='damageTable'>";
