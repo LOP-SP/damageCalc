@@ -167,7 +167,7 @@ var DAMAGECALC = (function () {
 	var interfaceView = (function () {
 	
 		var showResultsOnUi = function () {
-			var damageTable,
+			var outputTable,
 				results;
 		
 			results = pokemonBattle.getResults();
@@ -179,17 +179,17 @@ var DAMAGECALC = (function () {
 			// Hide the div to avoid excessive repaints.
 			$("#damage").hide();
 
-			damageTable = "<h1>Damage results</h1>";
-			damageTable += "<div class='damageTable'>";
-			damageTable += "<h2>Level 100 </h2>";
+			outputTable = "<h1>Damage results</h1>";
+			outputTable += "<div class='damageTable'>";
+			outputTable += "<h2>Level 100 </h2>";
 
-			damageTable += results.minDamagePercentage + "% - " + results.maxDamagePercentage + "% (";
+			outputTable += results.minDamagePercentage + "% - " + results.maxDamagePercentage + "% (";
 
-			damageTable += results.minDamage + " - " + results.maxDamage + ")";
+			outputTable += results.minDamage + " - " + results.maxDamage + ")";
 
-			damageTable += "</div>";
+			outputTable += "</div>";
 
-			$("#damage").append(damageTable).show();
+			$("#damage").append(outputTable).show();
 		};
 	
 		return {
