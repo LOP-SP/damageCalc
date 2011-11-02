@@ -39,6 +39,7 @@ body {
 **************************************************************/
 
 #info {
+	width: 100%;
 	height: 245px;
 }
 
@@ -89,14 +90,14 @@ body {
 /* CALCBUTTON
 **************************************************************/
 
-#calcButton {
+.calcButton {
 	width: 500px;
 	height: 40px;
 	background-color: #FFF;
 	text-align: center;
 }
 
-#calcButton button {
+.calcButton button {
 	width: 20%;
 	height: 60%;
 	position: relative;
@@ -136,6 +137,10 @@ body {
 
 /* EXTRA CLASSES
 **************************************************************/
+
+.center {
+	margin: auto;
+}
 
 .clear {
 	clear: both;
