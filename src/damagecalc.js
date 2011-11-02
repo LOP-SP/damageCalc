@@ -603,7 +603,7 @@ var DAMAGECALC = (function () {
 })(); // DAMAGECALC
 
 	// Assign a method to a button click event at the UI
-	$("#calcButton button").click(function () {
+	$("#info button[name='calculate']").click(function () {
 		// Updates the internal representation of the battle
 		DAMAGECALC.pokemonBattle.calcResults();
 		// Prints the results on the UI
