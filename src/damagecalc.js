@@ -60,7 +60,9 @@ var DAMAGECALC = (function () {
 		var calcResults = function () {
 			setPokemonStats();
 			battleModifier.superParser(stats);
-		
+			
+			results.level = stats.level;
+			
 			results.minDamage = calculatorModel.calcDamage(stats, "min");
 			results.maxDamage = calculatorModel.calcDamage(stats, "max");
 		
@@ -168,7 +170,7 @@ var DAMAGECALC = (function () {
 	
 		var showResultsOnUi = function () {
 			var outputTable = "",
-				results = {};
+					results = {};
 		
 			results = pokemonBattle.getResults();
 		
@@ -180,7 +182,7 @@ var DAMAGECALC = (function () {
 
 			outputTable = "<h1>Damage results</h1>";
 			outputTable += "<div class='damageTable'>";
-			outputTable += "<h2>Level 100 </h2>";
+			outputTable += "<h2>Level " + results.level + "</h2>";
 
 			outputTable += results.minDamagePercentage + "% - " + results.maxDamagePercentage + "% (";
 

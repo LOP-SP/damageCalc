@@ -14,7 +14,7 @@ body, p, h1, h2, h3, h4, h5, h6, div, span, ul, li, ol, table, td, tr {
 }
 
 body {
-	background-color: #FFF;
+	background-color: #E6E6E6;
 }
 	 
 /* CONTAINER
@@ -32,7 +32,8 @@ body {
 **************************************************************/
 
 #content {
-	background-color: #43dcfa;
+	padding: 5px 0 10px 0;
+	background-color: #E6E6E6;
 }
 
 /* INFO
@@ -40,7 +41,6 @@ body {
 
 #info {
 	width: 100%;
-	/*height: 245px;*/
 }
 
 #info input {
@@ -54,7 +54,7 @@ body {
 #defensive {
 	padding: 10px;
 	width: 230px;
-	/*height: 200px;*/
+	height: 170px;
 	background-color: #9CDE82;
 }
 
@@ -76,7 +76,7 @@ body {
 #parameters {
 	padding: 10px;
 	width: 230px;
-	/*height: 420px;*/
+	height: 360px;
 	background-color: #9CD9EC;
 }
 
@@ -93,22 +93,27 @@ body {
 .calcButton {
 	width: 500px;
 	height: 40px;
-	background-color: #FFF;
+	background-color: #E6E6E6;
 	text-align: center;
 }
 
 .calcButton button {
-	width: 20%;
-	height: 60%;
+	width: 30%;
+	height: 65%;
 	position: relative;
-	top: 25%;
+	top: 20%;
+}
+
+.calcButton button:hover {
+	border: 1px solid #A6A6A6;
 }
 
 /* DAMAGE
 **************************************************************/
 
 #damage {
-	height: 90px;
+	height: 80px;
+	padding: 5px 0 5px 0;
 	background-color: #F1B575;
 	text-align: center;
 }
@@ -134,6 +139,10 @@ body {
 
 /* FOOTER
 **************************************************************/
+
+#footer { padding: 5px 0 0 0; border-top: 1px solid #AAA; }
+
+#footer p { text-align: center; }
 
 /* EXTRA CLASSES
 **************************************************************/
