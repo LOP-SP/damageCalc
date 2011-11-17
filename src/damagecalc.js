@@ -18,7 +18,7 @@ var DAMAGECALC = (function () {
 	//
 	var pokemonBattle = (function () {
 		var stats = {},
-			results = {};
+				results = {};
 		
 		var setPokemonStats = function () {
 			// Get the parameters from the UI
