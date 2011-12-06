@@ -286,7 +286,7 @@ var DAMAGECALC = (function () {
 			return parseFloat(burnMultiplier);
 		};
 
-		var parseReflectLightScreen = function (isReflectLightScreenActive, isDoubleBattle) {
+		var parseReflectLightScreen = function (isReflectLightScreenActive) {
 			var reflectLightScreenMultiplier;
 
 			// Protection from misuse
@@ -297,10 +297,7 @@ var DAMAGECALC = (function () {
 				reflectLightScreenMultiplier = isReflectLightScreenActive;
 			}
 
-			if (isReflectLightScreenActive === true && isDoubleBattle === true) {
-				reflectLightScreenMultiplier = 0.66667;
-			}
-			else if (isReflectLightScreenActive === true) {
+			if (isReflectLightScreenActive === true) {
 				reflectLightScreenMultiplier = 0.5;
 			}
 			else {
@@ -308,11 +305,6 @@ var DAMAGECALC = (function () {
 			}
 			
 			return parseFloat(reflectLightScreenMultiplier);
-		};
-
-		// This function isn't implemented yet, because there are moves that work
-		// strangely in double battles, not being affected by the multiplier
-		var parseDoubleBattle = function (isDoubleBattle) {
 		};
 
 		// This function ASSUMES that the move being used is boosted by the weather
@@ -494,7 +486,6 @@ var DAMAGECALC = (function () {
 
 			mod1 = mod1 * stats.isBurn;
 			mod1 = mod1 * stats.isReflectLightScreenActive;
-			//mod1 = mod1 * stats.isDoubleBattle;
 			mod1 = mod1 * stats.hasSolidRockFilter;
 			mod1 = mod1 * stats.isSunnyDayRainDanceActive;
 			mod1 = mod1 * stats.isFlashFireActive;
@@ -543,7 +534,7 @@ var DAMAGECALC = (function () {
 				stats.stab = parseStab(stats.stab);
 				stats.effect = parseEffectiveness(stats.effect);
 				stats.isBurn = parseBurn(stats.isBurn);	
-				stats.isReflectLightScreenActive = parseReflectLightScreen(stats.isReflectLightScreenActive, stats.isDoubleBattle);
+				stats.isReflectLightScreenActive = parseReflectLightScreen(stats.isReflectLightScreenActive);
 				stats.isSunnyDayRainDanceActive = parseSunnyDayRainDance(stats.isSunnyDayRainDanceActive);
 				stats.isFlashFireActive = parseFlashFire(stats.isFlashFireActive);
 				stats.equipLifeOrb = parseLifeOrb(stats.equipLifeOrb);
