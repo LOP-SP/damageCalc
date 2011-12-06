@@ -1,164 +1,53 @@
 /*
-Author: Carlos Agarie
-Project URL: www.github.com/agarie/damagecalc
+Author:Carlos Agarie
+Project URL:www.github.com/agarie/damagecalc
 **************************************************************/
-
 /* MAIN
 **************************************************************/
-
-body, p, h1, h2, h3, h4, h5, h6, div, span, ul, li, ol, table, td, tr {
-	padding: 0;
-	margin: 0;
-	font-family: verdana, arial, Helvetica, sans-serif;
-	font-size: 12px;
-}
-
-body {
-	background-color: #E6E6E6;
-}
-	 
+body,p,h1,h2,h3,h4,h5,h6,div,span,ul,li,ol,table,td,tr{padding:0;margin:0;font-family:verdana,arial,Helvetica,sans-serif;font-size:12px;}
+body{background-color:#E6E6E6;}
 /* CONTAINER
 **************************************************************/
-
-#container {
-	width: 500px;
-	margin: 0 auto;
-}
-
+#container{width:500px;margin:0 auto;}
 /* HEADER
 **************************************************************/
-
 /* CONTENT
 **************************************************************/
-
-#content {
-	padding: 5px 0 10px 0;
-	background-color: #E6E6E6;
-}
-
+#content{padding:5px 0 10px 0;background-color:#E6E6E6;}
 /* INFO
 **************************************************************/
-
-#info {
-	width: 100%;
-}
-
-#info input {
-	margin: 5px;
-}
-
-/* OFFENSIVE, DEFENSIVE
+#info{width:100%;}
+#info input{margin:5px;}
+/* OFFENSIVE,DEFENSIVE
 **************************************************************/
-
 #offensive,
-#defensive {
-	padding: 10px;
-	width: 230px;
-	height: 170px;
-	background-color: #9CDE82;
-}
-
+#defensive{padding:10px;width:230px;height:170px;background-color:#9CDE82;}
 #offensive h2,
-#defensive h2 {
-	padding-bottom: 5px;
-	margin-bottom: 20px;
-	text-align: center;
-	border-bottom: 1px solid #FFF;
-}
-
-#offensive #level input {
-	width: 23px;
-}
-
+#defensive h2{padding-bottom:5px;margin-bottom:20px;text-align:center;border-bottom:1px solid #FFF;}
+#offensive #level input{width:23px;}
 /* PARAMETERS
 **************************************************************/
-
-#parameters {
-	padding: 10px;
-	width: 230px;
-	height: 360px;
-	background-color: #9CD9EC;
-}
-
-#parameters h2 {
-	padding-bottom: 5px;
-	margin-bottom: 20px;
-	text-align: center;
-	border-bottom: 1px solid #FFF;
-}
-
+#parameters{padding:10px;width:230px;height:360px;background-color:#9CD9EC;}
+#parameters h2{padding-bottom:5px;margin-bottom:20px;text-align:center;border-bottom:1px solid #FFF;}
 /* CALCBUTTON
 **************************************************************/
-
-.calcButton {
-	width: 500px;
-	height: 40px;
-	background-color: #E6E6E6;
-	text-align: center;
-}
-
-.calcButton button {
-	width: 30%;
-	height: 65%;
-	position: relative;
-	top: 20%;
-}
-
-.calcButton button:hover {
-	border: 1px solid #A6A6A6;
-}
-
+.calcButton{width:500px;height:40px;background-color:#E6E6E6;text-align:center;}
+.calcButton button{width:30%;height:65%;position:relative;top:20%;}
+.calcButton button:hover{border:1px solid #A6A6A6;}
 /* DAMAGE
 **************************************************************/
-
-#damage {
-	height: 80px;
-	padding: 5px 0 5px 0;
-	background-color: #F1B575;
-	text-align: center;
-}
-
-#damage h1 {
-	margin: 5px 0 5px 0;
-	font-size: 24px;
-}
-
-.damage_table {
-	margin: auto;
-	border: #000 solid 2px;
-}
-
-.damage_table th {
-	width: 100px;
-	padding: 5px;
-}
-
-.damage_table tr {
-	border-bottom: #000 solid 1px;
-}
-
+#damage{height:80px;padding:5px 0 5px 0;background-color:#F1B575;text-align:center;}
+#damage h1{margin:5px 0 5px 0;font-size:24px;}
+.damage_table{margin:auto;border:#000 solid 2px;}
+.damage_table th{width:100px;padding:5px;}
+.damage_table tr{border-bottom:#000 solid 1px;}
 /* FOOTER
 **************************************************************/
-
-#footer { padding: 5px 0 0 0; border-top: 1px solid #AAA; }
-
-#footer p { text-align: center; }
-
+#footer{padding:5px 0 0 0;border-top:1px solid #AAA;}
+#footer p{text-align:center;}
 /* EXTRA CLASSES
 **************************************************************/
-
-.center {
-	margin: auto;
-}
-
-.clear {
-	clear: both;
-}
-
-.left {
-	float: left;
-}
-
-.right {
-	float: right;
-}
+.center{margin:auto;}
+.clear{clear:both;}
+.left{float:left;}
+.right{float:right;}
