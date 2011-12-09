@@ -6,8 +6,8 @@ New designed Pokemon damageCalc
 
 // Set the initial value of drop down lists
 $("#parameters select[name='effect']").val("1x");
-$("#pkmn select[name='atkStatModifier']").val("0");
-$("#pkmn select[name='defStatModifier']").val("0");
+$("#offensive select[name='atkStatModifier']").val("0");
+$("#defensive select[name='defStatModifier']").val("0");
 
 // If you need to set a checkbox, use this:
 // $(SELECTOR).attr("checked", true);

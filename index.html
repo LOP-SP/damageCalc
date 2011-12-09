@@ -3,31 +3,26 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-	<title>Calculadora de dano para os jogos Pok&eacute;mon</title>
+	<title>Mojambo | Calculadora de dano para os jogos Pok&eacute;mon</title>
 
 	<link rel="stylesheet" type="text/css" href="stylesheet/stylesheet.css" />
 </head>
 
 <body>
-<div id="header">
-	<div class="right"><a href="http://www.github.com/agarie/damagecalc" target="_blank"><img src="http://i4.photobucket.com/albums/y108/SirAuronz/fork_me_github.png" border="0" alt="Photobucket"></a></div>
-</div>
 
 <div id="container">
 
-	<div id="content">
+	<div id="damagecalc">
 
 		<div id="info">
-
-			<div id="pkmn" class="left">
-
-			<div id="offensive">
+			
+			<div id="offensive" class="left">
 			<form>
-				<h2>Offensive</h2>
+				<h2>Atacante</h2>
 				
 				<label for="atk">Atk/SAtk:</label> <input type="text" name="atk" /><br />
-				<label for="level">Level:</label> <input type="text" name="level" value="100" /><br />
-				<label for="atkStatModifier">Stat Modifier:</label>
+				<label for="level">Nível:</label> <input type="text" name="level" value="100" /><br />
+				<label for="atkStatModifier">Modificadores de stat:</label>
 					<select name="atkStatModifier">
 						<option value="6">+6</option>
 						<option value="5">+5</option>
@@ -46,13 +41,13 @@
 			</form>
 			</div> <!-- offensive -->
 
-			<div id="defensive">
+			<div id="defensive" class="right">
 			<form>
-				<h2>Defensive</h2>
+				<h2>Defensor</h2>
 				
 				<label for="def">Def/SDef:</label> <input type="text" name="def" /><br />
 				<label for="hp">HP:</label> <input type="text" name="hp" /><br />
-				<label for="defStatModifier">Stat Modifier:</label> 
+				<label for="defStatModifier">Modificadores de stat:</label> 
 					<select name="defStatModifier">
 						<option value="6">+6</option>
 						<option value="5">+5</option>
@@ -70,14 +65,15 @@
 					</select>
 			</form>
 			</div> <!-- defensive -->
-			</div> <!-- pkmn -->
+
+			<div class="clear"></div>
 
 			<div id="parameters" class="left">
 			<form>
-				<h2>Parameters</h2>
+				<h2>Parâmetros</h2>
 				
 				<label for="basePower">Base Power:</label> <input type="text" name="basePower"/><br />
-				<label for="effect">Effectiveness:</label>
+				<label for="effect">Efeito</label>
 					<select name="effect">
 						<option value="4x">4x</option>
 					    <option value="2x">2x</option>
@@ -86,33 +82,30 @@
 					    <option value="0.25x">0.25x</option>
 				    </select><br />	
 				<label for="stab">STAB:</label> <input type="checkbox" name="stab" /><br />
-				<label for="isBurn">Burned?</label> <input type="checkbox" name="isBurn" /><br />
-				<label for="isReflectLightScreenActive">Reflect/Light Screen?</label> <input type="checkbox" name="isReflectLightScreenActive" /><br />
+				<label for="isBurn">Queimado?</label> <input type="checkbox" name="isBurn" /><br />
+				<label for="isReflectLightScreenActive">Reflect / Light Screen?</label> <input type="checkbox" name="isReflectLightScreenActive" /><br />
 				<label for="isSunnyDayRainDanceActive">Sunny Day / Rain Dance?</label> <input type="checkbox" name="isSunnyDayRainDanceActive" /><br>
-				<label for="isFlashFireActive">Flash Fire activated?</label> <input type="checkbox" name="isFlashFireActive" /><br>
-				<label for="equipLifeOrb">Is Life Orb equipped?</label> <input type="checkbox" name="equipLifeOrb" /><br>
+				<label for="isFlashFireActive">Flash Fire?</label> <input type="checkbox" name="isFlashFireActive" /><br>
+				<label for="equipLifeOrb">Life Orb?</label> <input type="checkbox" name="equipLifeOrb" /><br>
 				<label for="hasSolidRockFilter">Solid Rock / Filter?</label> <input type="checkbox" name="hasSolidRockFilter" /><br>
-				<label for="equipExpertBelt">Is Expert Belt equipped?</label> <input type="checkbox" name="equipExpertBelt" /><br>
+				<label for="equipExpertBelt">Expert Belt?</label> <input type="checkbox" name="equipExpertBelt" /><br>
 				<label for="hasTintedLens">Tinted Lens?</label> <input type="checkbox" name="hasTintedLens" /><br>
-				<label for="isResistBerryActive">Resist berry activated?</label> <input type="checkbox" name="isResistBerryActive" /><br>
+				<label for="isResistBerryActive">Resist berry?</label> <input type="checkbox" name="isResistBerryActive" /><br>
 				<label for="isCriticalHit">Critical Hit?</label> <input type="checkbox" name="isCriticalHit" /><br>
 			</form>
 			</div> <!-- parameters -->
 			
-			<div class="calcButton left"><button type="button" name="calculate">CALCULATE</button></div>
+			<div class="calcButton left"><button type="button" name="calculate">CALCULAR</button></div>
 
 		</div> <!-- info -->
 
-	<div id="damage" class="clear"><h1>Damage results</h1></div>
+	<div id="damage" class="clear"><h1>Resultados</h1></div>
 
 	</div> <!-- content -->
-	
-	<div id="footer">
-		<p>damageCalc &copy; 2011 Carlos Agarie, Pokémon &copy; 1995 - 2011 Nintendo<p>
-	</div>
+
 </div> <!-- container -->
 
-<script language="javascript" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="lib/jquery.min.js"></script>
 <script language="javascript" type="text/javascript" src="src/damagecalc.js"></script>
 </body>
 </html>
