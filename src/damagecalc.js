@@ -22,29 +22,28 @@ var DAMAGECALC = (function () {
 		
 		var setPokemonStats = function () {
 			// Get the parameters from the UI
-			stats.level = $("input[name='level']").val() || 100;
-			stats.atk = $("input[name='atk']").val();
+			stats.level = $("#damagecalc input[name='level']").val() || 100;
+			stats.atk = $("#damagecalc input[name='atk']").val();
 			stats.atkStatModifier = $(" select[name='atkStatModifier']").val();
-			stats.def = $("input[name='def']").val();
+			stats.def = $("#damagecalc input[name='def']").val();
 			stats.defStatModifier = $(" select[name='defStatModifier']").val();
-			stats.hp = $("input[name='hp']").val();
-			stats.basePower = $("input[name='basePower']").val();
-			stats.stab = $("input[name='stab']").is(':checked');
-			stats.isCriticalHit = $("input[name='isCriticalHit']").is(':checked');
+			stats.hp = $("#damagecalc input[name='hp']").val();
+			stats.basePower = $("#damagecalc input[name='basePower']").val();
+			stats.stab = $("#damagecalc input[name='stab']").is(':checked');
 			stats.effect = $("select[name='effect']").val();
 			// Mod1 variables
-			stats.isBurn = $("input[name='isBurn']").is(':checked');
-			stats.isReflectLightScreenActive = $("input[name='isReflectLightScreenActive']").is(':checked');
-			stats.isDoubleBattle = $("input[name='isDoubleBattle']").is(':checked');
-			stats.isSunnyDayRainDanceActive = $("input[name='isSunnyDayRainDanceActive']").is(':checked');
-			stats.isFlashFireActive = $("input[name='isFlashFireActive']").is(':checked');
+			stats.isBurn = $("#damagecalc input[name='isBurn']").is(':checked');
+			stats.isReflectLightScreenActive = $("#damagecalc input[name='isReflectLightScreenActive']").is(':checked');
+			stats.isDoubleBattle = $("#damagecalc input[name='isDoubleBattle']").is(':checked');
+			stats.isSunnyDayRainDanceActive = $("#damagecalc input[name='isSunnyDayRainDanceActive']").is(':checked');
+			stats.isFlashFireActive = $("#damagecalc input[name='isFlashFireActive']").is(':checked');
 			// Mod2 variables
-			stats.equipLifeOrb = $("input[name='equipLifeOrb']").is(':checked');
+			stats.equipLifeOrb = $("#damagecalc input[name='equipLifeOrb']").is(':checked');
 			// Mod3 variables
-			stats.hasSolidRockFilter = $("input[name='hasSolidRockFilter']").is(':checked');
-			stats.equipExpertBelt = $("input[name='equipExpertBelt']").is(':checked');
-			stats.hasTintedLens = $("input[name='hasTintedLens']").is(':checked');
-			stats.isResistBerryActive = $("input[name='isResistBerryActive']").is(':checked');
+			stats.hasSolidRockFilter = $("#damagecalc input[name='hasSolidRockFilter']").is(':checked');
+			stats.equipExpertBelt = $("#damagecalc input[name='equipExpertBelt']").is(':checked');
+			stats.hasTintedLens = $("#damagecalc input[name='hasTintedLens']").is(':checked');
+			stats.isResistBerryActive = $("#damagecalc input[name='isResistBerryActive']").is(':checked');
 
 			stats.mod1 = 1;
 			stats.mod2 = 1;
@@ -63,8 +62,16 @@ var DAMAGECALC = (function () {
 			
 			results.level = stats.level;
 			
-			results.minDamage = calculatorModel.calcDamage(stats, "min");
-			results.maxDamage = calculatorModel.calcDamage(stats, "max");
+			results.minDamage = calculatorModel.calcDamage({
+				stats: stats,
+				range: "min"
+				});
+			results.maxDamage = calculatorModel.calcDamage({
+				stats: stats,
+				range: "max"
+				});
+			// results.minCriticalDamage = 
+			// results.maxCriticalDamage = 
 		
 			// Calculation of the damage percentages
 			results.minDamagePercentage = calculatorModel.damagePercentage(stats.hp, results.minDamage);
@@ -104,8 +111,11 @@ var DAMAGECALC = (function () {
 		//
 		// Also implement a way to generalize this function, for it to return all the possible values,
 		// not just the max or min. 
-		var calcDamage = function (stats, isMaxOrMin) {
-			var damage = 0;
+		var calcDamage = function (input) {
+			var damage = 0,
+					stats = input.stats,
+					isMaxOrMin = input.range || 1,
+					isCriticalHit = input.critical || 1;
 		
 			if (typeof isMaxOrMin !== "string" || isMaxOrMin > 1 || isMaxOrMin < 0.85) {
 				console.log("ERROR: isMaxOrMin (in calculatorModel) must be a string or a number between 0.85 and 1!");
@@ -125,7 +135,9 @@ var DAMAGECALC = (function () {
 			damage = Math.floor( damage * stats.basePower * stats.atk / 50 );
 			damage = Math.floor( damage / stats.def );
 			damage = Math.floor( damage * stats.mod1 + 2 );
-			damage = Math.floor( damage * stats.isCriticalHit );
+			// TODO: Need to create a better way to handle CHs
+			// adapting to the new "always output CH" way
+			// damage = Math.floor( damage * stats.isCriticalHit );
 			damage = Math.floor( damage * stats.mod2 );
 			
 			// This is where the randomness takes place.
@@ -456,28 +468,6 @@ var DAMAGECALC = (function () {
 			return parseFloat(resistBerryMultiplier);
 		};
 
-		// This function DOESNT consider if the user has the Sniper ability
-		var parseCriticalHit = function (isCriticalHit) {
-			var criticalHitMultiplier;
-
-			// Protection from misuse
-			if (typeof isCriticalHit === "number" && (isCriticalHit !== 2 || isCriticalHit !== 1)) {
-				console.log("ERROR: isCriticalHit must be a string or, if a number, 1 or 2");
-			}
-			else {
-				criticalHitMultiplier = isCriticalHit;
-			}
-
-			if (isCriticalHit === true) {
-				criticalHitMultiplier = 2;
-			}
-			else {
-				criticalHitMultiplier = 1;
-			}
-
-			return parseFloat(criticalHitMultiplier);
-		};
-
 		// Must be called AFTER the other parser methods
 		var setMod1 = function (stats) {
 			var mod1 = 1;
@@ -542,7 +532,6 @@ var DAMAGECALC = (function () {
 				stats.equipExpertBelt = parseExpertBelt(stats.equipExpertBelt);
 				stats.hasTintedLens = parseTintedLens(stats.hasTintedLens, stats.effect);
 				stats.isResistBerryActive = parseResistBerry(stats.isResistBerryActive);
-				stats.isCriticalHit = parseCriticalHit(stats.isCriticalHit);
 
 				// Modifiers 1, 2 and 3 are calculated
 				stats.mod1 = setMod1(stats);
