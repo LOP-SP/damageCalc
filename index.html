@@ -40,6 +40,20 @@
 				</select><br />
 				<label for="basePower">Base Power:</label> <input type="text" name="basePower" size="3" maxlength="3" /><br />
 				<label for="stab">STAB:</label> <input type="checkbox" name="stab" /><br />
+				<label for="isFlashFireActive">Flash Fire?</label> <input type="checkbox" name="isFlashFireActive" /><br>
+				<label for="equipLifeOrb">Life Orb?</label> <input type="checkbox" name="equipLifeOrb" /><br>
+				<label for="isBurn">Queimado?</label> <input type="checkbox" name="isBurn" /><br />
+				<label for="hasSolidRockFilter">Solid Rock / Filter?</label> <input type="checkbox" name="hasSolidRockFilter" /><br>
+				<label for="equipExpertBelt">Expert Belt?</label> <input type="checkbox" name="equipExpertBelt" /><br>
+				<label for="hasTintedLens">Tinted Lens?</label> <input type="checkbox" name="hasTintedLens" /><br>
+				<label for="effect">Efeito</label>
+					<select name="effect">
+						<option value="4x">4x</option>
+					    <option value="2x">2x</option>
+					    <option value="1x">1x</option>
+					    <option value="0.5x">0.5x</option>
+					    <option value="0.25x">0.25x</option>
+				    </select><br />
 			</form>
 			</div> <!-- offensive -->
 
@@ -66,40 +80,17 @@
 						<option value="-6">-6</option>
 					</select><br />
 					<label for="isResistBerryActive">Resist berry?</label> <input type="checkbox" name="isResistBerryActive" /><br>
+					<label for="isReflectLightScreenActive">Reflect / Light Screen?</label> <input type="checkbox" name="isReflectLightScreenActive" /><br />
 			</form>
 			</div> <!-- defensive -->
 
 			<div class="clear"></div>
-
-			<div id="parameters" class="left">
-			<form>
-				<h2>Parâmetros</h2>
-				
-				<label for="effect">Efeito</label>
-					<select name="effect">
-						<option value="4x">4x</option>
-					    <option value="2x">2x</option>
-					    <option value="1x">1x</option>
-					    <option value="0.5x">0.5x</option>
-					    <option value="0.25x">0.25x</option>
-				    </select><br />	
-				<label for="isBurn">Queimado?</label> <input type="checkbox" name="isBurn" /><br />
-				<label for="isReflectLightScreenActive">Reflect / Light Screen?</label> <input type="checkbox" name="isReflectLightScreenActive" /><br />
-				<label for="isSunnyDayRainDanceActive">Sunny Day / Rain Dance?</label> <input type="checkbox" name="isSunnyDayRainDanceActive" /><br>
-				<label for="isFlashFireActive">Flash Fire?</label> <input type="checkbox" name="isFlashFireActive" /><br>
-				<label for="equipLifeOrb">Life Orb?</label> <input type="checkbox" name="equipLifeOrb" /><br>
-				<label for="hasSolidRockFilter">Solid Rock / Filter?</label> <input type="checkbox" name="hasSolidRockFilter" /><br>
-				<label for="equipExpertBelt">Expert Belt?</label> <input type="checkbox" name="equipExpertBelt" /><br>
-				<label for="hasTintedLens">Tinted Lens?</label> <input type="checkbox" name="hasTintedLens" /><br>
-				<label for="isCriticalHit">Critical Hit?</label> <input type="checkbox" name="isCriticalHit" /><br>
-			</form>
-			</div> <!-- parameters -->
 			
 			<div class="calcButton left"><button type="button" name="calculate">CALCULAR</button></div>
 
 		</div> <!-- info -->
-
-	<div id="damage" class="clear"><h1>Resultados</h1></div>
+	
+	<div id="damage" class="clear"></div>
 
 	</div> <!-- damagecalc -->
 

@@ -5,9 +5,9 @@ New designed Pokemon damageCalc
 "use strict";
 
 // Set the initial value of drop down lists
-$("#parameters select[name='effect']").val("1x");
-$("#offensive select[name='atkStatModifier']").val("0");
-$("#defensive select[name='defStatModifier']").val("0");
+$("select[name='effect']").val("1x");
+$("select[name='atkStatModifier']").val("0");
+$("select[name='defStatModifier']").val("0");
 
 // If you need to set a checkbox, use this:
 // $(SELECTOR).attr("checked", true);
@@ -22,29 +22,29 @@ var DAMAGECALC = (function () {
 		
 		var setPokemonStats = function () {
 			// Get the parameters from the UI
-			stats.level = $("#pkmn input[name='level']").val() || 100;
-			stats.atk = $("#pkmn input[name='atk']").val();
-			stats.atkStatModifier = $("#pkmn select[name='atkStatModifier']").val();
-			stats.def = $("#pkmn input[name='def']").val();
-			stats.defStatModifier = $("#pkmn select[name='defStatModifier']").val();
-			stats.hp = $("#pkmn input[name='hp']").val();
-			stats.basePower = $("#parameters input[name='basePower']").val();
-			stats.stab = $("#parameters input[name='stab']").is(':checked');
-			stats.isCriticalHit = $("#parameters input[name='isCriticalHit']").is(':checked');
-			stats.effect = $("#parameters select[name='effect']").val();
+			stats.level = $("input[name='level']").val() || 100;
+			stats.atk = $("input[name='atk']").val();
+			stats.atkStatModifier = $(" select[name='atkStatModifier']").val();
+			stats.def = $("input[name='def']").val();
+			stats.defStatModifier = $(" select[name='defStatModifier']").val();
+			stats.hp = $("input[name='hp']").val();
+			stats.basePower = $("input[name='basePower']").val();
+			stats.stab = $("input[name='stab']").is(':checked');
+			stats.isCriticalHit = $("input[name='isCriticalHit']").is(':checked');
+			stats.effect = $("select[name='effect']").val();
 			// Mod1 variables
-			stats.isBurn = $("#parameters input[name='isBurn']").is(':checked');
-			stats.isReflectLightScreenActive = $("#parameters input[name='isReflectLightScreenActive']").is(':checked');
-			stats.isDoubleBattle = $("#parameters input[name='isDoubleBattle']").is(':checked');
-			stats.isSunnyDayRainDanceActive = $("#parameters input[name='isSunnyDayRainDanceActive']").is(':checked');
-			stats.isFlashFireActive = $("#parameters input[name='isFlashFireActive']").is(':checked');
+			stats.isBurn = $("input[name='isBurn']").is(':checked');
+			stats.isReflectLightScreenActive = $("input[name='isReflectLightScreenActive']").is(':checked');
+			stats.isDoubleBattle = $("input[name='isDoubleBattle']").is(':checked');
+			stats.isSunnyDayRainDanceActive = $("input[name='isSunnyDayRainDanceActive']").is(':checked');
+			stats.isFlashFireActive = $("input[name='isFlashFireActive']").is(':checked');
 			// Mod2 variables
-			stats.equipLifeOrb = $("#parameters input[name='equipLifeOrb']").is(':checked');
+			stats.equipLifeOrb = $("input[name='equipLifeOrb']").is(':checked');
 			// Mod3 variables
-			stats.hasSolidRockFilter = $("#parameters input[name='hasSolidRockFilter']").is(':checked');
-			stats.equipExpertBelt = $("#parameters input[name='equipExpertBelt']").is(':checked');
-			stats.hasTintedLens = $("#parameters input[name='hasTintedLens']").is(':checked');
-			stats.isResistBerryActive = $("#parameters input[name='isResistBerryActive']").is(':checked');
+			stats.hasSolidRockFilter = $("input[name='hasSolidRockFilter']").is(':checked');
+			stats.equipExpertBelt = $("input[name='equipExpertBelt']").is(':checked');
+			stats.hasTintedLens = $("input[name='hasTintedLens']").is(':checked');
+			stats.isResistBerryActive = $("input[name='isResistBerryActive']").is(':checked');
 
 			stats.mod1 = 1;
 			stats.mod2 = 1;
@@ -180,9 +180,9 @@ var DAMAGECALC = (function () {
 			//
 			$("#damage").empty().hide();
 
-			outputTable = "<h1>Damage results</h1>";
-			outputTable += "<div class='damageTable'>";
-			outputTable += "<h2>Level " + results.level + "</h2>";
+			
+			outputTable += "<div class='damageTable damage'>";
+			outputTable += "<h1>Resultados (Nível " + results.level + ")</h1>";
 
 			outputTable += results.minDamagePercentage + "% - " + results.maxDamagePercentage + "% (";
 
