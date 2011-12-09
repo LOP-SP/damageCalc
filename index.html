@@ -20,8 +20,8 @@
 			<form>
 				<h2>Atacante</h2>
 				
-				<label for="atk">Atk/SAtk:</label> <input type="text" name="atk" /><br />
-				<label for="level">Nível:</label> <input type="text" name="level" value="100" /><br />
+				<label for="atk">Atk/SAtk:</label> <input type="text" name="atk" size="3" maxlength="3" /><br />
+				<label for="level">Nível:</label> <input type="text" name="level" value="100" size="3" maxlength="3" /><br />
 				<label for="atkStatModifier">Modificadores de stat:</label>
 					<select name="atkStatModifier">
 						<option value="6">+6</option>
@@ -37,7 +37,9 @@
 						<option value="-4">-4</option>
 						<option value="-5">-5</option>
 						<option value="-6">-6</option>
-				</select>
+				</select><br />
+				<label for="basePower">Base Power:</label> <input type="text" name="basePower" size="3" maxlength="3" /><br />
+				<label for="stab">STAB:</label> <input type="checkbox" name="stab" /><br />
 			</form>
 			</div> <!-- offensive -->
 
@@ -45,8 +47,8 @@
 			<form>
 				<h2>Defensor</h2>
 				
-				<label for="def">Def/SDef:</label> <input type="text" name="def" /><br />
-				<label for="hp">HP:</label> <input type="text" name="hp" /><br />
+				<label for="def">Def/SDef:</label> <input type="text" name="def" size="3" maxlength="3" /><br />
+				<label for="hp">HP:</label> <input type="text" name="hp" size="3" maxlength="3" /><br />
 				<label for="defStatModifier">Modificadores de stat:</label> 
 					<select name="defStatModifier">
 						<option value="6">+6</option>
@@ -62,7 +64,8 @@
 						<option value="-4">-4</option>
 						<option value="-5">-5</option>
 						<option value="-6">-6</option>
-					</select>
+					</select><br />
+					<label for="isResistBerryActive">Resist berry?</label> <input type="checkbox" name="isResistBerryActive" /><br>
 			</form>
 			</div> <!-- defensive -->
 
@@ -72,7 +75,6 @@
 			<form>
 				<h2>Parâmetros</h2>
 				
-				<label for="basePower">Base Power:</label> <input type="text" name="basePower"/><br />
 				<label for="effect">Efeito</label>
 					<select name="effect">
 						<option value="4x">4x</option>
@@ -81,7 +83,6 @@
 					    <option value="0.5x">0.5x</option>
 					    <option value="0.25x">0.25x</option>
 				    </select><br />	
-				<label for="stab">STAB:</label> <input type="checkbox" name="stab" /><br />
 				<label for="isBurn">Queimado?</label> <input type="checkbox" name="isBurn" /><br />
 				<label for="isReflectLightScreenActive">Reflect / Light Screen?</label> <input type="checkbox" name="isReflectLightScreenActive" /><br />
 				<label for="isSunnyDayRainDanceActive">Sunny Day / Rain Dance?</label> <input type="checkbox" name="isSunnyDayRainDanceActive" /><br>
@@ -90,7 +91,6 @@
 				<label for="hasSolidRockFilter">Solid Rock / Filter?</label> <input type="checkbox" name="hasSolidRockFilter" /><br>
 				<label for="equipExpertBelt">Expert Belt?</label> <input type="checkbox" name="equipExpertBelt" /><br>
 				<label for="hasTintedLens">Tinted Lens?</label> <input type="checkbox" name="hasTintedLens" /><br>
-				<label for="isResistBerryActive">Resist berry?</label> <input type="checkbox" name="isResistBerryActive" /><br>
 				<label for="isCriticalHit">Critical Hit?</label> <input type="checkbox" name="isCriticalHit" /><br>
 			</form>
 			</div> <!-- parameters -->
@@ -101,7 +101,7 @@
 
 	<div id="damage" class="clear"><h1>Resultados</h1></div>
 
-	</div> <!-- content -->
+	</div> <!-- damagecalc -->
 
 </div> <!-- container -->
 
