@@ -48,6 +48,8 @@ li{line-height:1.8em;}
 **************************************************************/
 #damagecalc #offensive,
 #damagecalc #defensive{padding:10px 0 10px 0;width:50%;background-color:#9CDE82;}
+#damagecalc #offensive form,
+#damagecalc #defensive form{padding: 0 10px 0 10px;}
 #damagecalc #offensive h2,
 #damagecalc #defensive h2{padding-bottom:5px;margin-bottom:20px;text-align:center;border-bottom:1px solid #FFF;}
 #damagecalc #offensive #level input{width:23px;}
