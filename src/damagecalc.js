@@ -41,6 +41,7 @@ var DAMAGECALC = (function () {
 				isSandForceActive: $("#damagecalc input[name='isSandForceActive']").is(':checked'),
 				isGutsActive: $("#damagecalc input[name='isGutsActive']").is(':checked'),
 				equipChoice: $("#damagecalc input[name='equipChoice']").is(':checked'),
+				equipPlate: $("#damagecalc input[name='equipPlate']").is(':checked'),
 				equipSoulDew: $("#damagecalc input[name='equipSoulDew']").is(':checked'),
 				equipEviolite: $("#damagecalc input[name='equipEviolite']").is(':checked'),
 				hasMultiscale: $("#damagecalc input[name='hasMultiscale']").is(':checked'),
@@ -67,12 +68,29 @@ var DAMAGECALC = (function () {
 			return results;
 		};
 	
+		var updateStats = function (stats) {
+			// Updates the Attack and Defense
+			stats.atk = stats.atk * stats.atkStatModifier;
+			stats.def = stats.def * stats.defStatModifier;
+		
+			if (stats.basePower <= 60) {
+				stats.basePower = stats.basePower * stats.hasTechnician;
+			}
+		
+			stats.basePower = stats.basePower * stats.isSandForceActive * stats.hasSheerForce * stats.hasReckless * stats.equipPlate;
+						
+			stats.atk = stats.atk * stats.equipChoice * stats.equipSoulDew * stats.isGutsActive * stats.hasPurePower;
+		
+			stats.def = stats.def * stats.hasMarvelScale * stats.equipEviolite;
+		}
+	
 		// Calculates the damage usign calculatorModel's methods
 		// and assigns it to the results private variable.
 		var calcResults = function () {
 			setPokemonStats();
 			battleModifier.superParser(stats);
-			
+			updateStats(stats);
+
 			results.level = stats.level;
 			
 			results.minDamage = calculatorModel.calcDamage({
@@ -121,7 +139,7 @@ var DAMAGECALC = (function () {
 		return {
 			getResults: getResults,
 			calcResults: calcResults,
-			calcAllResults : calcAllResults
+			calcAllResults: calcAllResults
 		};
 	})(); // pokemonBattle
 
@@ -155,8 +173,23 @@ var DAMAGECALC = (function () {
 			// After each "step" in the damage formula, we need to round down the result.
 			damage = Math.floor( ( ( stats.level * 2 ) / 5 ) + 2 );
 			damage = Math.floor( damage * stats.basePower * stats.atk / 50 );
-			damage = Math.floor( damage / stats.def );
-			damage = Math.floor( damage * stats.mod1 + 2 );
+			
+			// Critical hits ignores defense multipliers...
+			if (isCriticalHit === 2) {
+				damage = Math.floor( damage * stats.defStatModifier / stats.def );
+			}
+			else {
+				damage = Math.floor( damage / stats.def );
+			}
+			
+			// ... and Reflect/Light Screen.
+			if (stats.isReflectActive !== 1 && isCriticalHit === 2) {
+				damage = Math.floor( ( damage * stats.mod1 * 2 ) + 2 ); 
+			}
+			else {
+				damage = Math.floor( damage * stats.mod1 + 2 );
+			}
+			
 			damage = Math.floor( damage * isCriticalHit );
 			damage = Math.floor( damage * stats.mod2 );
 			
@@ -323,24 +356,12 @@ var DAMAGECALC = (function () {
 		};
 
 		var parseReflectLightScreen = function (isReflectActive) {
-			var reflectLightScreenMultiplier;
-
-			// Protection from misuse
-			if (typeof isReflectActive === "number" && (isReflectActive !== 0.5 || isReflectActive !== 1)) {
-				console.log("ERROR: isReflectActive must be a string or, if a number, 1 or 0.5");
-			}
-			else if (typeof isReflectActive === "number") {
-				reflectLightScreenMultiplier = isReflectActive;
-			}
-
-			if (isReflectActive === true) {
-				reflectLightScreenMultiplier = 0.5;
+      if (isReflectActive) {
+				return parseFloat(0.5);
 			}
 			else {
-				reflectLightScreenMultiplier = 1;
+				return 1;
 			}
-			
-			return parseFloat(reflectLightScreenMultiplier);
 		};
 
 		// This function ASSUMES that the move being used is boosted by the weather
@@ -592,6 +613,15 @@ var DAMAGECALC = (function () {
 			}
 		}
 
+		var parsePlate = function (equipPlate) {
+			if (equipPlate) {
+				return parseFloat(1.2);
+			}
+			else{
+				return 1;
+			}
+		}
+
 		// Must be called AFTER the other parser methods
 		var setMod1 = function (stats) {
 			var mod1 = 1;
@@ -640,11 +670,6 @@ var DAMAGECALC = (function () {
 
 				stats.atkStatModifier = parseStatModifier(stats.atkStatModifier);
 				stats.defStatModifier = parseStatModifier(stats.defStatModifier);
-
-				// Updates the Attack and Defense stats with the modifiers
-				stats.atk = stats.atk * stats.atkStatModifier;
-				stats.def = stats.def * stats.defStatModifier;
-
 				stats.stab = parseStab(stats.stab);
 				stats.effect = parseEffectiveness(stats.effect);
 				stats.isBurn = parseBurn(stats.isBurn);	
@@ -667,21 +692,12 @@ var DAMAGECALC = (function () {
 				stats.isSandForceActive = parseSandForce(stats.isSandForceActive);
 				stats.hasSheerForce = parseSheerForce(stats.hasSheerForce);
 				stats.hasReckless = parseReckless(stats.hasReckless);
-				
-				if (stats.basePower <= 60) {
-					stats.basePower = stats.basePower * stats.hasTechnician;
-				}
-				
-				stats.basePower = stats.basePower * stats.isSandForceActive * stats.hasSheerForce * stats.hasReckless;
-								
-				stats.atk = stats.atk * stats.equipChoice * stats.equipSoulDew * stats.isGutsActive * stats.hasPurePower;
-				
-				stats.def = stats.def * stats.hasMarvelScale * stats.equipEviolite;
+				stats.equipPlate = parsePlate(stats.equipPlate);
 
 				// Modifiers 1, 2 and 3 are calculated
 				stats.mod1 = setMod1(stats);
 				stats.mod2 = setMod2(stats);
-				stats.mod3 = setMod3(stats);
+				stats.mod3 = setMod3(stats);				
 			}
 		};
 	})(); // battleModifiers

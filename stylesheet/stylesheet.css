@@ -39,7 +39,7 @@ li{line-height:1.8em;}
 .menu a:hover{background-color:#E6E6E6;color:#000;}
 /* DAMAGECALC
 **************************************************************/
-#damagecalc{padding:0 0 0 0;background-color:#41B7A4;}
+#damagecalc{padding:0 0 0 0;background:url(http://www.mojambo.net/forum/styles/Artodia_Air/theme/images/hdr2_br.gif) bottom right no-repeat,url(http://www.mojambo.net/forum/styles/Artodia_Air/theme/images/hdr2_bl.gif) bottom left no-repeat,url(http://www.mojambo.net/forum/styles/Artodia_Air/theme/images/hdr2_r.gif) top right repeat-y,url(http://www.mojambo.net/forum/styles/Artodia_Air/theme/images/hdr2_l.gif) top left repeat-y,#ECECEC url(http://www.mojambo.net/forum/styles/Artodia_Air/theme/images/hdr2_b.gif) bottom left repeat-x}
 /* INFO
 **************************************************************/
 #damagecalc #info{width:100%;}
@@ -49,7 +49,7 @@ li{line-height:1.8em;}
 #damagecalc #offensive,
 #damagecalc #defensive{padding:10px 0 10px 0;width:50%;}
 #damagecalc #offensive form,
-#damagecalc #defensive form{padding: 0 10px 0 10px;}
+#damagecalc #defensive form{padding:0 10px 0 10px;}
 #damagecalc #offensive h2,
 #damagecalc #defensive h2{padding-bottom:5px;margin-bottom:20px;text-align:center;border-bottom:1px solid #FFF;}
 #damagecalc #offensive #level input{width:23px;}
@@ -62,7 +62,7 @@ li{line-height:1.8em;}
 **************************************************************/
 #damagecalc .damage{padding:5px 0 5px 0;background-color:#F1B575;text-align:center;}
 #damagecalc .damage h2{padding:5px 0 0 0;margin-bottom:20px;text-align:center;}
-#damagecalc span{padding: 0 0 30px 0;}
+#damagecalc span{padding:0 0 30px 0;}
 #damagecalc span.critical{color:#990009;}
 /* EXTRA CLASSES
 **************************************************************/
