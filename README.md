@@ -2,7 +2,7 @@ damageCalc
 Author: Carlos Agarie  
 Author URL: www.onox.com.br  
 Project URL: www.github.com/agarie/damagecalc  
-Version: 0.8  
+Version: 1.0
 License: MIT License   
 
 INTRODUCTION

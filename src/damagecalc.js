@@ -22,32 +22,33 @@ var DAMAGECALC = (function () {
 		
 		var setPokemonStats = function () {
 			// Get the parameters from the UI
-			stats.level = $("#damagecalc input[name='level']").val() || 100;
-			stats.atk = $("#damagecalc input[name='atk']").val();
-			stats.atkStatModifier = $(" select[name='atkStatModifier']").val();
-			stats.def = $("#damagecalc input[name='def']").val();
-			stats.defStatModifier = $(" select[name='defStatModifier']").val();
-			stats.hp = $("#damagecalc input[name='hp']").val();
-			stats.basePower = $("#damagecalc input[name='basePower']").val();
-			stats.stab = $("#damagecalc input[name='stab']").is(':checked');
-			stats.effect = $("select[name='effect']").val();
-			// Mod1 variables
-			stats.isBurn = $("#damagecalc input[name='isBurn']").is(':checked');
-			stats.isReflectLightScreenActive = $("#damagecalc input[name='isReflectLightScreenActive']").is(':checked');
-			stats.isDoubleBattle = $("#damagecalc input[name='isDoubleBattle']").is(':checked');
-			stats.isSunnyDayRainDanceActive = $("#damagecalc input[name='isSunnyDayRainDanceActive']").is(':checked');
-			stats.isFlashFireActive = $("#damagecalc input[name='isFlashFireActive']").is(':checked');
-			// Mod2 variables
-			stats.equipLifeOrb = $("#damagecalc input[name='equipLifeOrb']").is(':checked');
-			// Mod3 variables
-			stats.hasSolidRockFilter = $("#damagecalc input[name='hasSolidRockFilter']").is(':checked');
-			stats.equipExpertBelt = $("#damagecalc input[name='equipExpertBelt']").is(':checked');
-			stats.hasTintedLens = $("#damagecalc input[name='hasTintedLens']").is(':checked');
-			stats.isResistBerryActive = $("#damagecalc input[name='isResistBerryActive']").is(':checked');
-
-			stats.mod1 = 1;
-			stats.mod2 = 1;
-			stats.mod3 = 1;
+			stats = {
+				level: $("#damagecalc input[name='level']").val() || 100,
+				atk: $("#damagecalc input[name='atk']").val(),
+				atkStatModifier: $(" select[name='atkStatModifier']").val(),
+				def: $("#damagecalc input[name='def']").val(),
+				defStatModifier: $(" select[name='defStatModifier']").val(),
+				hp: $("#damagecalc input[name='hp']").val(),
+				basePower: $("#damagecalc input[name='basePower']").val(),
+				stab: $("#damagecalc input[name='stab']").is(':checked'),
+				effect: $("select[name='effect']").val(),
+				// Mod1 variables
+				isBurn: $("#damagecalc input[name='isBurn']").is(':checked'),
+				isReflectActive: $("#damagecalc input[name='isReflectActive']").is(':checked'),
+				isDoubleBattle: $("#damagecalc input[name='isDoubleBattle']").is(':checked'),
+				isSunnyDayRainDanceActive: $("#damagecalc input[name='isSunnyDayRainDanceActive']").is(':checked'),
+				isFlashFireActive: $("#damagecalc input[name='isFlashFireActive']").is(':checked'),
+				// Mod2 variables
+				equipLifeOrb: $("#damagecalc input[name='equipLifeOrb']").is(':checked'),
+				// Mod3 variables
+				hasSolidRock: $("#damagecalc input[name='hasSolidRock']").is(':checked'),
+				equipExpertBelt: $("#damagecalc input[name='equipExpertBelt']").is(':checked'),
+				hasTintedLens: $("#damagecalc input[name='hasTintedLens']").is(':checked'),
+				isResistBerryActive: $("#damagecalc input[name='isResistBerryActive']").is(':checked'),
+				mod1: 1,
+				mod2: 1,
+				mod3: 1
+			}
 		};
 	
 		var getResults = function () {
@@ -307,18 +308,18 @@ var DAMAGECALC = (function () {
 			return parseFloat(burnMultiplier);
 		};
 
-		var parseReflectLightScreen = function (isReflectLightScreenActive) {
+		var parseReflectLightScreen = function (isReflectActive) {
 			var reflectLightScreenMultiplier;
 
 			// Protection from misuse
-			if (typeof isReflectLightScreenActive === "number" && (isReflectLightScreenActive !== 0.5 || isReflectLightScreenActive !== 1)) {
-				console.log("ERROR: isReflectLightScreenActive must be a string or, if a number, 1 or 0.5");
+			if (typeof isReflectActive === "number" && (isReflectActive !== 0.5 || isReflectActive !== 1)) {
+				console.log("ERROR: isReflectActive must be a string or, if a number, 1 or 0.5");
 			}
-			else if (typeof isReflectLightScreenActive === "number") {
-				reflectLightScreenMultiplier = isReflectLightScreenActive;
+			else if (typeof isReflectActive === "number") {
+				reflectLightScreenMultiplier = isReflectActive;
 			}
 
-			if (isReflectLightScreenActive === true) {
+			if (isReflectActive === true) {
 				reflectLightScreenMultiplier = 0.5;
 			}
 			else {
@@ -393,18 +394,18 @@ var DAMAGECALC = (function () {
 			return parseFloat(lifeOrbMultiplier);
 		};
 
-		var parseSolidRockFilter = function (hasSolidRockFilter) {
+		var parseSolidRockFilter = function (hasSolidRock) {
 			var solidRockFilterMultiplier;
 
 			// Protection from misuse
-			if (typeof hasSolidRockFilter === "number" && (hasSolidRockFilter !== 0.75 || hasSolidRockFilter !== 1)) {
-				console.log("ERROR: hasSolidRockFilter must be a string or, if a number, 1 or 0.75");
+			if (typeof hasSolidRock === "number" && (hasSolidRock !== 0.75 || hasSolidRock !== 1)) {
+				console.log("ERROR: hasSolidRock must be a string or, if a number, 1 or 0.75");
 			}
 			else {
-				solidRockFilterMultiplier = hasSolidRockFilter;
+				solidRockFilterMultiplier = hasSolidRock;
 			}
 
-			if (hasSolidRockFilter === true) {
+			if (hasSolidRock === true) {
 				solidRockFilterMultiplier = 0.75;
 			}
 			else {
@@ -484,8 +485,8 @@ var DAMAGECALC = (function () {
 			// Mod1 = BRN × RL × TVT × SR × FF
 
 			mod1 = mod1 * stats.isBurn;
-			mod1 = mod1 * stats.isReflectLightScreenActive;
-			mod1 = mod1 * stats.hasSolidRockFilter;
+			mod1 = mod1 * stats.isReflectActive;
+			mod1 = mod1 * stats.hasSolidRock;
 			mod1 = mod1 * stats.isSunnyDayRainDanceActive;
 			mod1 = mod1 * stats.isFlashFireActive;
 			
@@ -509,7 +510,7 @@ var DAMAGECALC = (function () {
 		var setMod3 = function (stats) {
 			var mod3 = 1;
 
-			mod3 = mod3 * stats.hasSolidRockFilter;
+			mod3 = mod3 * stats.hasSolidRock;
 			mod3 = mod3 * stats.equipExpertBelt;
 			mod3 = mod3 * stats.hasTintedLens;
 			mod3 = mod3 * stats.isResistBerryActive;
@@ -533,11 +534,11 @@ var DAMAGECALC = (function () {
 				stats.stab = parseStab(stats.stab);
 				stats.effect = parseEffectiveness(stats.effect);
 				stats.isBurn = parseBurn(stats.isBurn);	
-				stats.isReflectLightScreenActive = parseReflectLightScreen(stats.isReflectLightScreenActive);
+				stats.isReflectActive = parseReflectLightScreen(stats.isReflectActive);
 				stats.isSunnyDayRainDanceActive = parseSunnyDayRainDance(stats.isSunnyDayRainDanceActive);
 				stats.isFlashFireActive = parseFlashFire(stats.isFlashFireActive);
 				stats.equipLifeOrb = parseLifeOrb(stats.equipLifeOrb);
-				stats.hasSolidRockFilter = parseSolidRockFilter(stats.hasSolidRockFilter);
+				stats.hasSolidRock = parseSolidRockFilter(stats.hasSolidRock);
 				stats.equipExpertBelt = parseExpertBelt(stats.equipExpertBelt);
 				stats.hasTintedLens = parseTintedLens(stats.hasTintedLens, stats.effect);
 				stats.isResistBerryActive = parseResistBerry(stats.isResistBerryActive);
