@@ -1,5 +1,7 @@
 /*
 New designed Pokemon damageCalc
+Author: Carlos "Onox" Agarie
+Version: 1.0
 */
 
 "use strict";
