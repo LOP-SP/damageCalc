@@ -31,7 +31,18 @@ var DAMAGECALC = (function () {
 				hp: $("#damagecalc input[name='hp']").val(),
 				basePower: $("#damagecalc input[name='basePower']").val(),
 				stab: $("#damagecalc input[name='stab']").is(':checked'),
-				effect: $("select[name='effect']").val(),
+				effect: $("#damagecalc select[name='effect']").val(),
+				hasReckless: $("#damagecalc input[name='hasReckless']").is(':checked'),
+				hasTechnician: $("#damagecalc input[name='hasTechnician']").is(':checked'),
+				hasSheerForce: $("#damagecalc input[name='hasSheerForce']").is(':checked'),
+				hasPurePower: $("#damagecalc input[name='hasPurePower']").is(':checked'),
+				isSandForceActive: $("#damagecalc input[name='isSandForceActive']").is(':checked'),
+				isGutsActive: $("#damagecalc input[name='isGutsActive']").is(':checked'),
+				equipChoice: $("#damagecalc input[name='equipChoice']").is(':checked'),
+				equipSoulDew: $("#damagecalc input[name='equipSoulDew']").is(':checked'),
+				equipEviolite: $("#damagecalc input[name='equipEviolite']").is(':checked'),
+				hasMultiscale: $("#damagecalc input[name='hasMultiscale']").is(':checked'),
+				hasMarvelScale: $("#damagecalc input[name='hasMarvelScale']").is(':checked'),
 				// Mod1 variables
 				isBurn: $("#damagecalc input[name='isBurn']").is(':checked'),
 				isReflectActive: $("#damagecalc input[name='isReflectActive']").is(':checked'),
@@ -43,7 +54,6 @@ var DAMAGECALC = (function () {
 				// Mod3 variables
 				hasSolidRock: $("#damagecalc input[name='hasSolidRock']").is(':checked'),
 				equipExpertBelt: $("#damagecalc input[name='equipExpertBelt']").is(':checked'),
-				hasTintedLens: $("#damagecalc input[name='hasTintedLens']").is(':checked'),
 				isResistBerryActive: $("#damagecalc input[name='isResistBerryActive']").is(':checked'),
 				mod1: 1,
 				mod2: 1,
@@ -154,7 +164,9 @@ var DAMAGECALC = (function () {
 			damage = Math.floor( damage * stats.stab );
 			damage = Math.floor( damage * stats.effect );
 			damage = Math.floor( damage * stats.mod3 );
-		
+			
+			damage = Math.floor( damage * stats.hasMultiscale );
+			
 			return damage;
 		};
 	
@@ -373,6 +385,16 @@ var DAMAGECALC = (function () {
 			return parseFloat(flashFireMultiplier);
 		};
 
+		var parseEviolite = function (equipEviolite) {
+			var eviolite = 1;
+			
+			if (equipEviolite === true) {
+				eviolite = 1.5;
+			}
+			
+			return eviolite;
+		}
+
 		var parseLifeOrb = function (equipLifeOrb) {
 			var lifeOrbMultiplier;
 
@@ -478,6 +500,96 @@ var DAMAGECALC = (function () {
 			return parseFloat(resistBerryMultiplier);
 		};
 
+		var parseMultiscale = function (hasMultiscale) {
+			if (hasMultiscale) {
+				return parseFloat(0.5);
+			}
+			else {
+				return 1;
+			}
+		}
+
+		var parseMarvelScale = function (hasMarvelScale) {
+			if (hasMarvelScale) {
+				return parseFloat(1.5);
+			}
+			else {
+				return 1;
+			}
+		}
+
+		var parseChoice = function (equipChoice) {
+			if (equipChoice) {
+				return parseFloat(1.5);
+			}
+			else {
+				return 1;
+			}
+		}
+
+		var parseSoulDew = function (equipSoulDew) {
+			if (equipSoulDew) {
+				return parseFloat(1.5);
+			}
+			else {
+				return 1;
+			}
+		}
+
+		var parseGuts = function (isGutsActive) {
+			if (isGutsActive) {
+				return parseFloat(1.5);
+			}
+			else {
+				return 1;
+			}
+		}
+		
+		var parseSandForce = function (isSandForceActive) {
+			if (isSandForceActive) {
+				return parseFloat(1.3);
+			}
+			else {
+				return 1;
+			}
+		}
+		
+		var parsePurePower = function (hasPurePower) {
+			if (hasPurePower) {
+				return 2;
+			}
+			else {
+				return 1;
+			}
+		}
+		
+		var parseSheerForce = function (hasSheerForce) {
+			if (hasSheerForce) {
+				return parseFloat(1.3);
+			}
+			else {
+				return 1;
+			}
+		}
+		
+		var parseTechnician = function (hasTechnician) {
+			if (hasTechnician) {
+				return parseFloat(1.5);
+			}
+			else {
+				return 1;
+			}
+		}
+		
+		var parseReckless = function (hasReckless) {
+			if (hasReckless) {
+				return parseFloat(1.2);
+			}
+			else {
+				return 1;
+			}
+		}
+
 		// Must be called AFTER the other parser methods
 		var setMod1 = function (stats) {
 			var mod1 = 1;
@@ -512,7 +624,7 @@ var DAMAGECALC = (function () {
 
 			mod3 = mod3 * stats.hasSolidRock;
 			mod3 = mod3 * stats.equipExpertBelt;
-			mod3 = mod3 * stats.hasTintedLens;
+			//mod3 = mod3 * stats.hasTintedLens;
 			mod3 = mod3 * stats.isResistBerryActive;
 			
 			return mod3;
@@ -542,6 +654,27 @@ var DAMAGECALC = (function () {
 				stats.equipExpertBelt = parseExpertBelt(stats.equipExpertBelt);
 				stats.hasTintedLens = parseTintedLens(stats.hasTintedLens, stats.effect);
 				stats.isResistBerryActive = parseResistBerry(stats.isResistBerryActive);
+				stats.equipEviolite = parseEviolite(stats.equipEviolite);
+				stats.hasMultiscale = parseMultiscale(stats.hasMultiscale);
+				stats.hasMarvelScale = parseMarvelScale(stats.hasMarvelScale);
+				stats.equipChoice = parseChoice(stats.equipChoice);
+				stats.equipSoulDew = parseSoulDew(stats.equipSoulDew);
+				stats.isGutsActive = parseGuts(stats.isGutsActive);
+				stats.hasPurePower = parsePurePower(stats.hasPurePower);
+				stats.hasTechnician = parseTechnician(stats.hasTechnician);
+				stats.isSandForceActive = parseSandForce(stats.isSandForceActive);
+				stats.hasSheerForce = parseSheerForce(stats.hasSheerForce);
+				stats.hasReckless = parseReckless(stats.hasReckless);
+				
+				if (stats.basePower <= 60) {
+					stats.basePower = stats.basePower * stats.hasTechnician;
+				}
+				
+				stats.basePower = stats.basePower * stats.isSandForceActive * stats.hasSheerForce * stats.hasReckless;
+								
+				stats.atk = stats.atk * stats.equipChoice * stats.equipSoulDew * stats.isGutsActive * stats.hasPurePower;
+				
+				stats.def = stats.def * stats.hasMarvelScale * stats.equipEviolite;
 
 				// Modifiers 1, 2 and 3 are calculated
 				stats.mod1 = setMod1(stats);
