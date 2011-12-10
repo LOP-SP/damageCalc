@@ -64,18 +64,33 @@ var DAMAGECALC = (function () {
 			
 			results.minDamage = calculatorModel.calcDamage({
 				stats: stats,
-				range: "min"
+				range: "min",
+				critical: 1
 				});
 			results.maxDamage = calculatorModel.calcDamage({
 				stats: stats,
-				range: "max"
+				range: "max",
+				critical: 1
 				});
-			// results.minCriticalDamage = 
-			// results.maxCriticalDamage = 
+				
+			// At the moment, input.critical is the multiplier itself
+			// but I need to create a friendlier way to pass this info
+			results.minCriticalDamage = calculatorModel.calcDamage({
+				stats: stats,
+				range: "min",
+				critical: 2
+			});
+			results.maxCriticalDamage = calculatorModel.calcDamage({
+				stats: stats,
+				range: "max",
+				critical: 2
+			});
 		
 			// Calculation of the damage percentages
 			results.minDamagePercentage = calculatorModel.damagePercentage(stats.hp, results.minDamage);
 			results.maxDamagePercentage = calculatorModel.damagePercentage(stats.hp, results.maxDamage);
+			results.minCriticalDamagePercentage = calculatorModel.damagePercentage(stats.hp, results.minCriticalDamage);
+			results.maxCriticalDamagePercentage = calculatorModel.damagePercentage(stats.hp, results.maxCriticalDamage);
 		};
 		
 		// This method calculates all the possible damage values
@@ -117,14 +132,8 @@ var DAMAGECALC = (function () {
 					isMaxOrMin = input.range || 1,
 					isCriticalHit = input.critical || 1;
 		
-			if (typeof isMaxOrMin !== "string" || isMaxOrMin > 1 || isMaxOrMin < 0.85) {
-				console.log("ERROR: isMaxOrMin (in calculatorModel) must be a string or a number between 0.85 and 1!");
-				return 0;
-			}
-			else if (typeof isMaxOrMin === "string") {
-				isMaxOrMin = randomMultiplier(isMaxOrMin);
-			}
-		
+			isMaxOrMin = randomMultiplier(isMaxOrMin);
+			
 			// The damage calculation is done here. The damage formula is:
 			// 
 			// Damage Formula = (((((((Level × 2 ÷ 5) + 2) × BasePower × [Sp]Atk ÷ 50) ÷ [Sp]Def) × Mod1) + 2) × 
@@ -135,12 +144,10 @@ var DAMAGECALC = (function () {
 			damage = Math.floor( damage * stats.basePower * stats.atk / 50 );
 			damage = Math.floor( damage / stats.def );
 			damage = Math.floor( damage * stats.mod1 + 2 );
-			// TODO: Need to create a better way to handle CHs
-			// adapting to the new "always output CH" way
-			// damage = Math.floor( damage * stats.isCriticalHit );
+			damage = Math.floor( damage * isCriticalHit );
 			damage = Math.floor( damage * stats.mod2 );
 			
-			// This is where the randomness takes place.
+			// This is where randomness takes place.
 			// Cache the damage before here and loop through the possible values for the random multiplier (0.85, 0.86, ..., 0.99, 1)
 			damage = Math.floor( damage * isMaxOrMin );
 			damage = Math.floor( damage * stats.stab );
@@ -151,12 +158,15 @@ var DAMAGECALC = (function () {
 		};
 	
 		var damagePercentage = function (hp, damage) {
-			return ((damage / hp)*10*10).toFixed(2);
+			return ((damage / hp)*10*10).toFixed(1);
 		};
 		
 		var randomMultiplier = function (isMaxOrMin) {
-			// Should I use "max", "Max" or "MaX"?!
-			// No need to worry!
+			if (typeof isMaxOrMin !== "string" || isMaxOrMin > 1 || isMaxOrMin < 0.85) {
+				console.log("ERROR: isMaxOrMin (in calculatorModel) must be a string or a number between 0.85 and 1!");
+				return 0;
+			}
+			
 			isMaxOrMin.toLowerCase();
 		
 			if (isMaxOrMin === "min") {
@@ -176,7 +186,7 @@ var DAMAGECALC = (function () {
 	})(); // calculatorModel
 
 	//
-	// The output showed in the UI is created here.
+	// The output showed on the UI is created here.
 	//
 	var interfaceView = (function () {
 	
@@ -187,22 +197,21 @@ var DAMAGECALC = (function () {
 			results = pokemonBattle.getResults();
 		
 			// Must clean the previous calculation's output
-			//
-			// Hide the div to avoid excessive repaints.
-			//
-			$("#damage").empty().hide();
-
+			if ($("#damagecalc .damage").length) {
+				$("#damagecalc .damage").remove();
+			}
 			
-			outputTable += "<div class='damageTable damage'>";
-			outputTable += "<h1>Resultados (Nível " + results.level + ")</h1>";
-
+			outputTable += "<div class='damage'>";
+			outputTable += "<h2>Resultados (Nível " + results.level + ")</h2>";
+			outputTable += "<span>";
 			outputTable += results.minDamagePercentage + "% - " + results.maxDamagePercentage + "% (";
-
 			outputTable += results.minDamage + " - " + results.maxDamage + ")";
-
-			outputTable += "</div>";
-
-			$("#damage").append(outputTable).show();
+			outputTable += "</span><br /><span class='critical'>Critical Hit: ";
+			outputTable += results.minCriticalDamagePercentage + "% - " + results.maxCriticalDamagePercentage + "% (";
+			outputTable += results.minCriticalDamage + " - " + results.maxCriticalDamage + ")";
+			outputTable += "</span></div>";
+			
+			$("#damagecalc").append(outputTable);
 		};
 	
 		return {
