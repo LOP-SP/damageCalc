@@ -240,13 +240,26 @@ var DAMAGECALC = (function () {
 	
 		var showResultsOnUi = function () {
 			var outputTable = "",
+					result,
 					results = {};
 		
 			results = pokemonBattle.getResults();
-		
+			
 			// Must clean the previous calculation's output
 			if ($("#damagecalc .damage").length) {
 				$("#damagecalc .damage").remove();
+			}
+			
+			// Search for a NaN value in the results
+			for (result in results) {
+				if (results.hasOwnProperty(result)) {
+					
+					// If a property is NaN, we can't show it on the damage results!
+					if(isNaN(results[result])) {
+						invalidOutput();
+						return 0;
+					}
+				}
 			}
 			
 			outputTable += "<div class='damage'>";
@@ -261,7 +274,20 @@ var DAMAGECALC = (function () {
 			
 			$("#damagecalc").append(outputTable);
 		};
-	
+		
+		// Used when a NaN value is found.
+		// Append an error message to the damagecalc.
+		var invalidOutput = function () {
+			var errorMessage = "";
+			
+			errorMessage += "<div class='damage'>";
+			errorMessage += "<h2>Ocorreu um erro...</h2>";
+			errorMessage += "<p>Verifique que todos os campos necessários foram preenchidos com <b>números</b>. Caso o erro persista, procure um administrador do Mojambo. :)</p>";
+			errorMessage += "</div>";
+			
+			$("#damagecalc").append(errorMessage);
+		}
+		
 		return {
 			showResultsOnUi : showResultsOnUi
 		};
