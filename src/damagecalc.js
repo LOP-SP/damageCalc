@@ -261,15 +261,27 @@ var DAMAGECALC = (function () {
 					}
 				}
 			}
-			
+
+			// Output being made
 			outputTable += "<div class='damage'>";
 			outputTable += "<h2>Resultados (Nível " + results.level + ")</h2>";
 			outputTable += "<span>";
-			outputTable += results.minDamagePercentage + "% - " + results.maxDamagePercentage + "% (";
-			outputTable += results.minDamage + " - " + results.maxDamage + ")";
-			outputTable += "</span><br /><span class='critical'>Critical Hit: ";
-			outputTable += results.minCriticalDamagePercentage + "% - " + results.maxCriticalDamagePercentage + "% (";
-			outputTable += results.minCriticalDamage + " - " + results.maxCriticalDamage + ")";
+			
+			// If the user didn't supply a valid HP value, we can't
+			//calculate percentages
+			if (isFinite(results.maxDamagePercentage) && isFinite(results.minDamagePercentage)) {
+				outputTable += results.minDamagePercentage + "% - " + results.maxDamagePercentage + "% (";
+				outputTable += results.minDamage + " - " + results.maxDamage + ")";
+				outputTable += "</span><br /><span class='critical'>Critical Hit: ";
+				outputTable += results.minCriticalDamagePercentage + "% - " + results.maxCriticalDamagePercentage + "% (";
+				outputTable += results.minCriticalDamage + " - " + results.maxCriticalDamage + ")";
+			}
+			else {
+				outputTable += results.minDamage + " - " + results.maxDamage;
+				outputTable += "</span><br /><span class='critical'>Critical Hit: ";
+				outputTable += results.minCriticalDamage + " - " + results.maxCriticalDamage;
+			}
+							
 			outputTable += "</span></div>";
 			
 			$("#damagecalc").append(outputTable);
