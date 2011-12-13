@@ -267,8 +267,7 @@ var DAMAGECALC = (function () {
 			outputTable += "<h2>Resultados (Nível " + results.level + ")</h2>";
 			outputTable += "<span>";
 			
-			// If the user didn't supply a valid HP value, we can't
-			//calculate percentages
+			// Only display percentages if HP is supplied (and HP !== 0)
 			if (isFinite(results.maxDamagePercentage) && isFinite(results.minDamagePercentage)) {
 				outputTable += results.minDamagePercentage + "% - " + results.maxDamagePercentage + "% (";
 				outputTable += results.minDamage + " - " + results.maxDamage + ")";
@@ -498,25 +497,13 @@ var DAMAGECALC = (function () {
 			return parseFloat(solidRockFilterMultiplier);
 		};
 
-		var parseExpertBelt = function (equipExpertBelt) {
-			var expertBeltMultiplier;
-
-			// Protection from misuse
-			if (typeof equipExpertBelt === "number" && (equipExpertBelt !== 1.2 || equipExpertBelt !== 1)) {
-				console.log("ERROR: equipExpertBelt must be a string or, if a number, 1 or 1.2");
+		var parseExpertBelt = function (equipExpertBelt, effect) {
+			if (equipExpertBelt && (effect > 1)) {
+				return parseFloat(1.2);
 			}
 			else {
-				expertBeltMultiplier = equipExpertBelt;
+				return 1;
 			}
-
-			if (equipExpertBelt === true) {
-				expertBeltMultiplier = 1.2;
-			}
-			else {
-				expertBeltMultiplier = 1;
-			}
-
-			return parseFloat(expertBeltMultiplier);	
 		};
 
 		var parseTintedLens = function (hasTintedLens, effect) {
@@ -716,7 +703,7 @@ var DAMAGECALC = (function () {
 				stats.isFlashFireActive = parseFlashFire(stats.isFlashFireActive);
 				stats.equipLifeOrb = parseLifeOrb(stats.equipLifeOrb);
 				stats.hasSolidRock = parseSolidRockFilter(stats.hasSolidRock);
-				stats.equipExpertBelt = parseExpertBelt(stats.equipExpertBelt);
+				stats.equipExpertBelt = parseExpertBelt(stats.equipExpertBelt, stats.effect);
 				stats.hasTintedLens = parseTintedLens(stats.hasTintedLens, stats.effect);
 				stats.isResistBerryActive = parseResistBerry(stats.isResistBerryActive);
 				stats.equipEviolite = parseEviolite(stats.equipEviolite);
