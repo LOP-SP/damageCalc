@@ -20,9 +20,9 @@
 			<form>
 				<h2>Atacante</h2>
 				
-				<label for="atk">Atk/SAtk:</label> <input type="text" name="atk" id="atk" size="3" maxlength="3" /><br />
-				<label for="level">Nível:</label> <input type="text" name="level" id="level" value="100" size="3" maxlength="3" /><br />
-				<label for="atkStatModifier">Modificadores de stat:</label>
+				<label for="atk" title="Coloque o valor de Atk ou Sp. Atk do pokémon atacante.">Atk/SAtk:</label> <input type="text" name="atk" id="atk" size="3" maxlength="3" /><br />
+				<label for="level" title="Coloque o nível do pokémon atacante.">Nível:</label> <input type="text" name="level" id="level" value="100" size="3" maxlength="3" /><br />
+				<label for="atkStatModifier" title="Indica o quanto o Atk ou Sp. Atk foi aumentado ou diminuído.">Modificadores de stat:</label>
 					<select name="atkStatModifier" id="atkStatModifier">
 						<option value="6">+6</option>
 						<option value="5">+5</option>
@@ -38,9 +38,9 @@
 						<option value="-5">-5</option>
 						<option value="-6">-6</option>
 				</select><br />
-				<label for="basePower">Base Power:</label> <input type="text" name="basePower" id="basePower" size="3" maxlength="3" /><br />
-				<label for="stab">STAB:</label> <input type="checkbox" name="stab" id="stab" /><br />
-				<label for="effect">Efeito:</label>
+				<label for="basePower" title="Coloque aqui o base power do ataque usado.">Base Power:</label> <input type="text" name="basePower" id="basePower" size="3" maxlength="3" /><br />
+				<label for="stab" title="Selecione esta opção se o ataque tiver STAB (Same Type Attack Bonus).">STAB:</label> <input type="checkbox" name="stab" id="stab" /><br />
+				<label for="effect" title="Selecione se o golpe é super efetivo (2x ou 4x), normal (1x) ou pouco efetivo (0.5x ou 0.25x).">Efeito:</label>
 					<select name="effect" id="effect">
 						<option value="4x">4x</option>
 					    <option value="2x">2x</option>
@@ -50,10 +50,10 @@
 				    </select><br />
 				<label for="equipChoice">Choice Band / Choice Specs?</label> <input type="checkbox" name="equipChoice" id="equipChoice" /><br>
 				<label for="equipLifeOrb">Life Orb?</label> <input type="checkbox" name="equipLifeOrb" id="equipLifeOrb" /><br>
-				<label for="equipPlate">Plate?</label> <input type="checkbox" name="equipPlate" id="equipPlate" /><br>
+				<label for="equipPlate" title="Plate é um nome genérico para Iron Plate, Fist Plate, etc.">Plate?</label> <input type="checkbox" name="equipPlate" id="equipPlate" /><br>
 				<label for="equipExpertBelt">Expert Belt?</label> <input type="checkbox" name="equipExpertBelt" id="equipExpertBelt" /><br>
 				<label for="equipSoulDew">Soul Dew?</label> <input type="checkbox" name="equipSoulDew" id="equipSoulDew" /><br>
-				<label for="isBurn">BRN?</label> <input type="checkbox" name="isBurn" id="isBurn" /><br />
+				<label for="isBurn" title="Selecione se o pokémon atacante estiver queimado.">BRN?</label> <input type="checkbox" name="isBurn" id="isBurn" /><br />
 				<label for="isGutsActive">Guts / Poison Rampage / Flare Boost?</label> <input type="checkbox" name="isGutsActive" id="isGutsActive" /><br>
 				<label for="isFlashFireActive">Flash Fire?</label> <input type="checkbox" name="isFlashFireActive" id="isFlashFireActive" /><br>
 				<label for="isSandForceActive">Sand Force?</label> <input type="checkbox" name="isSandForceActive" id="isSandForceActive" /><br>
@@ -68,9 +68,9 @@
 			<form>
 				<h2>Defensor</h2>
 				
-				<label for="def">Def/SDef:</label> <input type="text" name="def" id="def" size="3" maxlength="3" /><br />
-				<label for="hp">HP:</label> <input type="text" name="hp" id="hp" size="3" maxlength="3" /><br />
-				<label for="defStatModifier">Modificadores de stat:</label> 
+				<label for="def" title="Coloque o valor de Def ou Sp. Def do pokémon defensor.">Def/SDef:</label> <input type="text" name="def" id="def" size="3" maxlength="3" /><br />
+				<label for="hp" title="Coloque aqui o HP do pokémon defensor.">HP:</label> <input type="text" name="hp" id="hp" size="3" maxlength="3" /><br />
+				<label for="defStatModifier" title="Indica o quanto a Def ou Sp. Def foi aumentada ou diminuída.">Modificadores de stat:</label> 
 					<select name="defStatModifier" id="defStatModifier">
 						<option value="6">+6</option>
 						<option value="5">+5</option>
@@ -87,8 +87,8 @@
 						<option value="-6">-6</option>
 					</select><br />
 					<label for="equipEviolite">Eviolite?</label> <input type="checkbox" name="equipEviolite" id="equipEviolite" /><br>
-					<label for="isResistBerryActive">Resist berry?</label> <input type="checkbox" name="isResistBerryActive" id="isResistBerryActive" /><br>
-					<label for="isReflectActive">Reflect / Light Screen?</label> <input type="checkbox" name="isReflectActive" id="isReflectActive" /><br />
+					<label for="isResistBerryActive" title="Selecione esta opção se o pokémon defensor estiver equipado com uma resist berry, como Haban Berry, Yache Berry, etc.">Resist berry?</label> <input type="checkbox" name="isResistBerryActive" id="isResistBerryActive" /><br>
+					<label for="isReflectActive" title="Selecione esta opção se o efeito dos golpes Reflect OU Light Screen estiver ativo.">Reflect / Light Screen?</label> <input type="checkbox" name="isReflectActive" id="isReflectActive" /><br />
 					<label for="hasMultiscale">Multiscale?</label> <input type="checkbox" name="hasMultiscale" id="hasMultiscale" /><br>
 					<label for="hasSolidRock">Solid Rock / Filter?</label> <input type="checkbox" name="hasSolidRock" id="hasSolidRock" /><br>
 					<label for="hasMarvelScale">Marvel Scale?</label> <input type="checkbox" name="hasMarvelScale" id="hasMarvelScale" /><br>
