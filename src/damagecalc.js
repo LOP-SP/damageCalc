@@ -41,7 +41,7 @@ var DAMAGECALC = (function () {
 				isSandForceActive: $("#damagecalc input[name='isSandForceActive']").is(':checked'),
 				isGutsActive: $("#damagecalc input[name='isGutsActive']").is(':checked'),
 				equipChoice: $("#damagecalc input[name='equipChoice']").is(':checked'),
-				equipPlate: $("#damagecalc input[name='equipPlate']").is(':checked'),
+				equipTypeBoost: $("#damagecalc input[name='equipTypeBoost']").is(':checked'),
 				equipSoulDew: $("#damagecalc input[name='equipSoulDew']").is(':checked'),
 				equipEviolite: $("#damagecalc input[name='equipEviolite']").is(':checked'),
 				hasMultiscale: $("#damagecalc input[name='hasMultiscale']").is(':checked'),
@@ -77,7 +77,7 @@ var DAMAGECALC = (function () {
 				stats.basePower = stats.basePower * stats.hasTechnician;
 			}
 		
-			stats.basePower = stats.basePower * stats.isSandForceActive * stats.hasSheerForce * stats.hasReckless * stats.equipPlate;
+			stats.basePower = stats.basePower * stats.isSandForceActive * stats.hasSheerForce * stats.hasReckless * stats.equipTypeBoost;
 						
 			stats.atk = stats.atk * stats.equipChoice * stats.equipSoulDew * stats.isGutsActive * stats.hasPurePower;
 		
@@ -638,8 +638,8 @@ var DAMAGECALC = (function () {
 			}
 		}
 
-		var parsePlate = function (equipPlate) {
-			if (equipPlate) {
+		var parseTypeBoost = function (equipTypeBoost) {
+			if (equipTypeBoost) {
 				return parseFloat(1.2);
 			}
 			else{
@@ -717,7 +717,7 @@ var DAMAGECALC = (function () {
 				stats.isSandForceActive = parseSandForce(stats.isSandForceActive);
 				stats.hasSheerForce = parseSheerForce(stats.hasSheerForce);
 				stats.hasReckless = parseReckless(stats.hasReckless);
-				stats.equipPlate = parsePlate(stats.equipPlate);
+				stats.equipTypeBoost = parseTypeBoost(stats.equipTypeBoost);
 
 				// Modifiers 1, 2 and 3 are calculated
 				stats.mod1 = setMod1(stats);
