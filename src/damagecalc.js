@@ -1,5 +1,5 @@
 /*
-New designed Pokemon damageCalc
+New Pokemon damageCalc
 Author: Carlos "Onox" Agarie
 Version: 1.0
 */
