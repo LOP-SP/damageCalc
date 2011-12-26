@@ -43,7 +43,8 @@ li{line-height:1.8em;}
 /* INFO
 **************************************************************/
 #damagecalc #info{width:100%;}
-#damagecalc #info input{margin:5px;}
+#damagecalc #info input,
+#damagecalc #info select {margin:0 5px 0 5px;}
 /* OFFENSIVE,DEFENSIVE
 **************************************************************/
 #damagecalc #offensive,
