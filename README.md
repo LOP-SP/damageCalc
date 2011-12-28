@@ -12,6 +12,8 @@ DamageCalc is a calculator made for the Pokemon Diamond, Pearl, Platinum, Heart 
 
 The damage formula considered is found in the Smogon University's site (www.smogon.com), together with a detailed description of all the necessary inputs. There are a lot of comments within the code (damagecalc.js), but you may find it better to understand the inner workings of the game before delving into the code.
 
+The code uses strict mode, passes jslint and is tested with JsTestDriver. I intent to document it with jsdocs toolkit (when it decides to work...).
+
 USE
 ===
 

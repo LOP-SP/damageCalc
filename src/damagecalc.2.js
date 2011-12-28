@@ -89,11 +89,12 @@ DAMAGECALC.calculator = (function () {
 		*/
 		ohko: function (input, hp, times) {
 			var prob = 0,
-			    times = times || 1,
 			    i = 0;
+			
+			times = times || 1;
 		
 			for (i = 1.0; i > 0.84; i = i - 0.01) {
-				if (this.damageCalc(input, i) >= hp) {
+				if (this.damageCalc(input, i) * times >= hp) {
 					prob += (1 / 16);
 				}
 			}
@@ -137,17 +138,17 @@ DAMAGECALC.translator = (function () {
 	*/
 	
 	return {
-		createDamageTable: function() {
+		createDamageTable: function () {
 			var html = "";
 			
 			html += "<div class='damage'><table>";
 
-			html += "</table></div>"
+			html += "</table></div>";
 			
 			return html;
 		}
 	};
-})();
+}());
 
 // DAMAGECALC.operation is the brain behind which kind of view the user is
 // seeing. For example, it controls which kind of damage table the translator
