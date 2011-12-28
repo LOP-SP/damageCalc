@@ -6,6 +6,7 @@
 	<title>Mojambo | Calculadora de dano para os jogos Pok&eacute;mon</title>
 
 	<link rel="stylesheet" type="text/css" href="stylesheet/stylesheet.css" />
+	<link rel="stylesheet" href="lib/chosen/chosen/chosen.css" type="text/css" media="screen" title="no title" charset="utf-8">
 </head>
 
 <body>
@@ -23,7 +24,7 @@
 				<label for="atk" title="Coloque o valor de Atk ou Sp. Atk do pokémon atacante.">Atk/SAtk:</label> <input type="text" name="atk" id="atk" size="3" maxlength="3" /><br />
 				<label for="level" title="Coloque o nível do pokémon atacante.">Nível:</label> <input type="text" name="level" id="level" value="100" size="3" maxlength="3" /><br />
 				<label for="atkStatModifier" title="Indica o quanto o Atk ou Sp. Atk foi aumentado ou diminuído.">Modificadores de stat:</label>
-					<select name="atkStatModifier" id="atkStatModifier">
+					<select name="atkStatModifier" id="atkStatModifier" class="chzn-select">
 						<option value="6">+6</option>
 						<option value="5">+5</option>
 						<option value="4">+4</option>
@@ -104,6 +105,8 @@
 </div> <!-- container -->
 
 <script language="javascript" type="text/javascript" src="lib/jquery.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="lib/chosen/chosen/chosen.jquery.min.js"></script>
+<script type="text/javascript"> $(".chzn-select").chosen();</script>
 <script language="javascript" type="text/javascript" src="src/damagecalc.2.js"></script>
 </body>
 </html>

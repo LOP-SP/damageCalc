@@ -1,11 +1,3 @@
-TestCase("IOTest", {
-	setUp: function() {
-		this.io = DAMAGECALC.io;
-		
-		// We'll test DOM manipulation in this test case. Prepare yourself.
-	};
-});
-
 TestCase("CalcTest", {
 	setUp: function () {
 		calc = DAMAGECALC.calculator
@@ -79,9 +71,45 @@ TestCase("CalcTest", {
 		this.input.stab = 1.5;
 		
 		assertEquals(100, calc.ohko(this.input, hp));
+	},
+	
+	"test ohko should work with 2HKO": function() {
+		var hp = 240;
+		
+		assertEquals(100, calc.ohko(this.input, hp, 2));
 	}
 });
 
 TestCase("TranslatorTest", {
+	setUp: function () {
+	  trans = DAMAGECALC.translator;
+	},
 	
+	"test createDamageTable should return a string": function() {
+		assertString(trans.createDamageTable());
+	},
+	
+	"test createDamageTable should return a table": function() {
+		assertMatch(/<table(.*?)>.*<\/table>/im, trans.createDamageTable());
+	}
+});
+
+TestCase("IOTest", {
+	setUp: function() {
+		io = DAMAGECALC.io;
+		
+		// We'll test DOM manipulation in this test case. Prepare yourself.
+	},
+});
+
+TestCase("OperationTest", {
+	setUp: function () {
+		op = DAMAGECALC.operation;
+	},
+});
+
+TestCase("i18nTest", {
+	setUp: function () {
+	  i18n = DAMAGECALC.i18n;
+	},
 });

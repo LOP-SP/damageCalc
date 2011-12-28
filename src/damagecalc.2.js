@@ -87,8 +87,9 @@ DAMAGECALC.calculator = (function () {
 	
 		Output: The probability of delivering a OHKO (between 0 and 100).
 		*/
-		ohko: function (input, hp) {
+		ohko: function (input, hp, times) {
 			var prob = 0,
+			    times = times || 1,
 			    i = 0;
 		
 			for (i = 1.0; i > 0.84; i = i - 0.01) {
@@ -135,7 +136,25 @@ DAMAGECALC.translator = (function () {
 	}
 	*/
 	
+	return {
+		createDamageTable: function() {
+			var html = "";
+			
+			html += "<div class='damage'><table>";
+
+			html += "</table></div>"
+			
+			return html;
+		}
+	};
 })();
+
+// DAMAGECALC.operation is the brain behind which kind of view the user is
+// seeing. For example, it controls which kind of damage table the translator
+// module creates and what UI should be presented.
+DAMAGECALC.operation = (function () {
+	
+}());
 
 // DAMAGECALC.i18n is an internationalization module yet to be implemented.
 DAMAGECALC.i18n = (function () {
