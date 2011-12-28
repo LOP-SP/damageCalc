@@ -89,8 +89,8 @@ TestCase("TranslatorTest", {
 		assertString(trans.createDamageTable());
 	},
 	
-	"test createDamageTable should return a table": function() {
-		assertMatch(/<table(.*?)>.*<\/table>/im, trans.createDamageTable());
+	"test createDamageTable should return a table inside div.damage": function() {
+		assertMatch(/<div\sclass=\'damage\'\s*>\s*\n?<table(.*?)>.*<\/table>\s*\n?<\/div?/im, trans.createDamageTable());
 	}
 });
 
