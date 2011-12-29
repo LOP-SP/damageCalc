@@ -138,8 +138,15 @@ DAMAGECALC.translator = (function () {
 	*/
 	
 	return {
-		createDamageTable: function () {
+		createDamageTable: function (results) {
 			var html = "";
+			
+			if (typeof results.minDamage !== "number" || typeof results.maxDamage !== "number" || results.minDamage < 0 || results.maxDamage < 0) {
+				throw {
+				        name: "TypeError",
+				        message: "createDamageTable needs positive valued results.minDamage and results.maxDamage"
+				    };
+			}
 			
 			html += "<div class='damage'><table>";
 

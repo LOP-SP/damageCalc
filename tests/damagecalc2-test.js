@@ -83,14 +83,19 @@ TestCase("CalcTest", {
 TestCase("TranslatorTest", {
 	setUp: function () {
 	  trans = DAMAGECALC.translator;
+		
+		this.results = {
+			minDamage: 100,
+			maxDamage: 140
+		};
 	},
 	
 	"test createDamageTable should return a string": function() {
-		assertString(trans.createDamageTable());
+		assertString(trans.createDamageTable(this.results));
 	},
 	
 	"test createDamageTable should return a table inside div.damage": function() {
-		assertMatch(/<div\sclass=\'damage\'\s*>\s*\n?<table(.*?)>.*<\/table>\s*\n?<\/div?/im, trans.createDamageTable());
+		assertMatch(/<div\sclass=\'damage\'\s*>\s*\n?<table(.*?)>.*<\/table>\s*\n?<\/div?/im, trans.createDamageTable(this.results));
 	}
 });
 
