@@ -104,6 +104,16 @@ TestCase("TranslatorTest", {
 			hp: 500
 		}));
 		assertFalse(trans.hasHP({}));
+	},
+	
+	"test hasHP should return true only if HP exists and is a number": function () {
+		assertTrue(trans.hasHP({
+			hp: 214
+		}));
+		
+		assertFalse(trans.hasHP({
+			hp: "I'm not a number!"
+		}));
 	}
 });
 

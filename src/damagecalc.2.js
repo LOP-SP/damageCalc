@@ -185,9 +185,9 @@ DAMAGECALC.translator = (function () {
 			
 			if (typeof results.minDamage !== "number" || typeof results.maxDamage !== "number" || results.minDamage < 0 || results.maxDamage < 0) {
 				throw {
-				        name: "TypeError",
-				        message: "createDamageTable needs positive valued results.minDamage and results.maxDamage"
-				    };
+					name: "TypeError",
+					message: "createDamageTable needs positive valued results.minDamage and results.maxDamage"
+				};
 			}
 			
 			html += "<h1>Resultados</h1>";
@@ -200,18 +200,18 @@ DAMAGECALC.translator = (function () {
 			return html;
 		},
 		
+		
+		
 		// Checks if the given object has a property HP
 		// and if it is a number 
 		hasHP: function (obj) {
+			// Can't look at an undefined object's property!
 			if (obj === undefined) {
-				throw {
-					name: "TypeError",
-					message: "DAMAGECALC.translator.hasHP(obj) needs an object input"
-				};
+				return false;
 			}
 			
-			return (obj.hp !== undefined);
-		},
+			return typeof obj.hp === "number";
+		}
 	};
 }());
 
