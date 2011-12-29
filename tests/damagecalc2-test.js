@@ -10,26 +10,33 @@ TestCase("CalcTest", {
 			mod1: 1,
 			mod2: 1,
 			mod3: 1,
-			criticalHit: 1,
 			stab: 1,
 			effect: 1,
 			hasMultiscale: 1
 		};
+		
+		this.ch = 1;
 	},
 	
 	"test damage calc should return a number": function () {
 		var randomMultiplier = 1;
 		
-		assertNotNaN(calc.damageCalc(this.input, randomMultiplier));
-		assertNumber(calc.damageCalc(this.input, randomMultiplier));
+		assertNotNaN(calc.damageCalc(this.input, randomMultiplier, this.ch));
+		assertNumber(calc.damageCalc(this.input, randomMultiplier, this.ch));
 	},
 	
 	"test damage calc should return correct min and max values": function () {
 		var min = 0.85,
 		    max = 1.0;
 		
-		assertEquals(144, calc.damageCalc(this.input, min));
-		assertEquals(170, calc.damageCalc(this.input, max));
+		assertEquals(144, calc.damageCalc(this.input, min, this.ch));
+		assertEquals(170, calc.damageCalc(this.input, max, this.ch));
+	},
+	
+	"test damage calc should return higher result when critical hit": function () {
+		var critical = 2;
+		
+		assertTrue(calc.damageCalc(this.input, 1, critical) > calc.damageCalc(this.input, 1, this.ch));
 	},
 	
 	"test toPercent should return number": function () {
@@ -84,10 +91,49 @@ TestCase("TranslatorTest", {
 	setUp: function () {
 	  trans = DAMAGECALC.translator;
 		
+		this.stats = {
+			level: "100",
+			atk: "100",
+			atkStatModifier: "3",
+			basePower: "45",
+			stab: false,
+			effect: "4x",
+			isBurn: false,
+			
+			def: "90",
+			defStatModifier: "-1",
+			hp: "200",
+			isReflectActive: true,
+			
+			atkItems: "choice",
+			atkAbilities: "sheerForce",
+			defItems: "",
+			defAbilities: "multiScale"
+		};
+		
 		this.results = {
 			minDamage: 100,
 			maxDamage: 140
 		};
+	},
+	
+	"test turnIntoInput should return an object": function () {
+		assertObject(trans.turnIntoInput({}));
+	},
+	
+	"test turnIntoInput should return an input object": function () {
+		var input = trans.turnIntoInput(this.stats);
+		
+		assertNotUndefined(input.level);
+		assertNotUndefined(input.basePower);
+		assertNotUndefined(input.atk);
+		assertNotUndefined(input.def);
+		assertNotUndefined(input.mod1);
+		assertNotUndefined(input.mod2);
+		assertNotUndefined(input.mod3);
+		assertNotUndefined(input.stab);
+		assertNotUndefined(input.effect);
+		assertNotUndefined(input.hasMultiScale);
 	},
 	
 	"test createDamageTable should return a string": function () {

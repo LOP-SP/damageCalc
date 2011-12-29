@@ -20,7 +20,7 @@ DAMAGECALC.io = (function () {
 			stats = {
 				level: $("#damagecalc input[name='level']").val() || 100,
 				atk: $("#damagecalc input[name='atk']").val(),
-				atkStatModifier: $(" select[name='atkStatModifier']").val(),
+				atkStatModifier: $("#damagecalc select[name='atkStatModifier']").val(),
 				basePower: $("#damagecalc input[name='basePower']").val(),
 				stab: $("#damagecalc input[name='stab']").is(':checked'),
 				effect: $("#damagecalc select[name='effect']").val(),
@@ -74,7 +74,6 @@ DAMAGECALC.calculator = (function () {
 			mod1
 			mod2
 			mod3
-			criticalHit
 			stab
 			effect
 			hasMultiscale
@@ -82,7 +81,7 @@ DAMAGECALC.calculator = (function () {
 	
 		Output: damage (number).
 		*/
-		damageCalc: function (input, randomMultiplier) {
+		damageCalc: function (input, randomMultiplier, criticalHit) {
 			var damage = 0;
 
 			// Damage Formula = (((((((Level × 2 ÷ 5) + 2) × BasePower × [Sp]Atk ÷ 50) ÷ [Sp]Def) × Mod1) + 2) × 
@@ -93,7 +92,7 @@ DAMAGECALC.calculator = (function () {
 			damage = Math.floor(damage * input.basePower * input.atk / 50);
 			damage = Math.floor(damage / input.def);
 			damage = Math.floor(damage * input.mod1 + 2);
-			damage = Math.floor(damage * input.criticalHit);
+			damage = Math.floor(damage * criticalHit);
 			damage = Math.floor(damage * input.mod2);
 
 			// This is where randomness takes place.
@@ -126,17 +125,20 @@ DAMAGECALC.calculator = (function () {
 	
 		input: object with the necessary parameters.
 		hp: foe's HP.
+		times: if it's an OHKO, 2HKO, etc. (integer)
+		criticalHit: the multiplier. (1 = not CH, 2 = CH, 3 = CH with Sniper)
 	
 		Output: The probability of delivering a OHKO (between 0 and 100).
 		*/
-		ohko: function (input, hp, times) {
+		ohko: function (input, hp, times, criticalHit) {
 			var prob = 0,
 			    i = 0;
 			
 			times = times || 1;
+			criticalHit = criticalHit || 1;
 		
 			for (i = 1.0; i > 0.84; i = i - 0.01) {
-				if (this.damageCalc(input, i) * times >= hp) {
+				if (this.damageCalc(input, i, criticalHit) * times >= hp) {
 					prob += (1 / 16);
 				}
 			}
@@ -180,6 +182,39 @@ DAMAGECALC.translator = (function () {
 	*/
 	
 	return {
+		// Translates a stats object into an input one
+		turnIntoInput: function (stats) {
+			// Basic parsing
+			var input = {
+				level: parseInt(stats.hp, 10),
+				basePower: parseInt(stats.basePower, 10),
+				atk: parseInt(stats.atk, 10),
+				def: parseInt(stats.def, 10),
+				mod1: 1,
+				mod2: 1,
+				mod3: 1,
+				stab: (function () {
+					if (stats.stab) {
+						return 1.5;
+					}
+					else {
+						return 1;
+					}
+				}()),
+				effect: (function () {
+					if (stats.effect === '4x') { return 4; }
+					else if (stats.effect === '2x') { return 2; }
+					else if (stats.effect === '1x') { return 1; }
+					else if (stats.effect === '0.5x') { return 0.5; }
+					else if (stats.effect === '0.25x') { return 0.25; }
+				}()),
+				hasMultiScale: 1
+			};
+			
+			// Now use the ITEM_TABLE and ABILITY_TABLE constants
+			return input;
+		},
+		
 		createDamageTable: function (results) {
 			var html = "";
 			
@@ -199,8 +234,6 @@ DAMAGECALC.translator = (function () {
 			
 			return html;
 		},
-		
-		
 		
 		// Checks if the given object has a property HP
 		// and if it is a number 
