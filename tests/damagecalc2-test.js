@@ -107,9 +107,9 @@ TestCase("IOTest", {
 	},
 });
 
-TestCase("OperationTest", {
+TestCase("OperatorTest", {
 	setUp: function () {
-		op = DAMAGECALC.operation;
+		op = DAMAGECALC.operator;
 	},
 });
 

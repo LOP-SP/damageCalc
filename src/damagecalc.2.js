@@ -13,6 +13,35 @@ var DAMAGECALC = {};
 // DAMAGECALC.io is the module used to get values from the UI and to print
 // out damage tables, error messages, etc
 DAMAGECALC.io = (function () {
+	return {
+		getStatsFromTheUi: function () {
+			var stats = {};
+		
+			stats = {
+				level: $("#damagecalc input[name='level']").val() || 100,
+				atk: $("#damagecalc input[name='atk']").val(),
+				atkStatModifier: $(" select[name='atkStatModifier']").val(),
+				def: $("#damagecalc input[name='def']").val(),
+				defStatModifier: $(" select[name='defStatModifier']").val(),
+				hp: $("#damagecalc input[name='hp']").val(),
+				basePower: $("#damagecalc input[name='basePower']").val(),
+				stab: $("#damagecalc input[name='stab']").is(':checked'),
+				effect: $("#damagecalc select[name='effect']").val()
+			};
+			
+			// ...
+			
+			return stats;
+		},
+		
+		showResultsOnUi: function (damageTable) {
+		  if ($("#damagecalc .damage").length) {
+				$("#damagecalc .damage").remove();
+			}
+			
+			$("#damagecalc").append(damageTable);
+		}
+	};
 }());
 
 /*
@@ -148,8 +177,11 @@ DAMAGECALC.translator = (function () {
 				    };
 			}
 			
+			html += "<h1>Resultados</h1>";
 			html += "<div class='damage'><table>";
-
+			
+			html += "<tr><td>" + results.minDamage + " - " + results.maxDamage + "</td></tr>";
+			
 			html += "</table></div>";
 			
 			return html;
@@ -157,10 +189,10 @@ DAMAGECALC.translator = (function () {
 	};
 }());
 
-// DAMAGECALC.operation is the brain behind which kind of view the user is
-// seeing. For example, it controls which kind of damage table the translator
+// DAMAGECALC.operator is the brain behind the damage calculator. 
+// For example, it controls which kind of damage table the translator
 // module creates and what UI should be presented.
-DAMAGECALC.operation = (function () {
+DAMAGECALC.operator = (function () {
 	
 }());
 
