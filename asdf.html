@@ -6,7 +6,7 @@
 	<title>Mojambo | Calculadora de dano para os jogos Pok&eacute;mon</title>
 
 	<link rel="stylesheet" type="text/css" href="stylesheet/stylesheet.css" />
-	<link rel="stylesheet" href="lib/chosen/chosen/chosen.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<link rel="stylesheet" href="lib/chosen/chosen.css" type="text/css" media="screen" title="no title" charset="utf-8">
 </head>
 
 <body>
@@ -24,7 +24,7 @@
 				<label for="atk" title="Coloque o valor de Atk ou Sp. Atk do pokémon atacante.">Atk/SAtk:</label> <input type="text" name="atk" id="atk" size="3" maxlength="3" /><br />
 				<label for="level" title="Coloque o nível do pokémon atacante.">Nível:</label> <input type="text" name="level" id="level" value="100" size="3" maxlength="3" /><br />
 				<label for="atkStatModifier" title="Indica o quanto o Atk ou Sp. Atk foi aumentado ou diminuído.">Modificadores de stat:</label>
-					<select name="atkStatModifier" id="atkStatModifier" class="chzn-select">
+					<select name="atkStatModifier" id="atkStatModifier">
 						<option value="6">+6</option>
 						<option value="5">+5</option>
 						<option value="4">+4</option>
@@ -44,12 +44,25 @@
 				<label for="effect" title="Selecione se o golpe é super efetivo (2x ou 4x), normal (1x) ou pouco efetivo (0.5x ou 0.25x).">Efeito:</label>
 					<select name="effect" id="effect">
 						<option value="4x">4x</option>
-					    <option value="2x">2x</option>
-					    <option value="1x">1x</option>
-					    <option value="0.5x">0.5x</option>
-					    <option value="0.25x">0.25x</option>
-				    </select><br />
-				<label for="equipChoice">Choice Band / Choice Specs?</label> <input type="checkbox" name="equipChoice" id="equipChoice" /><br>
+				    <option value="2x">2x</option>
+				    <option value="1x">1x</option>
+				    <option value="0.5x">0.5x</option>
+				    <option value="0.25x">0.25x</option>
+				   </select><br />
+				
+				<label for="atkItems" title="Selecione qual item o atacante possui.">Item:</label>
+					<select name="atkItems" id="atkItems" data-placeholder="Escolha o item..." class="chzn-select" style="width: 170px;">
+						<option></option>
+						<option value="choice">Choice Band/Specs</option>
+						<option value="lifeOrb">Life Orb</option>
+					</select><br />
+				
+				<label for="atkAbility" title="Selecione qual ability o atacante possui.">Ability:</label>
+					<select name="atkAbility" id="atkAbility" class="chzn-select">
+						<!-- ... -->
+					</select><br />
+					
+				<!--<label for="equipChoice">Choice Band / Choice Specs?</label> <input type="checkbox" name="equipChoice" id="equipChoice" /><br>
 				<label for="equipLifeOrb">Life Orb?</label> <input type="checkbox" name="equipLifeOrb" id="equipLifeOrb" /><br>
 				<label for="equipTypeBoost" title="É um nome genérico para Mystic Water, Charcoal, Iron Plate, Fist Plate, etc.">Type boosting item?</label> <input type="checkbox" name="equipTypeBoost" id="equipTypeBoost" /><br>
 				<label for="equipExpertBelt">Expert Belt?</label> <input type="checkbox" name="equipExpertBelt" id="equipExpertBelt" /><br>
@@ -61,7 +74,7 @@
 				<label for="hasPurePower">Pure Power / Huge Power?</label> <input type="checkbox" name="hasPurePower" id="hasPurePower" /><br>
 				<label for="hasSheerForce">Sheer Force?</label> <input type="checkbox" name="hasSheerForce" id="hasSheerForce" /><br>
 				<label for="hasTechnician">Technician?</label> <input type="checkbox" name="hasTechnician" id="hasTechnician" /><br>
-				<label for="hasReckless">Reckless?</label> <input type="checkbox" name="hasReckless" id="hasReckless" /><br>
+				<label for="hasReckless">Reckless?</label> <input type="checkbox" name="hasReckless" id="hasReckless" /><br>-->
 			</form>
 			</div> <!-- offensive -->
 
@@ -87,12 +100,27 @@
 						<option value="-5">-5</option>
 						<option value="-6">-6</option>
 					</select><br />
-					<label for="equipEviolite">Eviolite?</label> <input type="checkbox" name="equipEviolite" id="equipEviolite" /><br>
-					<label for="isResistBerryActive" title="Selecione esta opção se o pokémon defensor estiver equipado com uma resist berry, como Haban Berry, Yache Berry, etc.">Resist berry?</label> <input type="checkbox" name="isResistBerryActive" id="isResistBerryActive" /><br>
+					
+					<label for="defItems" title="Escolha o item...">Item:</label>
+						<select name="defItems" id="defItems" data-placeholder="Escolha o item..." class="chzn-select" style="width: 170px;">
+							<option></option>
+							<option value="eviolite">Eviolite</option>
+							<option value="resistBerry">Resist Berry</option>
+						</select><br />
+
+					<label for="defAbility" title="Escolha a ability...">Ability:</label>
+						<select name="defAbility" id="defAbility" data-placeholder="Escolha a ability..." class="chzn-select" style="width: 170px;">
+							<option></option>
+							<option value="multiScale">Multiscale</option>
+							<option value="solidRock">Solid Rock / Filter</option>
+							<option value="marvelScale">Marvel Scale</option>
+						</select><br />
+
+					<!--
 					<label for="isReflectActive" title="Selecione esta opção se o efeito dos golpes Reflect OU Light Screen estiver ativo.">Reflect / Light Screen?</label> <input type="checkbox" name="isReflectActive" id="isReflectActive" /><br />
 					<label for="hasMultiscale">Multiscale?</label> <input type="checkbox" name="hasMultiscale" id="hasMultiscale" /><br>
 					<label for="hasSolidRock">Solid Rock / Filter?</label> <input type="checkbox" name="hasSolidRock" id="hasSolidRock" /><br>
-					<label for="hasMarvelScale">Marvel Scale?</label> <input type="checkbox" name="hasMarvelScale" id="hasMarvelScale" /><br>
+					<label for="hasMarvelScale">Marvel Scale?</label> <input type="checkbox" name="hasMarvelScale" id="hasMarvelScale" /><br>-->
 			</form>
 			</div> <!-- defensive -->
 
@@ -105,8 +133,8 @@
 </div> <!-- container -->
 
 <script language="javascript" type="text/javascript" src="lib/jquery.min.js"></script>
-<script type="text/javascript" charset="utf-8" src="lib/chosen.jquery.min.js"></script>
-<script type="text/javascript"> $(".chzn-select").chosen();</script>
+<script type="text/javascript" charset="utf-8" src="lib/chosen/chosen.jquery.min.js"></script>
+<script type="text/javascript"> $(".chzn-select").chosen(); </script>
 <script language="javascript" type="text/javascript" src="src/damagecalc.2.js"></script>
 </body>
 </html>
