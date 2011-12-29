@@ -160,7 +160,16 @@ TestCase("TranslatorTest", {
 		assertFalse(trans.hasHP({
 			hp: "I'm not a number!"
 		}));
-	}
+	},
+	
+	"test translateEffect should return number or undefined": function () {
+		assertNumber(trans.translateEffect("0.5x"));
+		assertNumber(trans.translateEffect("1x"));
+		
+		assertUndefined(trans.translateEffect("5"));
+		assertUndefined(trans.translateEffect(4));
+		assertUndefined(trans.translateEffect({}));
+	},
 });
 
 TestCase("OperatorTest", {

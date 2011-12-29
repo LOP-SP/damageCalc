@@ -193,21 +193,8 @@ DAMAGECALC.translator = (function () {
 				mod1: 1,
 				mod2: 1,
 				mod3: 1,
-				stab: (function () {
-					if (stats.stab) {
-						return 1.5;
-					}
-					else {
-						return 1;
-					}
-				}()),
-				effect: (function () {
-					if (stats.effect === '4x') { return 4; }
-					else if (stats.effect === '2x') { return 2; }
-					else if (stats.effect === '1x') { return 1; }
-					else if (stats.effect === '0.5x') { return 0.5; }
-					else if (stats.effect === '0.25x') { return 0.25; }
-				}()),
+				stab: stats.stab ? 1.5 : 1,
+				effect: this.translateEffect(stats.effect),
 				hasMultiScale: 1
 			};
 			
@@ -244,7 +231,25 @@ DAMAGECALC.translator = (function () {
 			}
 			
 			return typeof obj.hp === "number";
-		}
+		},
+		
+		translateEffect: function (effect) {
+			if (effect === '4x') {
+				return 4;
+			}
+			else if (effect === '2x') {
+				return 2;
+			}
+			else if (effect === '1x') {
+				return 1;
+			}
+			else if (effect === '0.5x') {
+				return 0.5;
+			}
+			else if (effect === '0.25x') {
+				return 0.25;
+			}
+		},
 	};
 }());
 
