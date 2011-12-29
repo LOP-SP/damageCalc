@@ -198,7 +198,20 @@ DAMAGECALC.translator = (function () {
 			html += "</table></div>";
 			
 			return html;
-		}
+		},
+		
+		// Checks if the given object has a property HP
+		// and if it is a number 
+		hasHP: function (obj) {
+			if (obj === undefined) {
+				throw {
+					name: "TypeError",
+					message: "DAMAGECALC.translator.hasHP(obj) needs an object input"
+				};
+			}
+			
+			return (obj.hp !== undefined);
+		},
 	};
 }());
 

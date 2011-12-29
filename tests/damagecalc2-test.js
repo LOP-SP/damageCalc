@@ -73,7 +73,7 @@ TestCase("CalcTest", {
 		assertEquals(100, calc.ohko(this.input, hp));
 	},
 	
-	"test ohko should work with 2HKO": function() {
+	"test ohko should work with 2HKO": function () {
 		var hp = 240;
 		
 		assertEquals(100, calc.ohko(this.input, hp, 2));
@@ -90,12 +90,20 @@ TestCase("TranslatorTest", {
 		};
 	},
 	
-	"test createDamageTable should return a string": function() {
+	"test createDamageTable should return a string": function () {
 		assertString(trans.createDamageTable(this.results));
 	},
 	
 	"test createDamageTable should return a table inside div.damage": function() {
 		assertMatch(/<div\sclass=\'damage\'\s*>\s*\n?<table(.*?)>.*<\/table>\s*\n?<\/div?/im, trans.createDamageTable(this.results));
+	},
+	
+	"test hasHP should return boolean": function () {
+		assertBoolean(trans.hasHP({}));
+		assertTrue(trans.hasHP({
+			hp: 500
+		}));
+		assertFalse(trans.hasHP({}));
 	}
 });
 
