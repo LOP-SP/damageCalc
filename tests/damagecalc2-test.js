@@ -99,22 +99,8 @@ TestCase("TranslatorTest", {
 	}
 });
 
-TestCase("IOTest", {
-	setUp: function() {
-		io = DAMAGECALC.io;
-		
-		// We'll test DOM manipulation in this test case. Prepare yourself.
-	},
-});
-
 TestCase("OperatorTest", {
 	setUp: function () {
 		op = DAMAGECALC.operator;
-	},
-});
-
-TestCase("i18nTest", {
-	setUp: function () {
-	  i18n = DAMAGECALC.i18n;
 	},
 });

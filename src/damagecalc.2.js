@@ -21,21 +21,34 @@ DAMAGECALC.io = (function () {
 				level: $("#damagecalc input[name='level']").val() || 100,
 				atk: $("#damagecalc input[name='atk']").val(),
 				atkStatModifier: $(" select[name='atkStatModifier']").val(),
-				def: $("#damagecalc input[name='def']").val(),
-				defStatModifier: $(" select[name='defStatModifier']").val(),
-				hp: $("#damagecalc input[name='hp']").val(),
 				basePower: $("#damagecalc input[name='basePower']").val(),
 				stab: $("#damagecalc input[name='stab']").is(':checked'),
-				effect: $("#damagecalc select[name='effect']").val()
+				effect: $("#damagecalc select[name='effect']").val(),
+				isBurn: $("#damagecalc input[name='isBurn']").is(':checked'),
+				
+				def: $("#damagecalc input[name='def']").val(),
+				defStatModifier: $("#damagecalc select[name='defStatModifier']").val(),
+				hp: $("#damagecalc input[name='hp']").val(),
+				isReflectActive: $("#damagecalc input[name='isReflectActive']").is(':checked'),
+				
+				atkItems: $("#damagecalc select[name='atkItems']").val(),
+				atkAbilities: $("#damagecalc select[name='atkAbility']").val(),
+				defItems: $("#damagecalc select[name='defItems']").val(),
+				defAbilities: $("#damagecalc select[name='defAbility']").val()
 			};
-			
-			// ...
-			
+		
 			return stats;
 		},
 		
 		showResultsOnUi: function (damageTable) {
-		  if ($("#damagecalc .damage").length) {
+			if (typeof damageTable !== "string") {
+				throw {
+					name: "TypeError",
+					message: "damageTable must be a string (at DAMAGECALC.io.showResultsOnUi())"
+				};
+			}
+			
+			if ($("#damagecalc .damage").length) {
 				$("#damagecalc .damage").remove();
 			}
 			
