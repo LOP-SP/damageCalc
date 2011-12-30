@@ -131,7 +131,7 @@ TestCase("TranslatorTest", {
 		
 		this.results = {
 			minDamage: 100,
-			maxDamage: 140
+			maxDamage: 140,
 		};
 	},
 	
@@ -187,9 +187,41 @@ TestCase("TranslatorTest", {
 	},
 	
 	"test createDamageTable should return a table inside div.damage": function() {
-		assertMatch(/<div\sclass=\'damage\'\s*>\s*\n?<table(.*?)>.*<\/table>\s*\n?<\/div?/im, trans.createDamageTable(this.results));
+		assertMatch(/<div\sclass=\'damage\'\s*>.*<table(.*?)>.*<\/table>\s*\n?<\/div?/im, trans.createDamageTable(this.results));
 	},
 	
+	"test checkIfSomePropertyIs should return boolean": function () {
+		assertBoolean(trans.checkIfSomePropertyIs({}, undefined));
+	},
+	
+	"test checkIfSomePropertyIs should return true if some property is stuff": function () {
+		assertTrue(trans.checkIfSomePropertyIs({p: undefined}, undefined));
+		assertTrue(trans.checkIfSomePropertyIs({p: false}, false));
+		assertTrue(trans.checkIfSomePropertyIs({p: "xica"}, "xica"));
+	},
+	
+	"test checkIfSomePropertyIs should return false if no property is stuff": function () {
+		assertFalse(trans.checkIfSomePropertyIs({}, undefined));
+		assertFalse(trans.checkIfSomePropertyIs({}, false));
+		assertFalse(trans.checkIfSomePropertyIs({}, "xica"));
+	},
+	
+	"test checkIfTypeOfPropertiesIsnt should return boolean": function () {
+		assertBoolean(trans.checkIfTypeOfPropertiesIs({}, "derp"));
+	},
+	
+	"test checkIfTypeOfPropertiesIs should return true if all props are of type stuff": function () {
+		assertTrue(trans.checkIfTypeOfPropertiesIs({p: "adfas"}, "string"));
+		assertTrue(trans.checkIfTypeOfPropertiesIs({p: 13123}, "number"));
+		assertTrue(trans.checkIfTypeOfPropertiesIs({p: function () {}}, "function"));
+	},
+	
+	"test checkIfTypeOfPropertiesIs should return false if some prop isn't of type stuff": function () {
+		assertFalse(trans.checkIfTypeOfPropertiesIs({p: 4233}, "string"));
+		assertFalse(trans.checkIfTypeOfPropertiesIs({p: "fds"}, "number"));
+		assertFalse(trans.checkIfTypeOfPropertiesIs({p: undefined}, "function"));
+	},
+		
 	"test hasHP should return boolean": function () {
 		assertBoolean(trans.hasHP({}));
 		assertTrue(trans.hasHP({
@@ -242,4 +274,16 @@ TestCase("OperatorTest", {
 	setUp: function () {
 		op = DAMAGECALC.operator;
 	},
+	
+	"test DAMAGECALC.operator must be an object": function () {
+		assertObject(DAMAGECALC.operator);
+	},
+	
+	"test activateCalculation should return boolean": function () {
+		assertBoolean(op.activateCalculation());
+	},
+	
+	"test activateCalculation should return false if an exception is caught": function () {
+		assertFalse(op.activateCalculation());
+	}
 });

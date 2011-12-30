@@ -210,6 +210,13 @@ DAMAGECALC.translator = (function () {
 	return {
 		// Translates a stats object into an input one
 		turnIntoInput: function (stats) {
+			if (this.checkIfSomePropertyIs(input, undefined)) {
+				throw {
+					name: "TypeError",
+					message: "In DAMAGECALC.translator.createResults, input can't have undefined properties."
+				};
+			}
+			
 			// Basic parsing
 			var input = {
 				level: parseInt(stats.level, 10),
@@ -231,6 +238,13 @@ DAMAGECALC.translator = (function () {
 		},
 		
 		createResults: function (input) {
+			if (this.checkIfSomePropertyIs(input, undefined)) {
+				throw {
+					name: "TypeError",
+					message: "In DAMAGECALC.translator.createResults, input can't have undefined properties."
+				};
+			}
+			
 			var results = {
 				minDamage: DAMAGECALC.calculator.damageCalc(input, 0.85),
 				maxDamage: DAMAGECALC.calculator.damageCalc(input, 1),
@@ -242,6 +256,13 @@ DAMAGECALC.translator = (function () {
 		},
 		
 		createDamageTable: function (results) {
+			if (!this.checkIfTypeOfPropertiesIs(results, "number")) {
+				throw {
+					name: "TypeError",
+					message: "In DAMAGECALC.translator.createDamageTable(results), results must have numeric properties."
+				};
+			}
+			
 			var html = "";
 			
 			html += "<div class='damage'><h1>Resultados</h1><table>";
@@ -251,6 +272,37 @@ DAMAGECALC.translator = (function () {
 			html += "</table></div>";
 			
 			return html;
+		},
+		
+		// Check if SOME PROPERTY of obj is stuff
+		// Ex.: checkIfSomePropertyIs({p: undefined}, undefined)
+		// results in "true"
+		checkIfSomePropertyIs: function (obj, stuff) {
+			var result = false;
+			
+			for (var p in obj) {
+				if (obj.hasOwnProperty(p)) {
+					if (obj[p] === stuff) {
+						result = true;
+					}
+				}
+			}
+			
+			return result;
+		},
+		
+		checkIfTypeOfPropertiesIs: function (obj, stuff) {
+			var result = true;
+			
+			for (var p in obj) {
+				if (obj.hasOwnProperty(p)) {
+					if (typeof obj[p] !== stuff) {
+						result = false;
+					}
+				}
+			}
+			
+			return result;
 		},
 		
 		// Checks if the given object has a property 'hp'
@@ -318,7 +370,27 @@ DAMAGECALC.translator = (function () {
 // For example, it controls which kind of damage table the translator
 // module creates and what UI should be presented.
 DAMAGECALC.operator = (function () {
-	
+	return {
+		activateCalculation: function () {
+			var stats = {},
+			    input = {},
+			    results = {},
+			    table = "";
+			
+			try {
+				stats = DAMAGECALC.io.getStatsFromTheUi();
+				input = DAMAGECALC.translator.turnIntoInput(stats);
+				results = DAMAGECALC.translator.createResults(input);
+				table = DAMAGECALC.translator.createDamageTable(results);
+				DAMAGECALC.io.showResultsOnUi(table);
+			}
+			catch (e) {
+				return false
+			}
+			
+			return true;
+		}
+	};
 }());
 
 // DAMAGECALC.i18n is an internationalization module yet to be implemented.
