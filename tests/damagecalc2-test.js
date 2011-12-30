@@ -18,6 +18,10 @@ TestCase("CalcTest", {
 		this.ch = 1;
 	},
 	
+	"test DAMAGECALC.calculator should be an object": function () {
+		assertObject(DAMAGECALC.calculator);
+	},
+	
 	"test damage calc should return a number": function () {
 		var randomMultiplier = 1;
 		
@@ -108,13 +112,17 @@ TestCase("TranslatorTest", {
 			atkItems: "choice",
 			atkAbilities: "sheerForce",
 			defItems: "",
-			defAbilities: "multiScale"
+			defAbilities: "multiscale"
 		};
 		
 		this.results = {
 			minDamage: 100,
 			maxDamage: 140
 		};
+	},
+	
+	"test DAMAGECALC.translator should be an object": function () {
+		assertObject(DAMAGECALC.translator);
 	},
 	
 	"test turnIntoInput should return an object": function () {
@@ -133,7 +141,7 @@ TestCase("TranslatorTest", {
 		assertNotUndefined(input.mod3);
 		assertNotUndefined(input.stab);
 		assertNotUndefined(input.effect);
-		assertNotUndefined(input.hasMultiScale);
+		assertNotUndefined(input.hasMultiscale);
 	},
 	
 	"test createDamageTable should return a string": function () {
@@ -170,6 +178,26 @@ TestCase("TranslatorTest", {
 		assertUndefined(trans.translateEffect(4));
 		assertUndefined(trans.translateEffect({}));
 	},
+	
+	"test translateEffect should return correct value": function () {
+		assertEquals(2, trans.translateEffect("2x"));
+		assertEquals(0.25, trans.translateEffect("0.25x"));
+	},
+	
+	"test translateStatModifier should return number or undefined": function () {
+		assertNumber(trans.translateStatModifier("+4"));
+		assertNumber(trans.translateStatModifier("-3"));
+		
+		assertUndefined(trans.translateStatModifier("12"));
+		assertUndefined(trans.translateStatModifier(231));
+		assertUndefined(trans.translateStatModifier({}));
+	},
+	
+	"test translateStatModifier should return correct value": function () {
+		assertEquals(0.5, trans.translateStatModifier("-2"));
+		assertEquals(3.5, trans.translateStatModifier("5"));
+		assertEquals(2.5, trans.translateStatModifier("+3"));
+	}
 });
 
 TestCase("OperatorTest", {

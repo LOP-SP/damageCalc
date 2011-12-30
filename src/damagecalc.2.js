@@ -162,6 +162,35 @@ DAMAGECALC.translator = (function () {
 	selected from the UI. The items/abilities are now selected in a <select>
 	tag, not in a shitload of checkboxes anymore.
 	*/
+	var ITEM_TABLE = {
+		choice: ["atk", 1.5],
+		lifeOrb: ["atk", 1.3],
+		typeBoost: ["atk", 1.2],
+		expertBelt: ["atk", 1.2, "effect", function (e) {
+			return e > 1;
+		}],
+		soulDew: ["atk", 1.5],
+		eviolite: ["def", 1.5],
+		resistBerry: ["def", 1.5, "effect", function (e) {
+			return e > 1;
+		}]
+	},
+	    ABILITY_TABLE = {
+		guts: ["atk", 1.5],
+		flashFire: ["atk", 1.5],
+		sandForce: ["atk", 1.5],
+		purePower: ["atk", 2],
+		sheerForce: ["atk", 1.3],
+		technician: ["atk", 1.5, "basePower", function (e) {
+			return e > 60;
+		}],
+		reckless: ["atk", 1.2],
+		multiscale: ["def", 0.5],
+		solidRock: ["def", 0.75, "effect", function (e) {
+			return e > 1;
+		}],
+		marvelScale: ["def", 1.5]
+	};
 	
 	/*
 	// Critical hits ignores defense multipliers...
@@ -195,10 +224,12 @@ DAMAGECALC.translator = (function () {
 				mod3: 1,
 				stab: stats.stab ? 1.5 : 1,
 				effect: this.translateEffect(stats.effect),
-				hasMultiScale: 1
+				hasMultiscale: 1
 			};
 			
 			// Now use the ITEM_TABLE and ABILITY_TABLE constants
+			
+			
 			return input;
 		},
 		
@@ -234,22 +265,52 @@ DAMAGECALC.translator = (function () {
 		},
 		
 		translateEffect: function (effect) {
-			if (effect === '4x') {
+			if (typeof effect === "string") {
+				effect = effect.replace(/([0-9])\s?x/ig, "$1");
+			}
+			else {
+				return undefined;
+			}
+			
+			if (effect === '4') {
 				return 4;
 			}
-			else if (effect === '2x') {
+			else if (effect === '2') {
 				return 2;
 			}
-			else if (effect === '1x') {
+			else if (effect === '1') {
 				return 1;
 			}
-			else if (effect === '0.5x') {
+			else if (effect === '0.5') {
 				return 0.5;
 			}
-			else if (effect === '0.25x') {
+			else if (effect === '0.25') {
 				return 0.25;
 			}
 		},
+		
+		translateStatModifier: function (statModifier) {
+			if (typeof statModifier === "string") {
+				statModifier = statModifier.replace(/\+/g, "");
+			}
+			else {
+				return undefined;
+			}
+			
+			if (statModifier === '0') { return 1; }
+			else if (statModifier === '1') { return 1.5; }
+			else if (statModifier === '2') { return 2; }
+			else if (statModifier === '-1') { return 0.6667; }
+			else if (statModifier === '-2') { return 0.5; }
+			else if (statModifier === '3') { return 2.5; }
+			else if (statModifier === '4') { return 3; }
+			else if (statModifier === '5') { return 3.5; }
+			else if (statModifier === '6') { return 4; }
+			else if (statModifier === '-3') { return 0.4; }
+			else if (statModifier === '-4') { return 0.3333; }
+			else if (statModifier === '-5') { return 0.2857; }
+			else if (statModifier === '-6') { return 0.25; }
+		}
 	};
 }());
 

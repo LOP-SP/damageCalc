@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/damagecalc.js</string>
+	<string>src/damagecalc.2.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -46,7 +46,7 @@
 			<key>filename</key>
 			<string>asdf.html</string>
 			<key>lastUsed</key>
-			<date>2011-12-29T14:32:57Z</date>
+			<date>2011-12-29T18:59:35Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -76,48 +76,33 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>16</integer>
+				<integer>30</integer>
 				<key>line</key>
-				<integer>33</integer>
+				<integer>195</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>2</integer>
-		</dict>
-		<key>src/damagecalc.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>33</integer>
-				<key>line</key>
-				<integer>294</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>271</integer>
+			<integer>185</integer>
 		</dict>
 		<key>tests/damagecalc2-test.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>11</integer>
+				<integer>3</integer>
 				<key>line</key>
-				<integer>109</integer>
+				<integer>171</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>84</integer>
+			<integer>0</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
 		<string>src/damagecalc.2.js</string>
-		<string>src/damagecalc.js</string>
 		<string>tests/damagecalc2-test.js</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
