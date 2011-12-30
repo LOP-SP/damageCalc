@@ -53,6 +53,11 @@ DAMAGECALC.io = (function () {
 			}
 			
 			$("#damagecalc").append(damageTable);
+		},
+		
+		// Used to display the current Atk/Def, with modifiers applied
+		showCurrentStat: function (statName, statValue) {
+			$("#damagecalc span#" + statName.toLowerCase() + "FinalValue").html(statValue);
 		}
 	};
 }());
@@ -152,16 +157,6 @@ DAMAGECALC.calculator = (function () {
 // the UI into an usable input object for DAMAGECALC.calculator. Also, it
 // handles the creation of damage tables.
 DAMAGECALC.translator = (function () {
-	/*
-	This module must handle all the interconnections between items, abilities
-	and whatever else. It stores items and abilities' effects in a constant.
-	
-	... How to take care of multiple cases? And the values applied (or not)?
-	
-	The raw_data object given to us from DAMAGECALC.io contains whatever was
-	selected from the UI. The items/abilities are now selected in a <select>
-	tag, not in a shitload of checkboxes anymore.
-	*/
 	var ITEM_TABLE = {
 		choice: ["atk", 1.5],
 		lifeOrb: ["atk", 1.3],
