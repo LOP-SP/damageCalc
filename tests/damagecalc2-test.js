@@ -190,6 +190,10 @@ TestCase("TranslatorTest", {
 		assertMatch(/<div\sclass=\'damage\'\s*>.*<table(.*?)>.*<\/table>\s*\n?<\/div?/im, trans.createDamageTable(this.results));
 	},
 	
+	"test getErrorMessage should return a string": function () {
+		assertString(trans.getErrorMessage());
+	},
+	
 	"test checkIfSomePropertyIs should return boolean": function () {
 		assertBoolean(trans.checkIfSomePropertyIs({}, undefined));
 	},
@@ -206,7 +210,7 @@ TestCase("TranslatorTest", {
 		assertFalse(trans.checkIfSomePropertyIs({}, "xica"));
 	},
 	
-	"test checkIfTypeOfPropertiesIsnt should return boolean": function () {
+	"test checkIfTypeOfPropertiesIs should return boolean": function () {
 		assertBoolean(trans.checkIfTypeOfPropertiesIs({}, "derp"));
 	},
 	
@@ -220,6 +224,10 @@ TestCase("TranslatorTest", {
 		assertFalse(trans.checkIfTypeOfPropertiesIs({p: 4233}, "string"));
 		assertFalse(trans.checkIfTypeOfPropertiesIs({p: "fds"}, "number"));
 		assertFalse(trans.checkIfTypeOfPropertiesIs({p: undefined}, "function"));
+	},
+	
+	"test checkIfTypeOfPropertiesIs shouldn't consider NaN a number": function () {
+		assertFalse(trans.checkIfTypeOfPropertiesIs({p: NaN}, "number"));
 	},
 		
 	"test hasHP should return boolean": function () {

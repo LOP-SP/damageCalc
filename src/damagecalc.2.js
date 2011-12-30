@@ -187,7 +187,8 @@ DAMAGECALC.translator = (function () {
 			return e > 1;
 		}],
 		marvelScale: ["def", 1.5]
-	};
+	},
+	    ERROR_MESSAGE = "Algo errado.";
 	
 	/*
 	// Critical hits ignores defense multipliers...
@@ -210,7 +211,7 @@ DAMAGECALC.translator = (function () {
 	return {
 		// Translates a stats object into an input one
 		turnIntoInput: function (stats) {
-			if (this.checkIfSomePropertyIs(input, undefined)) {
+			if (this.checkIfSomePropertyIs(stats, undefined)) {
 				throw {
 					name: "TypeError",
 					message: "In DAMAGECALC.translator.createResults, input can't have undefined properties."
@@ -230,11 +231,10 @@ DAMAGECALC.translator = (function () {
 				effect: this.translateEffect(stats.effect),
 				hasMultiscale: 1
 			};
-			
-			
 						
 			// Now use the ITEM_TABLE and ABILITY_TABLE constants
 			// to parse the (atk|def)Items and (atk|def)Ability
+			// and update Atk, Def, basePower, mod(1|2|3) and hasMultiscale
 			
 			return input;
 		},
@@ -274,6 +274,10 @@ DAMAGECALC.translator = (function () {
 			html += "</table></div>";
 			
 			return html;
+		},
+		
+		getErrorMessage: function () {
+			return ERROR_MESSAGE;
 		},
 		
 		// Check if SOME PROPERTY of obj is stuff
@@ -384,15 +388,12 @@ DAMAGECALC.operator = (function () {
 			try {
 				stats = DAMAGECALC.io.getStatsFromTheUi();
 				input = DAMAGECALC.translator.turnIntoInput(stats);
-				console.log(input);
 				results = DAMAGECALC.translator.createResults(input);
-				console.log(results);
 				table = DAMAGECALC.translator.createDamageTable(results);
-				console.log(table);
 				DAMAGECALC.io.showResultsOnUi(table);
 			}
 			catch (e) {
-				table = "Aparentemente algo deu errado. Por favor, revise os dados introduzidos!";
+				table = DAMAGECALC.translator.getErrorMessage();
 				DAMAGECALC.io.showResultsOnUi(table);
 				
 				return false
