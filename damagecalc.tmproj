@@ -25,6 +25,8 @@
 			<string>src</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>stylesheet</string>
 			<key>regexFolderFilter</key>
@@ -46,7 +48,7 @@
 			<key>filename</key>
 			<string>asdf.html</string>
 			<key>lastUsed</key>
-			<date>2011-12-29T18:59:35Z</date>
+			<date>2011-12-30T00:46:34Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -71,38 +73,53 @@
 	<integer>206</integer>
 	<key>metaData</key>
 	<dict>
+		<key>asdf.html</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>204</integer>
+				<key>line</key>
+				<integer>80</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>src/damagecalc.2.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>30</integer>
+				<integer>38</integer>
 				<key>line</key>
-				<integer>195</integer>
+				<integer>158</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>185</integer>
+			<integer>51</integer>
 		</dict>
 		<key>tests/damagecalc2-test.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>3</integer>
+				<integer>22</integer>
 				<key>line</key>
-				<integer>171</integer>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>140</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
 		<string>src/damagecalc.2.js</string>
+		<string>asdf.html</string>
 		<string>tests/damagecalc2-test.js</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
@@ -112,6 +129,13 @@
 	<key>treeState</key>
 	<dict>
 		<key>src</key>
+		<dict>
+			<key>isExpanded</key>
+			<true/>
+			<key>subItems</key>
+			<dict/>
+		</dict>
+		<key>stylesheet</key>
 		<dict>
 			<key>isExpanded</key>
 			<true/>

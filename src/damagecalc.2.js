@@ -88,17 +88,19 @@ DAMAGECALC.calculator = (function () {
 		*/
 		damageCalc: function (input, randomMultiplier, criticalHit) {
 			var damage = 0;
+			
+			randomMultiplier = randomMultiplier || 1;
+			criticalHit = criticalHit || 1;
 
-			// Damage Formula = (((((((Level × 2 ÷ 5) + 2) × BasePower × [Sp]Atk ÷ 50) ÷ [Sp]Def) × Mod1) + 2) × 
-			//                 CH × Mod2 × R ÷ 100) × STAB × Type1 × Type2 × Mod3)
+			// Damage Formula = (((((((Level × 2 ÷ 5) + 2) × BasePower × [Sp]Atk ÷ 50)
+			// ÷ [Sp]Def) × Mod1) + 2) × CH × Mod2 × R ÷ 100) × STAB × Type1 × Type2 × Mod3)
 
 			// After each "step" in the damage formula, we need to round down the result.
 			damage = Math.floor(((input.level * 2) / 5) + 2);
 			damage = Math.floor(damage * input.basePower * input.atk / 50);
 			damage = Math.floor(damage / input.def);
 			damage = Math.floor(damage * input.mod1 + 2);
-			damage = Math.floor(damage * criticalHit);
-			damage = Math.floor(damage * input.mod2);
+			damage = Math.floor(damage * criticalHit * input.mod2);
 
 			// This is where randomness takes place.
 			// Cache the damage before here and loop through the possible values for the random multiplier (0.85, 0.86, ..., 0.99, 1)
@@ -210,7 +212,7 @@ DAMAGECALC.translator = (function () {
 		turnIntoInput: function (stats) {
 			// Basic parsing
 			var input = {
-				level: parseInt(stats.hp, 10),
+				level: parseInt(stats.level, 10),
 				basePower: parseInt(stats.basePower, 10),
 				atk: parseInt(stats.atk, 10),
 				def: parseInt(stats.def, 10),
@@ -223,23 +225,26 @@ DAMAGECALC.translator = (function () {
 			};
 			
 			// Now use the ITEM_TABLE and ABILITY_TABLE constants
-			
+			// to parse the (atk|def)Items and (atk|def)Ability
 			
 			return input;
+		},
+		
+		createResults: function (input) {
+			var results = {};
+						
+			results = {
+				minDamage: DAMAGECALC.calculator.damageCalc(input, 0.85),
+				maxDamage: DAMAGECALC.calculator.damageCalc(input, 1)
+			};
+			
+			return results;
 		},
 		
 		createDamageTable: function (results) {
 			var html = "";
 			
-			if (typeof results.minDamage !== "number" || typeof results.maxDamage !== "number" || results.minDamage < 0 || results.maxDamage < 0) {
-				throw {
-					name: "TypeError",
-					message: "createDamageTable needs positive valued results.minDamage and results.maxDamage"
-				};
-			}
-			
-			html += "<h1>Resultados</h1>";
-			html += "<div class='damage'><table>";
+			html += "<h1>Resultados</h1><div class='damage'><table>";
 			
 			html += "<tr><td>" + results.minDamage + " - " + results.maxDamage + "</td></tr>";
 			
@@ -248,7 +253,7 @@ DAMAGECALC.translator = (function () {
 			return html;
 		},
 		
-		// Checks if the given object has a property HP
+		// Checks if the given object has a property 'hp'
 		// and if it is a number 
 		hasHP: function (obj) {
 			// Can't look at an undefined object's property!

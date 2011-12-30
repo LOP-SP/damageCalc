@@ -34,6 +34,7 @@ TestCase("CalcTest", {
 		    max = 1.0;
 		
 		assertEquals(144, calc.damageCalc(this.input, min, this.ch));
+		console.log(calc.damageCalc(this.input, min, this.ch));
 		assertEquals(170, calc.damageCalc(this.input, max, this.ch));
 	},
 	
@@ -115,6 +116,19 @@ TestCase("TranslatorTest", {
 			defAbilities: "multiscale"
 		};
 		
+		this.input = {
+			level: 100,
+			basePower: 100,
+			atk: 400,
+			def: 200,
+			mod1: 1,
+			mod2: 1,
+			mod3: 1,
+			stab: 1,
+			effect: 1,
+			hasMultiscale: 1
+		};
+		
 		this.results = {
 			minDamage: 100,
 			maxDamage: 140
@@ -130,18 +144,37 @@ TestCase("TranslatorTest", {
 	},
 	
 	"test turnIntoInput should return an input object": function () {
-		var input = trans.turnIntoInput(this.stats);
+		assertNotUndefined(trans.turnIntoInput(this.stats).level);
+		assertNotUndefined(trans.turnIntoInput(this.stats).basePower);
+		assertNotUndefined(trans.turnIntoInput(this.stats).atk);
+		assertNotUndefined(trans.turnIntoInput(this.stats).def);
+		assertNotUndefined(trans.turnIntoInput(this.stats).mod1);
+		assertNotUndefined(trans.turnIntoInput(this.stats).mod2);
+		assertNotUndefined(trans.turnIntoInput(this.stats).mod3);
+		assertNotUndefined(trans.turnIntoInput(this.stats).stab);
+		assertNotUndefined(trans.turnIntoInput(this.stats).effect);
+		assertNotUndefined(trans.turnIntoInput(this.stats).hasMultiscale);
+
+	},
+	
+	"test turnIntoInput should return a valid input object": function () {
+		var q = trans.turnIntoInput(this.stats);
 		
-		assertNotUndefined(input.level);
-		assertNotUndefined(input.basePower);
-		assertNotUndefined(input.atk);
-		assertNotUndefined(input.def);
-		assertNotUndefined(input.mod1);
-		assertNotUndefined(input.mod2);
-		assertNotUndefined(input.mod3);
-		assertNotUndefined(input.stab);
-		assertNotUndefined(input.effect);
-		assertNotUndefined(input.hasMultiscale);
+		assertTrue(q.level > 0 && q.level < 101);
+		assertTrue(q.basePower > 0);
+		assertTrue(q.atk > 0);
+		assertTrue(q.def > 0);
+		assertTrue(q.stab === 1 || q.stab === 1.5);
+		assertTrue(q.effect > 0.2 && q.effect <= 4);
+	},
+	
+	"test createResults should return an object": function () {
+		assertObject(trans.createResults(this.input));
+	},
+	
+	"test createResults should return a results object with minDamage and maxDamage": function () {
+		assertNumber(trans.createResults(this.input).minDamage);
+		assertNumber(trans.createResults(this.input).maxDamage);
 	},
 	
 	"test createDamageTable should return a string": function () {
