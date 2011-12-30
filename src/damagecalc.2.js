@@ -231,6 +231,8 @@ DAMAGECALC.translator = (function () {
 				hasMultiscale: 1
 			};
 			
+			
+						
 			// Now use the ITEM_TABLE and ABILITY_TABLE constants
 			// to parse the (atk|def)Items and (atk|def)Ability
 			
@@ -291,12 +293,14 @@ DAMAGECALC.translator = (function () {
 			return result;
 		},
 		
+		// Check if ALL PROPERTIES are of type "stuff"
+		// NaN isn't considered a number in this method.
 		checkIfTypeOfPropertiesIs: function (obj, stuff) {
 			var result = true;
 			
 			for (var p in obj) {
 				if (obj.hasOwnProperty(p)) {
-					if (typeof obj[p] !== stuff) {
+					if (typeof obj[p] !== stuff || (stuff === "number" && isNaN(obj[p]))) {
 						result = false;
 					}
 				}
@@ -380,11 +384,17 @@ DAMAGECALC.operator = (function () {
 			try {
 				stats = DAMAGECALC.io.getStatsFromTheUi();
 				input = DAMAGECALC.translator.turnIntoInput(stats);
+				console.log(input);
 				results = DAMAGECALC.translator.createResults(input);
+				console.log(results);
 				table = DAMAGECALC.translator.createDamageTable(results);
+				console.log(table);
 				DAMAGECALC.io.showResultsOnUi(table);
 			}
 			catch (e) {
+				table = "Aparentemente algo deu errado. Por favor, revise os dados introduzidos!";
+				DAMAGECALC.io.showResultsOnUi(table);
+				
 				return false
 			}
 			
