@@ -231,11 +231,11 @@ DAMAGECALC.translator = (function () {
 		},
 		
 		createResults: function (input) {
-			var results = {};
-						
-			results = {
+			var results = {
 				minDamage: DAMAGECALC.calculator.damageCalc(input, 0.85),
-				maxDamage: DAMAGECALC.calculator.damageCalc(input, 1)
+				maxDamage: DAMAGECALC.calculator.damageCalc(input, 1),
+				minChDamage: DAMAGECALC.calculator.damageCalc(input, 0.85, 2),
+				maxChDamage: DAMAGECALC.calculator.damageCalc(input, 1, 2)
 			};
 			
 			return results;
@@ -244,7 +244,7 @@ DAMAGECALC.translator = (function () {
 		createDamageTable: function (results) {
 			var html = "";
 			
-			html += "<h1>Resultados</h1><div class='damage'><table>";
+			html += "<div class='damage'><h1>Resultados</h1><table>";
 			
 			html += "<tr><td>" + results.minDamage + " - " + results.maxDamage + "</td></tr>";
 			

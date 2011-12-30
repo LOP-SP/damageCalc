@@ -177,6 +177,11 @@ TestCase("TranslatorTest", {
 		assertNumber(trans.createResults(this.input).maxDamage);
 	},
 	
+	"test createResults returned object should also contain damages with CH": function () {
+		assertNumber(trans.createResults(this.input).minChDamage);
+		assertNumber(trans.createResults(this.input).maxChDamage);
+	},
+		
 	"test createDamageTable should return a string": function () {
 		assertString(trans.createDamageTable(this.results));
 	},
