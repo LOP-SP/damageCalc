@@ -1,8 +1,8 @@
-damageCalc
+damageCalc  
 Author: Carlos Agarie  
 Author URL: www.onox.com.br  
 Project URL: www.github.com/agarie/damageCalc  
-Version: 1.0
+Version: 1.0  
 License: MIT License   
 
 INTRODUCTION
@@ -10,9 +10,9 @@ INTRODUCTION
 
 DamageCalc is a calculator made for the Pokemon Diamond, Pearl, Platinum, Heart Gold, Soul Silver, Black and White games to discover how much damage a certain move will deal against a pokemon. It's very lightweight and can be used during online battles, just let a browser tab opened.
 
-The damage formula considered is found in the Smogon University's site (www.smogon.com), together with a detailed description of all the necessary inputs. There are a lot of comments within the code (damagecalc.js), but you may find it better to understand the inner workings of the game before delving into the code.
+The damage formula considered is found in the Smogon University's site (www.smogon.com), together with a detailed description of all the necessary inputs. You may find it better to understand the inner workings of the game before delving into the code.
 
-The code uses strict mode, passes jslint and is tested with JsTestDriver. I intent to document it with jsdocs toolkit (when it decides to work...).
+The code uses strict mode and is tested with JsTestDriver. I intent to document it with jsdocs toolkit (when it decides to work...).
 
 USE
 ===
@@ -28,19 +28,6 @@ With subject "Pokemon Damage Calculator". Please, let me know if you find this p
 UPDATES
 =======
 
-This project is part of the Mojambo project (www.mojambo.net), aiming to create the most complete Pokémon library and set of applications on the Internet. So, it may not be possible to update this calc as much as I want. Please, be patient. :(
+This project is part of the Mojambo project (www.mojambo.net), aiming to create the most complete Pokémon library and set of applications on the Internet.
 
 At the moment, I'm working on a 2.0 release. It's being rewritten from the ground up, using test-driven development (TDD) with the JsTestDriver utility and I plan on making it very very easy to update the items/abilities list. Also, I intend to implement "viewing modes", as in one-against-all, all-against-one, etc. This way, it's possible to get your calculations done in a batch, easily.
-
-LICENSE
-=======
-
-MIT License
-
-Copyright (c) 2011 Carlos Agarie
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

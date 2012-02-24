@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/damagecalc.2.js</string>
+	<string>README.md</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -21,8 +21,6 @@
 			<string>src</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
-			<key>selected</key>
-			<true/>
 			<key>sourceDirectory</key>
 			<string>src</string>
 		</dict>
@@ -46,15 +44,13 @@
 		</dict>
 		<dict>
 			<key>filename</key>
-			<string>asdf.html</string>
-			<key>lastUsed</key>
-			<date>2012-02-20T06:20:04Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
 			<string>index.html</string>
 			<key>lastUsed</key>
 			<date>2012-01-12T17:33:32Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>index2.html</string>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -66,35 +62,51 @@
 			<key>filename</key>
 			<string>README.md</string>
 			<key>lastUsed</key>
-			<date>2011-12-28T23:25:52Z</date>
+			<date>2012-02-24T02:51:22Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>206</integer>
 	<key>metaData</key>
 	<dict>
-		<key>src/damagecalc.2.js</key>
+		<key>README.md</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
 				<integer>0</integer>
 				<key>line</key>
-				<integer>385</integer>
+				<integer>6</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>349</integer>
+			<integer>1</integer>
+		</dict>
+		<key>src/damagecalc.2.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>36</integer>
+				<key>line</key>
+				<integer>375</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>338</integer>
 		</dict>
 		<key>tests/damagecalc2-test.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>24</integer>
+				<integer>26</integer>
 				<key>line</key>
-				<integer>96</integer>
+				<integer>280</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -106,6 +118,7 @@
 	<array>
 		<string>src/damagecalc.2.js</string>
 		<string>tests/damagecalc2-test.js</string>
+		<string>README.md</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<false/>

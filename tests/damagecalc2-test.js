@@ -1,6 +1,6 @@
 TestCase("CalcTest", {
 	setUp: function () {
-		calc = DAMAGECALC.calculator
+		calc = DAMAGECALC.calc
 		
 		this.input = {
 			level: 100,
@@ -18,8 +18,8 @@ TestCase("CalcTest", {
 		this.ch = 1;
 	},
 	
-	"test DAMAGECALC.calculator should be an object": function () {
-		assertObject(DAMAGECALC.calculator);
+	"test DAMAGECALC.calc should be an object": function () {
+		assertObject(DAMAGECALC.calc);
 	},
 	
 	"test damage calc should return a number": function () {
@@ -92,9 +92,9 @@ TestCase("CalcTest", {
 	}
 });
 
-TestCase("TranslatorTest", {
+TestCase("EngineTest", {
 	setUp: function () {
-	  trans = DAMAGECALC.translator;
+	 engine = DAMAGECALC.engine;
 		
 		this.stats = {
 			level: "100",
@@ -140,25 +140,25 @@ TestCase("TranslatorTest", {
 	},
 	
 	"test turnIntoInput should return an object": function () {
-		assertObject(trans.turnIntoInput({}));
+		assertObject(engine.turnIntoInput({}));
 	},
 	
 	"test turnIntoInput should return an input object": function () {
-		assertNotUndefined(trans.turnIntoInput(this.stats).level);
-		assertNotUndefined(trans.turnIntoInput(this.stats).basePower);
-		assertNotUndefined(trans.turnIntoInput(this.stats).atk);
-		assertNotUndefined(trans.turnIntoInput(this.stats).def);
-		assertNotUndefined(trans.turnIntoInput(this.stats).mod1);
-		assertNotUndefined(trans.turnIntoInput(this.stats).mod2);
-		assertNotUndefined(trans.turnIntoInput(this.stats).mod3);
-		assertNotUndefined(trans.turnIntoInput(this.stats).stab);
-		assertNotUndefined(trans.turnIntoInput(this.stats).effect);
-		assertNotUndefined(trans.turnIntoInput(this.stats).hasMultiscale);
+		assertNotUndefined(engine.turnIntoInput(this.stats).level);
+		assertNotUndefined(engine.turnIntoInput(this.stats).basePower);
+		assertNotUndefined(engine.turnIntoInput(this.stats).atk);
+		assertNotUndefined(engine.turnIntoInput(this.stats).def);
+		assertNotUndefined(engine.turnIntoInput(this.stats).mod1);
+		assertNotUndefined(engine.turnIntoInput(this.stats).mod2);
+		assertNotUndefined(engine.turnIntoInput(this.stats).mod3);
+		assertNotUndefined(engine.turnIntoInput(this.stats).stab);
+		assertNotUndefined(engine.turnIntoInput(this.stats).effect);
+		assertNotUndefined(engine.turnIntoInput(this.stats).hasMultiscale);
 
 	},
 	
 	"test turnIntoInput should return a valid input object": function () {
-		var q = trans.turnIntoInput(this.stats);
+		var q =engine.turnIntoInput(this.stats);
 		
 		assertTrue(q.level > 0 && q.level < 101);
 		assertTrue(q.basePower > 0);
@@ -169,112 +169,112 @@ TestCase("TranslatorTest", {
 	},
 	
 	"test createResults should return an object": function () {
-		assertObject(trans.createResults(this.input));
+		assertObject(engine.createResults(this.input));
 	},
 	
 	"test createResults should return a results object with minDamage and maxDamage": function () {
-		assertNumber(trans.createResults(this.input).minDamage);
-		assertNumber(trans.createResults(this.input).maxDamage);
+		assertNumber(engine.createResults(this.input).minDamage);
+		assertNumber(engine.createResults(this.input).maxDamage);
 	},
 	
 	"test createResults returned object should also contain damages with CH": function () {
-		assertNumber(trans.createResults(this.input).minChDamage);
-		assertNumber(trans.createResults(this.input).maxChDamage);
+		assertNumber(engine.createResults(this.input).minChDamage);
+		assertNumber(engine.createResults(this.input).maxChDamage);
 	},
 		
 	"test createDamageTable should return a string": function () {
-		assertString(trans.createDamageTable(this.results));
+		assertString(engine.createDamageTable(this.results));
 	},
 	
 	"test createDamageTable should return a table inside div.damage": function() {
-		assertMatch(/<div\sclass=\'damage\'\s*>.*<table(.*?)>.*<\/table>\s*\n?<\/div?/im, trans.createDamageTable(this.results));
+		assertMatch(/<div\sclass=\'damage\'\s*>.*<table(.*?)>.*<\/table>\s*\n?<\/div?/im,engine.createDamageTable(this.results));
 	},
 	
 	"test getErrorMessage should return a string": function () {
-		assertString(trans.getErrorMessage());
+		assertString(engine.getErrorMessage());
 	},
 	
 	"test checkIfSomePropertyIs should return boolean": function () {
-		assertBoolean(trans.checkIfSomePropertyIs({}, undefined));
+		assertBoolean(engine.checkIfSomePropertyIs({}, undefined));
 	},
 	
 	"test checkIfSomePropertyIs should return true if some property is stuff": function () {
-		assertTrue(trans.checkIfSomePropertyIs({p: undefined}, undefined));
-		assertTrue(trans.checkIfSomePropertyIs({p: false}, false));
-		assertTrue(trans.checkIfSomePropertyIs({p: "xica"}, "xica"));
+		assertTrue(engine.checkIfSomePropertyIs({p: undefined}, undefined));
+		assertTrue(engine.checkIfSomePropertyIs({p: false}, false));
+		assertTrue(engine.checkIfSomePropertyIs({p: "xica"}, "xica"));
 	},
 	
 	"test checkIfSomePropertyIs should return false if no property is stuff": function () {
-		assertFalse(trans.checkIfSomePropertyIs({}, undefined));
-		assertFalse(trans.checkIfSomePropertyIs({}, false));
-		assertFalse(trans.checkIfSomePropertyIs({}, "xica"));
+		assertFalse(engine.checkIfSomePropertyIs({}, undefined));
+		assertFalse(engine.checkIfSomePropertyIs({}, false));
+		assertFalse(engine.checkIfSomePropertyIs({}, "xica"));
 	},
 	
 	"test checkIfTypeOfPropertiesIs should return boolean": function () {
-		assertBoolean(trans.checkIfTypeOfPropertiesIs({}, "derp"));
+		assertBoolean(engine.checkIfTypeOfPropertiesIs({}, "derp"));
 	},
 	
 	"test checkIfTypeOfPropertiesIs should return true if all props are of type stuff": function () {
-		assertTrue(trans.checkIfTypeOfPropertiesIs({p: "adfas"}, "string"));
-		assertTrue(trans.checkIfTypeOfPropertiesIs({p: 13123}, "number"));
-		assertTrue(trans.checkIfTypeOfPropertiesIs({p: function () {}}, "function"));
+		assertTrue(engine.checkIfTypeOfPropertiesIs({p: "adfas"}, "string"));
+		assertTrue(engine.checkIfTypeOfPropertiesIs({p: 13123}, "number"));
+		assertTrue(engine.checkIfTypeOfPropertiesIs({p: function () {}}, "function"));
 	},
 	
 	"test checkIfTypeOfPropertiesIs should return false if some prop isn't of type stuff": function () {
-		assertFalse(trans.checkIfTypeOfPropertiesIs({p: 4233}, "string"));
-		assertFalse(trans.checkIfTypeOfPropertiesIs({p: "fds"}, "number"));
-		assertFalse(trans.checkIfTypeOfPropertiesIs({p: undefined}, "function"));
+		assertFalse(engine.checkIfTypeOfPropertiesIs({p: 4233}, "string"));
+		assertFalse(engine.checkIfTypeOfPropertiesIs({p: "fds"}, "number"));
+		assertFalse(engine.checkIfTypeOfPropertiesIs({p: undefined}, "function"));
 	},
 	
 	"test checkIfTypeOfPropertiesIs shouldn't consider NaN a number": function () {
-		assertFalse(trans.checkIfTypeOfPropertiesIs({p: NaN}, "number"));
+		assertFalse(engine.checkIfTypeOfPropertiesIs({p: NaN}, "number"));
 	},
 		
 	"test hasHP should return boolean": function () {
-		assertBoolean(trans.hasHP({}));
-		assertTrue(trans.hasHP({
+		assertBoolean(engine.hasHP({}));
+		assertTrue(engine.hasHP({
 			hp: 500
 		}));
-		assertFalse(trans.hasHP({}));
+		assertFalse(engine.hasHP({}));
 	},
 	
 	"test hasHP should return true only if HP exists and is a number": function () {
-		assertTrue(trans.hasHP({
+		assertTrue(engine.hasHP({
 			hp: 214
 		}));
 		
-		assertFalse(trans.hasHP({
+		assertFalse(engine.hasHP({
 			hp: "I'm not a number!"
 		}));
 	},
 	
 	"test translateEffect should return number or undefined": function () {
-		assertNumber(trans.translateEffect("0.5x"));
-		assertNumber(trans.translateEffect("1x"));
+		assertNumber(engine.translateEffect("0.5x"));
+		assertNumber(engine.translateEffect("1x"));
 		
-		assertUndefined(trans.translateEffect("5"));
-		assertUndefined(trans.translateEffect(4));
-		assertUndefined(trans.translateEffect({}));
+		assertUndefined(engine.translateEffect("5"));
+		assertUndefined(engine.translateEffect(4));
+		assertUndefined(engine.translateEffect({}));
 	},
 	
 	"test translateEffect should return correct value": function () {
-		assertEquals(2, trans.translateEffect("2x"));
-		assertEquals(0.25, trans.translateEffect("0.25x"));
+		assertEquals(2,engine.translateEffect("2x"));
+		assertEquals(0.25,engine.translateEffect("0.25x"));
 	},
 	
 	"test translateStatModifier should return number or undefined": function () {
-		assertNumber(trans.translateStatModifier("+4"));
-		assertNumber(trans.translateStatModifier("-3"));
+		assertNumber(engine.translateStatModifier("+4"));
+		assertNumber(engine.translateStatModifier("-3"));
 		
-		assertUndefined(trans.translateStatModifier("12"));
-		assertUndefined(trans.translateStatModifier(231));
-		assertUndefined(trans.translateStatModifier({}));
+		assertUndefined(engine.translateStatModifier("12"));
+		assertUndefined(engine.translateStatModifier(231));
+		assertUndefined(engine.translateStatModifier({}));
 	},
 	
 	"test translateStatModifier should return correct value": function () {
-		assertEquals(0.5, trans.translateStatModifier("-2"));
-		assertEquals(3.5, trans.translateStatModifier("5"));
-		assertEquals(2.5, trans.translateStatModifier("+3"));
+		assertEquals(0.5,engine.translateStatModifier("-2"));
+		assertEquals(3.5,engine.translateStatModifier("5"));
+		assertEquals(2.5,engine.translateStatModifier("+3"));
 	}
 });
 

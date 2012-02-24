@@ -16,8 +16,7 @@ var DAMAGECALC = {
 	operator: {}
 };
 
-// DAMAGECALC.io is the module used to get values from the UI and to print
-// out damage tables, error messages, etc
+// Get values from the UI and print damage tables and error messages.
 DAMAGECALC.io = (function () {
 	return {
 		getStatsFromTheUi: function () {
@@ -68,10 +67,9 @@ DAMAGECALC.io = (function () {
 	};
 }());
 
-/*
-DAMAGECALC.calc is the module responsible for all the mathematical stuff,
-like the damage formula itself (duh), percentages and OHKO probabilities.
-*/
+
+// Implements the damage formula itself and other helpers,
+// like percentages and OHKO probabilities.
 DAMAGECALC.calc = (function () {
 	return {
 		/*
@@ -161,7 +159,7 @@ DAMAGECALC.calc = (function () {
 	};
 }());
 
-// DAMAGECALC.engine is the module responsible for turning raw data from
+// Responsible for turning raw data from
 // the UI into an usable input object for DAMAGECALC.calculator. Also, it
 // handles the creation of damage tables.
 DAMAGECALC.engine = (function () {
@@ -169,14 +167,10 @@ DAMAGECALC.engine = (function () {
 		choice: ["atk", 1.5],
 		lifeOrb: ["atk", 1.3],
 		typeBoost: ["atk", 1.2],
-		expertBelt: ["atk", 1.2, "effect", function (e) {
-			return e > 1;
-		}],
+		expertBelt: ["atk", 1.2, "effect", function (e) { return e > 1; }],
 		soulDew: ["atk", 1.5],
 		eviolite: ["def", 1.5],
-		resistBerry: ["def", 1.5, "effect", function (e) {
-			return e > 1;
-		}]
+		resistBerry: ["def", 1.5, "effect", function (e) { return e > 1; }]
 	},
 	    ABILITY_TABLE = {
 		guts: ["atk", 1.5],
@@ -184,14 +178,10 @@ DAMAGECALC.engine = (function () {
 		sandForce: ["atk", 1.5],
 		purePower: ["atk", 2],
 		sheerForce: ["atk", 1.3],
-		technician: ["atk", 1.5, "basePower", function (e) {
-			return e > 60;
-		}],
+		technician: ["atk", 1.5, "basePower", function (e) { return e > 60; }],
 		reckless: ["atk", 1.2],
 		multiscale: ["def", 0.5],
-		solidRock: ["def", 0.75, "effect", function (e) {
-			return e > 1;
-		}],
+		solidRock: ["def", 0.75, "effect", function (e) { return e > 1; }],
 		marvelScale: ["def", 1.5]
 	},
 	    ERROR_MESSAGE = "Algo errado.";
@@ -384,3 +374,5 @@ DAMAGECALC.engine = (function () {
 // For example, it controls which kind of damage table the translator
 // module creates and what UI should be presented.
 DAMAGECALC.operator = (function () {
+	
+})();
