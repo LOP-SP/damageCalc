@@ -19,6 +19,10 @@ USE
 
 This software is made with JavaScript and can be used from any browser that supports it. Also, you can use this calculator in your own projects, according to the license in use (MIT License).
 
+If you can read portuguese (pt-br), I have a blog post discussing some of the design choices concerning this damage calculator:
+
+http://onox.com.br/2012/02/refatorando-calculadora-dano/
+
 Any issue or trouble can be emailed to me at:
 
 carlos.agarie [at] gmail.com
