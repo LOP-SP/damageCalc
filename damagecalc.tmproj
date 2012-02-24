@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>tests/damagecalc2-test.js</string>
+	<string>src/damagecalc.2.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -21,12 +21,12 @@
 			<string>src</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>selected</key>
+			<true/>
 			<key>sourceDirectory</key>
 			<string>src</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>stylesheet</string>
 			<key>regexFolderFilter</key>
@@ -48,19 +48,19 @@
 			<key>filename</key>
 			<string>asdf.html</string>
 			<key>lastUsed</key>
-			<date>2011-12-30T02:13:25Z</date>
+			<date>2012-02-20T06:20:04Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>index.html</string>
 			<key>lastUsed</key>
-			<date>2011-12-30T02:45:01Z</date>
+			<date>2012-01-12T17:33:32Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>jsTestDriver.conf</string>
 			<key>lastUsed</key>
-			<date>2011-12-26T19:29:18Z</date>
+			<date>2011-12-30T23:47:32Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -78,28 +78,28 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>306</integer>
+				<integer>385</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>289</integer>
+			<integer>349</integer>
 		</dict>
 		<key>tests/damagecalc2-test.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>43</integer>
+				<integer>24</integer>
 				<key>line</key>
-				<integer>225</integer>
+				<integer>96</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>197</integer>
+			<integer>0</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
@@ -114,13 +114,6 @@
 	<key>treeState</key>
 	<dict>
 		<key>src</key>
-		<dict>
-			<key>isExpanded</key>
-			<true/>
-			<key>subItems</key>
-			<dict/>
-		</dict>
-		<key>stylesheet</key>
 		<dict>
 			<key>isExpanded</key>
 			<true/>

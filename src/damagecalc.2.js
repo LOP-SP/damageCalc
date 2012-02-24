@@ -8,7 +8,13 @@ License: MIT License
 
 "use strict";
 
-var DAMAGECALC = {};
+// damageCalc's namespace. 
+var DAMAGECALC = {
+	io: {},
+	calc: {},
+	engine: {},
+	operator: {}
+};
 
 // DAMAGECALC.io is the module used to get values from the UI and to print
 // out damage tables, error messages, etc
@@ -63,10 +69,10 @@ DAMAGECALC.io = (function () {
 }());
 
 /*
-DAMAGECALC.calculator is the module responsible for all the mathematical stuff,
+DAMAGECALC.calc is the module responsible for all the mathematical stuff,
 like the damage formula itself (duh), percentages and OHKO probabilities.
 */
-DAMAGECALC.calculator = (function () {
+DAMAGECALC.calc = (function () {
 	return {
 		/*
 		Implementation of the damage formula.
@@ -155,10 +161,10 @@ DAMAGECALC.calculator = (function () {
 	};
 }());
 
-// DAMAGECALC.translator is the module responsible for turning raw data from
+// DAMAGECALC.engine is the module responsible for turning raw data from
 // the UI into an usable input object for DAMAGECALC.calculator. Also, it
 // handles the creation of damage tables.
-DAMAGECALC.translator = (function () {
+DAMAGECALC.engine = (function () {
 	var ITEM_TABLE = {
 		choice: ["atk", 1.5],
 		lifeOrb: ["atk", 1.3],
@@ -378,32 +384,3 @@ DAMAGECALC.translator = (function () {
 // For example, it controls which kind of damage table the translator
 // module creates and what UI should be presented.
 DAMAGECALC.operator = (function () {
-	return {
-		activateCalculation: function () {
-			var stats = {},
-			    input = {},
-			    results = {},
-			    table = "";
-			
-			try {
-				stats = DAMAGECALC.io.getStatsFromTheUi();
-				input = DAMAGECALC.translator.turnIntoInput(stats);
-				results = DAMAGECALC.translator.createResults(input);
-				table = DAMAGECALC.translator.createDamageTable(results);
-				DAMAGECALC.io.showResultsOnUi(table);
-			}
-			catch (e) {
-				table = DAMAGECALC.translator.getErrorMessage();
-				DAMAGECALC.io.showResultsOnUi(table);
-				
-				return false
-			}
-			
-			return true;
-		}
-	};
-}());
-
-// DAMAGECALC.i18n is an internationalization module yet to be implemented.
-DAMAGECALC.i18n = (function () {
-}());
