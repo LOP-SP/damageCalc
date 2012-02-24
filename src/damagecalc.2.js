@@ -370,6 +370,8 @@ DAMAGECALC.engine = (function () {
 	};
 }());
 
+
+
 // DAMAGECALC.operator is the brain behind the damage calculator. 
 // For example, it controls which kind of damage table the translator
 // module creates and what UI should be presented.
