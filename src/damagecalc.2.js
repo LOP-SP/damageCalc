@@ -12,8 +12,7 @@ License: MIT License
 var DAMAGECALC = {
 	io: {},
 	calc: {},
-	engine: {},
-	operator: {}
+	engine: {}
 };
 
 // Get values from the UI and print damage tables and error messages.
@@ -163,10 +162,203 @@ DAMAGECALC.calc = (function () {
 // the UI into an usable input object for DAMAGECALC.calculator. Also, it
 // handles the creation of damage tables.
 DAMAGECALC.engine = (function () {
+var ITEM_TABLE = {
+	choice: ["atk", 1.5],
+	lifeOrb: ["atk", 1.3],
+	typeBoost: ["atk", 1.2],
+	expertBelt: ["atk", 1.2, "effect", function (e) { return e > 1; }],
+	soulDew: ["atk", 1.5],
+	eviolite: ["def", 1.5],
+	resistBerry: ["def", 1.5, "effect", function (e) { return e > 1; }]
+},
+    ABILITY_TABLE = {
+	guts: ["atk", 1.5],
+	flashFire: ["atk", 1.5],
+	sandForce: ["atk", 1.5],
+	purePower: ["atk", 2],
+	sheerForce: ["atk", 1.3],
+	technician: ["atk", 1.5, "basePower", function (e) { return e > 60; }],
+	reckless: ["atk", 1.2],
+	multiscale: ["def", 0.5],
+	solidRock: ["def", 0.75, "effect", function (e) { return e > 1; }],
+	marvelScale: ["def", 1.5]
+},
+    ERROR_MESSAGE = "Algo errado.";
 
-// DAMAGECALC.operator is the brain behind the damage calculator. 
-// For example, it controls which kind of damage table the translator
-// module creates and what UI should be presented.
-DAMAGECALC.operator = (function () {
+/*
+// Critical hits ignores defense multipliers...
+if (isCriticalHit === 2) {
+	damage = Math.floor( damage * stats.defStatModifier / stats.def );
+}
+else {
+	damage = Math.floor( damage / stats.def );
+}
+
+// ... and Reflect/Light Screen.
+if (stats.isReflectActive !== 1 && isCriticalHit === 2) {
+	damage = Math.floor( ( damage * stats.mod1 * 2 ) + 2 ); 
+}
+else {
+	damage = Math.floor( damage * stats.mod1 + 2 );
+}
+*/
+
+return {
+	// Translates a stats object into an input one
+	turnIntoInput: function (stats) {
+		if (this.checkIfSomePropertyIs(stats, undefined)) {
+			throw {
+				name: "TypeError",
+				message: "In DAMAGECALC.translator.createResults, input can't have undefined properties."
+			};
+		}
+		
+		// Basic parsing
+		var input = {
+			level: parseInt(stats.level, 10),
+			basePower: parseInt(stats.basePower, 10),
+			atk: parseInt(stats.atk, 10),
+			def: parseInt(stats.def, 10),
+			mod1: 1,
+			mod2: 1,
+			mod3: 1,
+			stab: stats.stab ? 1.5 : 1,
+			effect: this.translateEffect(stats.effect),
+			hasMultiscale: 1
+		};
+					
+		// Now use the ITEM_TABLE and ABILITY_TABLE constants
+		// to parse the (atk|def)Items and (atk|def)Ability
+		// and update Atk, Def, basePower, mod(1|2|3) and hasMultiscale
+		
+		return input;
+	},
 	
-})();
+	createResults: function (input) {
+		if (this.checkIfSomePropertyIs(input, undefined)) {
+			throw {
+				name: "TypeError",
+				message: "In DAMAGECALC.translator.createResults, input can't have undefined properties."
+			};
+		}
+		
+		var results = {
+			minDamage: DAMAGECALC.calculator.damageCalc(input, 0.85),
+			maxDamage: DAMAGECALC.calculator.damageCalc(input, 1),
+			minChDamage: DAMAGECALC.calculator.damageCalc(input, 0.85, 2),
+			maxChDamage: DAMAGECALC.calculator.damageCalc(input, 1, 2)
+		};
+		
+		return results;
+	},
+	
+	createDamageTable: function (results) {
+		if (!this.checkIfTypeOfPropertiesIs(results, "number")) {
+			throw {
+				name: "TypeError",
+				message: "In DAMAGECALC.translator.createDamageTable(results), results must have numeric properties."
+			};
+		}
+		
+		var html = "";
+		
+		html += "<div class='damage'><h1>Resultados</h1><table>";
+		
+		html += "<tr><td>" + results.minDamage + " - " + results.maxDamage + "</td></tr>";
+		
+		html += "</table></div>";
+		
+		return html;
+	},
+	
+	getErrorMessage: function () {
+		return ERROR_MESSAGE;
+	},
+	
+	// Check if SOME PROPERTY of obj is stuff
+	// Ex.: checkIfSomePropertyIs({p: undefined}, undefined)
+	// results in "true"
+	checkIfSomePropertyIs: function (obj, stuff) {
+		var result = false;
+		
+		for (var p in obj) {
+			if (obj.hasOwnProperty(p)) {
+				if (obj[p] === stuff) {
+					result = true;
+				}
+			}
+		}
+		
+		return result;
+	},
+	
+	// Check if ALL PROPERTIES are of type "stuff"
+	// NaN isn't considered a number in this method.
+	checkIfTypeOfPropertiesIs: function (obj, stuff) {
+		var result = true;
+		
+		for (var p in obj) {
+			if (obj.hasOwnProperty(p)) {
+				if (typeof obj[p] !== stuff || (stuff === "number" && isNaN(obj[p]))) {
+					result = false;
+				}
+			}
+		}
+		
+		return result;
+	},
+	
+	// Checks if the given object has a property 'hp'
+	// and if it is a number 
+	hasHP: function (obj) {
+		// Can't look at an undefined object's property!
+		if (obj === undefined) {
+			return false;
+		}
+		
+		return typeof obj.hp === "number";
+	},
+	
+	translateEffect: function (effect) {
+		if (typeof effect === "string") {
+			effect = effect.replace(/([0-9])\s?x/ig, "$1");
+		}
+		else {
+			return undefined;
+		}
+
+		switch (effect) {
+			case '4': return 4;
+			case '2': return 2;
+			case '1': return 1;
+			case '0.5': return 0.5;
+			case '0.25': return 0.25;
+			default: return 1;
+		}
+	},
+	
+	translateStatModifier: function (statModifier) {
+		if (typeof statModifier === "string") {
+			statModifier = statModifier.replace(/\+/g, "");
+		}
+		else {
+			return undefined;
+		}
+		
+		switch (statModifier) {
+			case '0': return 1;
+			case '1': return 1.5;
+			case '2': return 2;
+			case '-1': return 0.6667;
+			case '-2': return 0.5;
+			case '3': return 2.5;
+			case '4': return 3;
+			case '5': return 3.5;
+			case '6': return 4;
+			case '-3': return 0.4;
+			case '-4': return 0.3333;
+			case '-5': return 0.2857;
+			case '-6': return 0.25;
+			default: return 1;
+		}
+};
