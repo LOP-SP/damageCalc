@@ -237,36 +237,24 @@ DAMAGECALC.engine = (function () {
 			}
 		
 			var results = {
-				minDamage: DAMAGECALC.calculator.damageCalc(input, 0.85),
-				maxDamage: DAMAGECALC.calculator.damageCalc(input, 1),
-				minChDamage: DAMAGECALC.calculator.damageCalc(input, 0.85, 2),
-				maxChDamage: DAMAGECALC.calculator.damageCalc(input, 1, 2)
+				minDamage: DAMAGECALC.calc.damageCalc(input, 0.85),
+				maxDamage: DAMAGECALC.calc.damageCalc(input, 1),
+				minChDamage: DAMAGECALC.calc.damageCalc(input, 0.85, 2),
+				maxChDamage: DAMAGECALC.calc.damageCalc(input, 1, 2)
 			};
 		
 			return results;
 		},
 	
-		createDamageTable: function (results) {
-			if (!this.checkIfTypeOfPropertiesIs(results, "number")) {
-				throw {
-					name: "TypeError",
-					message: "In DAMAGECALC.translator.createDamageTable(results), results must have numeric properties."
-				};
-			}
-		
+		createDamageTable: function (results) {		
 			var html = "";
 		
 			html += "<div class='damage'><h1>Resultados</h1><table>";
-		
 			html += "<tr><td>" + results.minDamage + " - " + results.maxDamage + "</td></tr>";
-		
+			html += "<tr><td>" + results.minChDamage + " - " + results.maxChDamage + "</td></tr>";
 			html += "</table></div>";
 		
 			return html;
-		},
-	
-		getErrorMessage: function () {
-			return ERROR_MESSAGE;
 		},
 	
 		// Check if SOME PROPERTY of obj is stuff
@@ -305,10 +293,7 @@ DAMAGECALC.engine = (function () {
 		// Checks if the given object has a property 'hp'
 		// and if it is a number 
 		hasHP: function (obj) {
-			// Can't look at an undefined object's property!
-			if (obj === undefined) {
-				return false;
-			}
+			if (obj === undefined) { return false; }
 		
 			return typeof obj.hp === "number";
 		},
