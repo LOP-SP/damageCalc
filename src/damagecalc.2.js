@@ -44,19 +44,14 @@ DAMAGECALC.io = (function () {
 			return stats;
 		},
 		
-		showResultsOnUi: function (damageTable) {
-			if (typeof damageTable !== "string") {
-				throw {
-					name: "TypeError",
-					message: "damageTable must be a string (at DAMAGECALC.io.showResultsOnUi())"
-				};
-			}
+		showResultsOnUi: function (damageTable, host) {
+			// Where the results are appended
+			var output = host || '#damagecalc .damage';
 			
-			if ($("#damagecalc .damage").length) {
-				$("#damagecalc .damage").remove();
+			// Do nothing if damageTable isn't a string
+			if (typeof damageTable === 'string') {
+				$(output).html(damageTable);				
 			}
-			
-			$("#damagecalc").append(damageTable);
 		},
 		
 		// Used to display the current Atk/Def, with modifiers applied
@@ -106,9 +101,8 @@ DAMAGECALC.calc = (function () {
 			damage = Math.floor(damage * criticalHit * input.mod2);
 
 			// This is where randomness takes place.
-			// Cache the damage before here and loop through the possible values for the random multiplier (0.85, 0.86, ..., 0.99, 1)
 			damage = Math.floor(damage * randomMultiplier);
-
+			
 			damage = Math.floor(damage * input.stab);
 			damage = Math.floor(damage * input.effect);
 			damage = Math.floor(damage * input.mod3);
@@ -182,9 +176,8 @@ var ITEM_TABLE = {
 	multiscale: ["def", 0.5],
 	solidRock: ["def", 0.75, "effect", function (e) { return e > 1; }],
 	marvelScale: ["def", 1.5]
-},
-    ERROR_MESSAGE = "Algo errado.";
-
+};
+    
 /*
 // Critical hits ignores defense multipliers...
 if (isCriticalHit === 2) {
