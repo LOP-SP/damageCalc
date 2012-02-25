@@ -136,6 +136,7 @@
 
 		</div> <!-- info -->
 		
+		<div id='output'></div>
 	</div> <!-- damagecalc -->
 
 </div> <!-- container -->
@@ -147,6 +148,15 @@
 		$("select[name='effect']").val('1x');
 		$("select[name='atkStatModifier']").val('0');
 		$("select[name='defStatModifier']").val('0');
+		
+		$("#damagecalc button[name='calculate']").click(function () {
+			var stats = DAMAGECALC.io.getStatsFromTheUi();
+			var input = DAMAGECALC.engine.turnIntoInput(stats);
+			var results = DAMAGECALC.engine.createResults(input);
+			var dmg = DAMAGECALC.engine.createDamageTable(results);
+			
+			DAMAGECALC.io.showResultsOnUi(dmg);
+		});
 	});
 </script>
 <script type="text/javascript" src="src/damagecalc.2.js"></script>

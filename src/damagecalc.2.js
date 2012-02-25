@@ -46,7 +46,7 @@ DAMAGECALC.io = (function () {
 		
 		showResultsOnUi: function (damageTable, host) {
 			// Where the results are appended
-			var output = host || '#damagecalc .damage';
+			var output = host || '#damagecalc #output';
 			
 			// Do nothing if damageTable isn't a string
 			if (typeof damageTable === 'string') {
