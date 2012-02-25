@@ -28,15 +28,7 @@ ul{list-style-type:square;}
 li{line-height:1.8em;}
 /* CONTAINER
 **************************************************************/
-#container{width:650px;max-width:800px;min-width:400px;margin:0 auto;}
-/* HEADER
-**************************************************************/
-#header{background-color:#000;}
-.menu{width:100%;padding:0 0 10px 0;}
-.menu ul{width:100%;list-style-type:none;}
-.menu li{float:left;}
-.menu a{padding:0 15px 0 10px;text-decoration:none;display:block;color:#FFF;}
-.menu a:hover{background-color:#E6E6E6;color:#000;}
+#container{width:960px;max-width:1100px;min-width:800px;margin:0 auto;}
 /* DAMAGECALC
 **************************************************************/
 #damagecalc{padding:0 0 0 0;background:url(http://www.mojambo.net/forum/styles/Artodia_Air/theme/images/hdr2_br.gif) bottom right no-repeat,url(http://www.mojambo.net/forum/styles/Artodia_Air/theme/images/hdr2_bl.gif) bottom left no-repeat,url(http://www.mojambo.net/forum/styles/Artodia_Air/theme/images/hdr2_r.gif) top right repeat-y,url(http://www.mojambo.net/forum/styles/Artodia_Air/theme/images/hdr2_l.gif) top left repeat-y,#ECECEC url(http://www.mojambo.net/forum/styles/Artodia_Air/theme/images/hdr2_b.gif) bottom left repeat-x}
@@ -45,6 +37,7 @@ li{line-height:1.8em;}
 #damagecalc #info{width:100%;}
 #damagecalc #info input,
 #damagecalc #info select {margin:0 5px 0 5px;}
+#damagecalc ul {list-style-type:none;}
 /* OFFENSIVE,DEFENSIVE
 **************************************************************/
 #damagecalc #offensive,
