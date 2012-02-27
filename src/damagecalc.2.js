@@ -23,6 +23,13 @@ var DAMAGECALC = {
 		console.log(input);
 		console.log('RESULTS');
 		console.log(results);
+	},
+	calculate: function () {
+		var stats = this.io.getStatsFromUi();
+		var results = this.engine.createResults(stats);
+		var dmg = this.io.createDamageTable(results);
+		
+		this.io.showResultsOnUi(dmg);
 	}
 };
 

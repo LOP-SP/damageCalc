@@ -156,11 +156,7 @@
 		
 		// Bind the calculation to the click event
 		$("#damagecalc button[name='calculate']").click(function () {
-			var stats = DAMAGECALC.io.getStatsFromUi();
-			var results = DAMAGECALC.engine.createResults(stats);
-			var dmg = DAMAGECALC.io.createDamageTable(results);
-			
-			DAMAGECALC.io.showResultsOnUi(dmg);
+			DAMAGECALC.calculate();
 		});
 	});
 </script>
