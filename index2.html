@@ -143,12 +143,14 @@
 
 <script type="text/javascript" src="lib/jquery.min.js"></script>
 <script type="text/javascript" charset="utf-8">
-	// just a fix for initial values inside selects
 	$(document).ready(function () {
+
+		// just a fix for initial values inside selects
 		$("select[name='effect']").val('1x');
 		$("select[name='atkStatModifier']").val('0');
 		$("select[name='defStatModifier']").val('0');
 		
+		// Bind the calculation to the click event
 		$("#damagecalc button[name='calculate']").click(function () {
 			var stats = DAMAGECALC.io.getStatsFromTheUi();
 			var results = DAMAGECALC.engine.createResults(stats);

@@ -1,9 +1,8 @@
-/*
-damageCalc
-@author: Carlos "Onox" Agarie
+/**
+damageCalc  
+@author: Carlos "Onox" Agarie  
 @version 2.0
-Project URL: www.github.com/agarie/damageCalc
-License: MIT License
+@license MIT  
 */
 
 "use strict";
@@ -12,11 +11,10 @@ License: MIT License
 var DAMAGECALC = {
 	io: {},
 	calc: {},
-	engine: {},
-	auxiliar: {}
+	engine: {}
 };
 
-// Get values from the UI and print damage tables and error messages.
+/** Get values from the UI and print damage tables and error messages. */
 DAMAGECALC.io = (function () {
 	return {
 		// Reads all the inputs and stores in an object that can be returned
@@ -103,8 +101,10 @@ DAMAGECALC.io = (function () {
 	};
 }());
 
-// Implements the damage formula itself and other helpers,
-// like percentages and OHKO probabilities.
+/**
+ Implements the damage formula itself and other helpers,
+ like percentages and OHKO probabilities.
+*/
 DAMAGECALC.calc = (function () {
 	return {
 		/*
@@ -194,8 +194,7 @@ DAMAGECALC.calc = (function () {
 	};
 }());
 
-// Responsible for turning raw data from
-// the UI into an usable input object for DAMAGECALC.calculator.
+/** Contains all the logic needed to correctly calculate */
 DAMAGECALC.engine = (function () {
 	var ITEM_TABLE = {
 		choice: ["atk", 1.5],
