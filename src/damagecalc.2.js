@@ -12,27 +12,30 @@ License: MIT License
 var DAMAGECALC = {
 	io: {},
 	calc: {},
-	engine: {}
+	engine: {},
+	auxiliar: {}
 };
 
 // Get values from the UI and print damage tables and error messages.
 DAMAGECALC.io = (function () {
 	return {
-		getStatsFromTheUi: function () {
-			var stats = {};
-		
-			stats = {
-				level: $("#damagecalc input[name='level']").val() || 100,
-				atk: $("#damagecalc input[name='atk']").val(),
+		// Reads all the inputs and stores in an object that can be returned
+		// or, given as a parameter, can be modified.
+		getStatsFromTheUi: function (stats) {
+			var _stats = stats || {};
+			
+			_stats = {
+				level: parseInt($("#damagecalc input[name='level']").val(), 10) || 100,
+				atk: parseInt($("#damagecalc input[name='atk']").val(), 10),
 				atkStatModifier: $("#damagecalc select[name='atkStatModifier']").val(),
-				basePower: $("#damagecalc input[name='basePower']").val(),
+				basePower: parseInt($("#damagecalc input[name='basePower']").val(), 10),
 				stab: $("#damagecalc input[name='stab']").is(':checked'),
 				effect: $("#damagecalc select[name='effect']").val(),
 				isBurn: $("#damagecalc input[name='isBurn']").is(':checked'),
 				
-				def: $("#damagecalc input[name='def']").val(),
+				def: parseInt($("#damagecalc input[name='def']").val(), 10),
 				defStatModifier: $("#damagecalc select[name='defStatModifier']").val(),
-				hp: $("#damagecalc input[name='hp']").val(),
+				hp: parseInt($("#damagecalc input[name='hp']").val(), 10),
 				isReflectActive: $("#damagecalc input[name='isReflectActive']").is(':checked'),
 				
 				atkItems: $("#damagecalc select[name='atkItems']").val(),
@@ -40,18 +43,56 @@ DAMAGECALC.io = (function () {
 				defItems: $("#damagecalc select[name='defItems']").val(),
 				defAbilities: $("#damagecalc select[name='defAbility']").val()
 			};
-		
-			return stats;
+			
+			if (!stats) {
+				return _stats;				
+			}
 		},
 		
-		showResultsOnUi: function (damageTable, host) {
-			// Where the results are appended
-			var output = host || '#damagecalc #output';
+		showResultsOnUi: function (damageTable) {
+			var base = '#damagecalc ';
+			var output = '#output'; // Where the results are appended
+			var div = '<div id="output"></div>';
+			
+			if (!$(base + output).length) {
+				$(base).append(div);
+			}
 			
 			// Do nothing if damageTable isn't a string
 			if (typeof damageTable === 'string') {
-				$(output).html(damageTable);				
+				$(base + output).html(damageTable);				
 			}
+		},
+		
+		createDamageTable: function (results) {
+			var html = "";
+		
+			html += "<h1 class='center'>Resultados</h1><table class='center'>";
+			html += "<tr><td>Dano normal: ";
+			
+			if (results.minPercent && results.maxPercent) {
+				html += results.minPercent + ' - ' + results.maxPercent;
+				html += ' (' + results.minDamage + " - " + results.maxDamage + ')';
+			}
+			else {
+				html += results.minDamage + " - " + results.maxDamage;
+			}
+			
+			html += "</td></tr>";
+			html += "<tr><td class='critical'>Critical Hit: ";
+			
+			if (results.minChPercent && results.maxChPercent) {
+				html += results.minChPercent + ' - ' + results.maxChPercent;
+				html += ' (' + results.minChDamage + " - " + results.maxChDamage + ')';
+			}
+			else {
+				html += results.minChDamage + " - " + results.maxChDamage;
+			}
+						
+			html += "</td></tr>";
+			html += "</table></div>";
+		
+			return html;
 		},
 		
 		// Used to display the current Atk/Def, with modifiers applied
@@ -61,7 +102,6 @@ DAMAGECALC.io = (function () {
 		}
 	};
 }());
-
 
 // Implements the damage formula itself and other helpers,
 // like percentages and OHKO probabilities.
@@ -82,6 +122,7 @@ DAMAGECALC.calc = (function () {
 			effect
 			hasMultiscale
 		randomMultiplier: number between 0.85 and 1.00.
+		criticalHit: 1, 2 or 3.
 	
 		Output: damage (number).
 		*/
@@ -154,8 +195,7 @@ DAMAGECALC.calc = (function () {
 }());
 
 // Responsible for turning raw data from
-// the UI into an usable input object for DAMAGECALC.calculator. Also, it
-// handles the creation of damage tables.
+// the UI into an usable input object for DAMAGECALC.calculator.
 DAMAGECALC.engine = (function () {
 	var ITEM_TABLE = {
 		choice: ["atk", 1.5],
@@ -197,22 +237,35 @@ DAMAGECALC.engine = (function () {
 	}
 */
 
-	return {
-		// Translates a stats object into an input one
-		turnIntoInput: function (stats) {
-			if (this.checkIfSomePropertyIs(stats, undefined)) {
-				throw {
-					name: "TypeError",
-					message: "In DAMAGECALC.translator.createResults, input can't have undefined properties."
-				};
+	return {	
+		createResults: function (stats) {
+			var input = this.turnIntoInput(stats);
+			
+			var results = {
+				minDamage: DAMAGECALC.calc.damageCalc(input, 0.85),
+				maxDamage: DAMAGECALC.calc.damageCalc(input, 1),
+				minChDamage: DAMAGECALC.calc.damageCalc(input, 0.85, 2),
+				maxChDamage: DAMAGECALC.calc.damageCalc(input, 1, 2)
+			};
+						
+			if (stats.hp > 0) {
+				results.minPercent = DAMAGECALC.calc.toPercent(results.minDamage / stats.hp);
+				results.maxPercent = DAMAGECALC.calc.toPercent(results.maxDamage / stats.hp);
+				results.minChPercent = DAMAGECALC.calc.toPercent(results.minChDamage / stats.hp);
+				results.maxChPercent = DAMAGECALC.calc.toPercent(results.maxChDamage / stats.hp);
 			}
 		
+			return results;
+		},
+			
+		// Translates a stats object into an input one
+		turnIntoInput: function (stats) {
 			// Basic parsing
 			var input = {
-				level: parseInt(stats.level, 10),
-				basePower: parseInt(stats.basePower, 10),
-				atk: parseInt(stats.atk, 10),
-				def: parseInt(stats.def, 10),
+				level: stats.level,
+				basePower: stats.basePower,
+				atk: stats.atk,
+				def: stats.def,
 				mod1: 1,
 				mod2: 1,
 				mod3: 1,
@@ -220,84 +273,14 @@ DAMAGECALC.engine = (function () {
 				effect: this.translateEffect(stats.effect),
 				hasMultiscale: 1
 			};
-					
+
 			// Now use the ITEM_TABLE and ABILITY_TABLE constants
 			// to parse the (atk|def)Items and (atk|def)Ability
 			// and update Atk, Def, basePower, mod(1|2|3) and hasMultiscale
-		
+
 			return input;
 		},
-	
-		createResults: function (input) {
-			if (this.checkIfSomePropertyIs(input, undefined)) {
-				throw {
-					name: "TypeError",
-					message: "In DAMAGECALC.translator.createResults, input can't have undefined properties."
-				};
-			}
-		
-			var results = {
-				minDamage: DAMAGECALC.calc.damageCalc(input, 0.85),
-				maxDamage: DAMAGECALC.calc.damageCalc(input, 1),
-				minChDamage: DAMAGECALC.calc.damageCalc(input, 0.85, 2),
-				maxChDamage: DAMAGECALC.calc.damageCalc(input, 1, 2)
-			};
-		
-			return results;
-		},
-	
-		createDamageTable: function (results) {		
-			var html = "";
-		
-			html += "<div class='damage'><h1>Resultados</h1><table>";
-			html += "<tr><td>" + results.minDamage + " - " + results.maxDamage + "</td></tr>";
-			html += "<tr><td>" + results.minChDamage + " - " + results.maxChDamage + "</td></tr>";
-			html += "</table></div>";
-		
-			return html;
-		},
-	
-		// Check if SOME PROPERTY of obj is stuff
-		// Ex.: checkIfSomePropertyIs({p: undefined}, undefined)
-		// results in "true"
-		checkIfSomePropertyIs: function (obj, stuff) {
-			var result = false;
-		
-			for (var p in obj) {
-				if (obj.hasOwnProperty(p)) {
-					if (obj[p] === stuff) {
-						result = true;
-					}
-				}
-			}
-		
-			return result;
-		},
-	
-		// Check if ALL PROPERTIES are of type "stuff"
-		// NaN isn't considered a number in this method.
-		checkIfTypeOfPropertiesIs: function (obj, stuff) {
-			var result = true;
-		
-			for (var p in obj) {
-				if (obj.hasOwnProperty(p)) {
-					if (typeof obj[p] !== stuff || (stuff === "number" && isNaN(obj[p]))) {
-						result = false;
-					}
-				}
-			}
-		
-			return result;
-		},
-	
-		// Checks if the given object has a property 'hp'
-		// and if it is a number 
-		hasHP: function (obj) {
-			if (obj === undefined) { return false; }
-		
-			return typeof obj.hp === "number";
-		},
-	
+			
 		translateEffect: function (effect) {
 			if (typeof effect === "string") {
 				effect = effect.replace(/([0-9])\s?x/ig, "$1");

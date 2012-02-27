@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/damagecalc.2.js</string>
+	<string>index2.html</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -46,11 +46,15 @@
 			<key>filename</key>
 			<string>index.html</string>
 			<key>lastUsed</key>
-			<date>2012-01-12T17:33:32Z</date>
+			<date>2012-02-25T03:25:19Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>index2.html</string>
+			<key>lastUsed</key>
+			<date>2012-02-25T03:53:04Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -60,54 +64,52 @@
 		</dict>
 		<dict>
 			<key>filename</key>
-			<string>README.md</string>
-			<key>lastUsed</key>
-			<date>2012-02-24T03:03:41Z</date>
+			<string>LICENSE.txt</string>
 		</dict>
 		<dict>
 			<key>filename</key>
-			<string>LICENSE.txt</string>
-			<key>selected</key>
-			<true/>
+			<string>README.md</string>
+			<key>lastUsed</key>
+			<date>2012-02-24T03:03:41Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>206</integer>
 	<key>metaData</key>
 	<dict>
+		<key>index2.html</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>17</integer>
+				<key>line</key>
+				<integer>138</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>130</integer>
+		</dict>
 		<key>src/damagecalc.2.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>13</integer>
+				<integer>37</integer>
 				<key>line</key>
-				<integer>8</integer>
+				<integer>48</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>tests/damagecalc2-test.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>24</integer>
-				<key>line</key>
-				<integer>94</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>9</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
 		<string>src/damagecalc.2.js</string>
-		<string>tests/damagecalc2-test.js</string>
+		<string>index2.html</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<false/>

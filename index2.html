@@ -136,7 +136,7 @@
 
 		</div> <!-- info -->
 		
-		<div id='output'></div>
+		<div class='clear'></div>
 	</div> <!-- damagecalc -->
 
 </div> <!-- container -->
@@ -151,9 +151,10 @@
 		
 		$("#damagecalc button[name='calculate']").click(function () {
 			var stats = DAMAGECALC.io.getStatsFromTheUi();
-			var input = DAMAGECALC.engine.turnIntoInput(stats);
-			var results = DAMAGECALC.engine.createResults(input);
-			var dmg = DAMAGECALC.engine.createDamageTable(results);
+			var results = DAMAGECALC.engine.createResults(stats);
+			var dmg = DAMAGECALC.io.createDamageTable(results);
+			
+			console.log(results);
 			
 			DAMAGECALC.io.showResultsOnUi(dmg);
 		});
