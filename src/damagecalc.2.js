@@ -112,7 +112,7 @@ DAMAGECALC.io = (function () {
 */
 DAMAGECALC.calc = (function () {
 	return {
-		/*
+		/**
 		Implementation of the damage formula.
 	
 		input: object with the following parameters:
@@ -160,18 +160,21 @@ DAMAGECALC.calc = (function () {
 			return damage;
 		},
 		
-		/*
+		/**
 		A helper function to generate percentages.
 	
 		value: a Number object.
+		string: the string to append to the output. Default: '%'.
 
-		Output: value*100, which is a number.
+		Output: (value*100)%, which is a string.
 		*/
-		toPercent: function (value) {
-			return parseFloat(((value) * 10 * 10).toFixed(1));
+		toPercent: function (value, string) {
+			var posfix = string || '%';
+			
+			return parseFloat(((value) * 10 * 10).toFixed(1)).toString() + posfix;
 		},
 	
-		/*
+		/**
 		Generates the probability of a pokemon OHKOing the other.
 	
 		input: object with the necessary parameters.
@@ -247,19 +250,21 @@ DAMAGECALC.engine = (function () {
 	return {	
 		createResults: function (stats) {
 			var input = this.turnIntoInput(stats);
+			var dmg = DAMAGECALC.calc.damageCalc;
+			var toPercent = DAMAGECALC.calc.toPercent;
 			
 			var results = {
-				minDamage: DAMAGECALC.calc.damageCalc(input, 0.85),
-				maxDamage: DAMAGECALC.calc.damageCalc(input, 1),
-				minChDamage: DAMAGECALC.calc.damageCalc(input, 0.85, 2),
-				maxChDamage: DAMAGECALC.calc.damageCalc(input, 1, 2)
+				minDamage: dmg(input, 0.85),
+				maxDamage: dmg(input, 1),
+				minChDamage: dmg(input, 0.85, 2),
+				maxChDamage: dmg(input, 1, 2)
 			};
 						
 			if (stats.hp > 0) {
-				results.minPercent = DAMAGECALC.calc.toPercent(results.minDamage / stats.hp);
-				results.maxPercent = DAMAGECALC.calc.toPercent(results.maxDamage / stats.hp);
-				results.minChPercent = DAMAGECALC.calc.toPercent(results.minChDamage / stats.hp);
-				results.maxChPercent = DAMAGECALC.calc.toPercent(results.maxChDamage / stats.hp);
+				results.minPercent = toPercent(results.minDamage / stats.hp);
+				results.maxPercent = toPercent(results.maxDamage / stats.hp);
+				results.minChPercent = toPercent(results.minChDamage / stats.hp);
+				results.maxChPercent = toPercent(results.maxChDamage / stats.hp);
 			}
 		
 			return results;
