@@ -14,7 +14,9 @@ var DAMAGECALC = {
 	engine: {}
 };
 
-/** Get values from the UI and print damage tables and error messages. */
+/**
+ Get values from the UI and print damage tables and error messages.
+*/
 DAMAGECALC.io = (function () {
 	return {
 		// Reads all the inputs and stores in an object that can be returned
@@ -52,13 +54,16 @@ DAMAGECALC.io = (function () {
 			var output = '#output'; // Where the results are appended
 			var div = '<div id="output"></div>';
 			
-			if (!$(base + output).length) {
+			// Zeroes the padding-bottom of #damagecalc to agree with div#output's
+			// CSS.
+			//
+			// Do nothing if damageTable isn't a string.
+			if (!$(base + output).length && (typeof damageTable === 'string')) {
+				$(base).css({
+					'padding-bottom': '0'
+				})
 				$(base).append(div);
-			}
-			
-			// Do nothing if damageTable isn't a string
-			if (typeof damageTable === 'string') {
-				$(base + output).html(damageTable);				
+				$(base + output).html(damageTable);	
 			}
 		},
 		
@@ -119,7 +124,7 @@ DAMAGECALC.calc = (function () {
 			mod2
 			mod3
 			stab
-			effect
+			effect1
 			hasMultiscale
 		randomMultiplier: number between 0.85 and 1.00.
 		criticalHit: 1, 2 or 3.
@@ -194,7 +199,10 @@ DAMAGECALC.calc = (function () {
 	};
 }());
 
-/** Contains all the logic needed to correctly calculate */
+/**
+ Contains all the logic needed to correctly calculate the damage given
+ the interactions between items, abilities and other parameters.
+*/
 DAMAGECALC.engine = (function () {
 	var ITEM_TABLE = {
 		choice: ["atk", 1.5],
