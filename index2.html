@@ -63,6 +63,7 @@
 			   	</select></li>
 					<li><select name="atkItems" id="atkItems" data-placeholder="Escolha o item..." class="chzn-select" style="width: 240px;">
 						<option></option>
+						<option value="none">-</option>
 						<option value="choice">Choice Band / Choice Specs</option>
 						<option value="lifeOrb">Life Orb</option>
 						<option value="typeBoost">Type boosting item</option>
@@ -71,6 +72,7 @@
 					</select></li>
 					<li><select name="atkAbility" id="atkAbility" data-placeholder="Escolha a ability..." class="chzn-select" style="width: 240px;">
 						<option></option>
+						<option value="none">-</option>
 						<option value="guts">Guts, Poison Rampage, Flare Boost</option>
 						<option value="flashFire">Flash Fire</option>
 						<option value="sandForce">Sand Force</option>
@@ -119,11 +121,13 @@
 					<li><input type="checkbox" name="isReflectActive" id="isReflectActive" /></li>
 					<li><select name="defItems" id="defItems" data-placeholder="Escolha o item..." class="chzn-select" style="width: 240px;">
 						<option></option>
+						<option value="none">-</option>
 						<option value="eviolite">Eviolite</option>
 						<option value="resistBerry">Resist Berry</option>
 					</select></li>
 					<li><select name="defAbility" id="defAbility" data-placeholder="Escolha a ability..." class="chzn-select" style="width: 240px;">
 						<option></option>
+						<option value="none">-</option>
 						<option value="multiscale">Multiscale</option>
 						<option value="solidRock">Solid Rock / Filter</option>
 						<option value="marvelScale">Marvel Scale</option>
@@ -152,7 +156,7 @@
 		
 		// Bind the calculation to the click event
 		$("#damagecalc button[name='calculate']").click(function () {
-			var stats = DAMAGECALC.io.getStatsFromTheUi();
+			var stats = DAMAGECALC.io.getStatsFromUi();
 			var results = DAMAGECALC.engine.createResults(stats);
 			var dmg = DAMAGECALC.io.createDamageTable(results);
 			

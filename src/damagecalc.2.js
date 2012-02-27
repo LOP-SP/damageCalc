@@ -11,7 +11,19 @@ damageCalc
 var DAMAGECALC = {
 	io: {},
 	calc: {},
-	engine: {}
+	engine: {},
+	debug: function () {
+		var stats = this.io.getStatsFromUi();
+		var input = this.engine.turnIntoInput (stats);
+		var results = this.engine.createResults(stats);
+		
+		console.log('STATS');
+		console.log(stats);
+		console.log('INPUT');
+		console.log(input);
+		console.log('RESULTS');
+		console.log(results);
+	}
 };
 
 /**
@@ -21,7 +33,7 @@ DAMAGECALC.io = (function () {
 	return {
 		// Reads all the inputs and stores in an object that can be returned
 		// or, given as a parameter, can be modified.
-		getStatsFromTheUi: function (stats) {
+		getStatsFromUi: function (stats) {
 			var _stats = stats || {};
 			
 			_stats = {
@@ -56,14 +68,16 @@ DAMAGECALC.io = (function () {
 			
 			// Zeroes the padding-bottom of #damagecalc to agree with div#output's
 			// CSS.
-			//
-			// Do nothing if damageTable isn't a string.
-			if (!$(base + output).length && (typeof damageTable === 'string')) {
+			if (!$(base + output).length) {
 				$(base).css({
 					'padding-bottom': '0'
 				})
 				$(base).append(div);
-				$(base + output).html(damageTable);	
+			}
+
+			// Do nothing if damageTable isn't a string.
+			if (typeof damageTable === 'string') {
+				$(base + output).html(damageTable);
 			}
 		},
 		
@@ -207,6 +221,14 @@ DAMAGECALC.calc = (function () {
  the interactions between items, abilities and other parameters.
 */
 DAMAGECALC.engine = (function () {
+	
+	/**
+	 These tables follow the pattern
+	
+	 name: [value_to_change, multiplier, conditional_value1, conditional_function1, ...]
+	
+	 This way, it's possible to augment the supported items and abilities by adding new entries.
+	*/
 	var ITEM_TABLE = {
 		choice: ["atk", 1.5],
 		lifeOrb: ["atk", 1.3],
@@ -215,8 +237,8 @@ DAMAGECALC.engine = (function () {
 		soulDew: ["atk", 1.5],
 		eviolite: ["def", 1.5],
 		resistBerry: ["def", 1.5, "effect", function (e) { return e > 1; }]
-	},
-	    ABILITY_TABLE = {
+	};
+	var ABILITY_TABLE = {
 		guts: ["atk", 1.5],
 		flashFire: ["atk", 1.5],
 		sandForce: ["atk", 1.5],
@@ -224,7 +246,6 @@ DAMAGECALC.engine = (function () {
 		sheerForce: ["atk", 1.3],
 		technician: ["atk", 1.5, "basePower", function (e) { return e > 60; }],
 		reckless: ["atk", 1.2],
-		multiscale: ["def", 0.5],
 		solidRock: ["def", 0.75, "effect", function (e) { return e > 1; }],
 		marvelScale: ["def", 1.5]
 	};
@@ -283,7 +304,7 @@ DAMAGECALC.engine = (function () {
 				mod3: 1,
 				stab: stats.stab ? 1.5 : 1,
 				effect: this.translateEffect(stats.effect),
-				hasMultiscale: 1
+				hasMultiscale: (stats.defAbilities === 'multiscale') ? 0.5 : 1
 			};
 
 			// Now use the ITEM_TABLE and ABILITY_TABLE constants
@@ -292,7 +313,7 @@ DAMAGECALC.engine = (function () {
 
 			return input;
 		},
-			
+		
 		translateEffect: function (effect) {
 			if (typeof effect === "string") {
 				effect = effect.replace(/([0-9])\s?x/ig, "$1");
