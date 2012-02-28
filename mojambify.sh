@@ -24,9 +24,9 @@ then
 		mkdir ../mojambo/calc/lib
 	fi
 	
-	cp stylesheet/stylesheet.css ../mojambo/calc/stylesheet/stylesheet.css
-	cp src/damagecalc.js ../mojambo/calc/src/damagecalc.js
-	cp lib/jquery.min.js ../mojambo/calc/lib/jquery.min.js
+	cp -r stylesheet/* ../mojambo/calc/stylesheet/
+	cp -r src/* ../mojambo/calc/src/
+	cp -r lib/* ../mojambo/calc/lib/
 	
 else
 	echo No Mojambo folder found.

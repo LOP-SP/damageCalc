@@ -1,779 +1,387 @@
-/*
-New Pokemon damageCalc
-Author: Carlos "Onox" Agarie
-Version: 1.0
+/**
+damageCalc  
+@author: Carlos "Onox" Agarie  
+@version 2.0
+@license MIT  
 */
 
 "use strict";
 
-// Set the initial value of drop down lists
-$("select[name='effect']").val("1x");
-$("select[name='atkStatModifier']").val("0");
-$("select[name='defStatModifier']").val("0");
-
-// If you need to set a checkbox, use this:
-// $(SELECTOR).attr("checked", true);
-
-var DAMAGECALC = (function () {
-	//
-	// Main object 
-	//
-	var pokemonBattle = (function () {
-		var stats = {},
-				results = {};
+// damageCalc's namespace. 
+var DAMAGECALC = {
+	io: {},
+	calc: {},
+	engine: {},
+	debug: function () {
+		var stats = this.io.getStatsFromUi();
+		var input = this.engine.turnIntoInput (stats);
+		var results = this.engine.createResults(stats);
 		
-		var setPokemonStats = function () {
-			// Get the parameters from the UI
-			stats = {
-				level: $("#damagecalc input[name='level']").val() || 100,
-				atk: $("#damagecalc input[name='atk']").val(),
-				atkStatModifier: $(" select[name='atkStatModifier']").val(),
-				def: $("#damagecalc input[name='def']").val(),
-				defStatModifier: $(" select[name='defStatModifier']").val(),
-				hp: $("#damagecalc input[name='hp']").val(),
-				basePower: $("#damagecalc input[name='basePower']").val(),
+		console.log('STATS');
+		console.log(stats);
+		console.log('INPUT');
+		console.log(input);
+		console.log('RESULTS');
+		console.log(results);
+	},
+	calculate: function () {
+		var stats = this.io.getStatsFromUi();
+		var results = this.engine.createResults(stats);
+		var dmg = this.io.createDamageTable(results);
+		
+		this.io.showResultsOnUi(dmg);
+	}
+};
+
+/**
+ Get values from the UI and print damage tables and error messages.
+*/
+DAMAGECALC.io = (function () {
+	return {
+		// Reads all the inputs and stores in an object that can be returned
+		// or, given as a parameter, can be modified.
+		getStatsFromUi: function (stats) {
+			var _stats = stats || {};
+			
+			_stats = {
+				level: parseInt($("#damagecalc input[name='level']").val(), 10) || 100,
+				atk: parseInt($("#damagecalc input[name='atk']").val(), 10),
+				atkStatModifier: $("#damagecalc select[name='atkStatModifier']").val(),
+				basePower: parseInt($("#damagecalc input[name='basePower']").val(), 10),
 				stab: $("#damagecalc input[name='stab']").is(':checked'),
 				effect: $("#damagecalc select[name='effect']").val(),
-				hasReckless: $("#damagecalc input[name='hasReckless']").is(':checked'),
-				hasTechnician: $("#damagecalc input[name='hasTechnician']").is(':checked'),
-				hasSheerForce: $("#damagecalc input[name='hasSheerForce']").is(':checked'),
-				hasPurePower: $("#damagecalc input[name='hasPurePower']").is(':checked'),
-				isSandForceActive: $("#damagecalc input[name='isSandForceActive']").is(':checked'),
-				isGutsActive: $("#damagecalc input[name='isGutsActive']").is(':checked'),
-				equipChoice: $("#damagecalc input[name='equipChoice']").is(':checked'),
-				equipTypeBoost: $("#damagecalc input[name='equipTypeBoost']").is(':checked'),
-				equipSoulDew: $("#damagecalc input[name='equipSoulDew']").is(':checked'),
-				equipEviolite: $("#damagecalc input[name='equipEviolite']").is(':checked'),
-				hasMultiscale: $("#damagecalc input[name='hasMultiscale']").is(':checked'),
-				hasMarvelScale: $("#damagecalc input[name='hasMarvelScale']").is(':checked'),
-				// Mod1 variables
 				isBurn: $("#damagecalc input[name='isBurn']").is(':checked'),
-				isReflectActive: $("#damagecalc input[name='isReflectActive']").is(':checked'),
-				isDoubleBattle: $("#damagecalc input[name='isDoubleBattle']").is(':checked'),
-				isSunnyDayRainDanceActive: $("#damagecalc input[name='isSunnyDayRainDanceActive']").is(':checked'),
-				isFlashFireActive: $("#damagecalc input[name='isFlashFireActive']").is(':checked'),
-				// Mod2 variables
-				equipLifeOrb: $("#damagecalc input[name='equipLifeOrb']").is(':checked'),
-				// Mod3 variables
-				hasSolidRock: $("#damagecalc input[name='hasSolidRock']").is(':checked'),
-				equipExpertBelt: $("#damagecalc input[name='equipExpertBelt']").is(':checked'),
-				isResistBerryActive: $("#damagecalc input[name='isResistBerryActive']").is(':checked'),
-				mod1: 1,
-				mod2: 1,
-				mod3: 1
-			}
-		};
-	
-		var getResults = function () {
-			return results;
-		};
-	
-		var updateStats = function (stats) {
-			// Updates the Attack and Defense
-			stats.atk = stats.atk * stats.atkStatModifier;
-			stats.def = stats.def * stats.defStatModifier;
-		
-			if (stats.basePower <= 60) {
-				stats.basePower = stats.basePower * stats.hasTechnician;
-			}
-		
-			stats.basePower = stats.basePower * stats.isSandForceActive * stats.hasSheerForce * stats.hasReckless * stats.equipTypeBoost;
-						
-			stats.atk = stats.atk * stats.equipChoice * stats.equipSoulDew * stats.isGutsActive * stats.hasPurePower;
-		
-			stats.def = stats.def * stats.hasMarvelScale * stats.equipEviolite;
-		}
-	
-		// Calculates the damage usign calculatorModel's methods
-		// and assigns it to the results private variable.
-		var calcResults = function () {
-			setPokemonStats();
-			battleModifier.superParser(stats);
-			updateStats(stats);
-
-			results.level = stats.level;
-			
-			results.minDamage = calculatorModel.calcDamage({
-				stats: stats,
-				range: "min",
-				critical: 1
-				});
-			results.maxDamage = calculatorModel.calcDamage({
-				stats: stats,
-				range: "max",
-				critical: 1
-				});
 				
-			// At the moment, input.critical is the multiplier itself
-			// but I need to create a friendlier way to pass this info
-			results.minCriticalDamage = calculatorModel.calcDamage({
-				stats: stats,
-				range: "min",
-				critical: 2
-			});
-			results.maxCriticalDamage = calculatorModel.calcDamage({
-				stats: stats,
-				range: "max",
-				critical: 2
-			});
-		
-			// Calculation of the damage percentages
-			results.minDamagePercentage = calculatorModel.damagePercentage(stats.hp, results.minDamage);
-			results.maxDamagePercentage = calculatorModel.damagePercentage(stats.hp, results.maxDamage);
-			results.minCriticalDamagePercentage = calculatorModel.damagePercentage(stats.hp, results.minCriticalDamage);
-			results.maxCriticalDamagePercentage = calculatorModel.damagePercentage(stats.hp, results.maxCriticalDamage);
-		};
-		
-		// This method calculates all the possible damage values
-		var calcAllResults = function () {
-			setPokemonStats();
-			battleModifier.superParser(stats);
+				def: parseInt($("#damagecalc input[name='def']").val(), 10),
+				defStatModifier: $("#damagecalc select[name='defStatModifier']").val(),
+				hp: parseInt($("#damagecalc input[name='hp']").val(), 10),
+				isReflectActive: $("#damagecalc input[name='isReflectActive']").is(':checked'),
+				
+				atkItems: $("#damagecalc select[name='atkItems']").val(),
+				atkAbilities: $("#damagecalc select[name='atkAbility']").val(),
+				defItems: $("#damagecalc select[name='defItems']").val(),
+				defAbilities: $("#damagecalc select[name='defAbility']").val()
+			};
 			
-			results.allValues = [];
-			
-			for (var i = 0; i < 16; i += 1) {
-				result.allValues[i] = calculatorModel.calcDamage(stats, 0.85 + i);
+			if (!stats) {
+				return _stats;				
 			}
-		};
+		},
 		
-		return {
-			getResults: getResults,
-			calcResults: calcResults,
-			calcAllResults: calcAllResults
-		};
-	})(); // pokemonBattle
-
-	//
-	// All the bizarre calculations are done by this guy.
-	//
-	var calculatorModel = (function () {
-		//
-		// Receives a stats object with the necessary data and a string
-		// specifying if it's max or min damage. Returns max damage by default
-		// if the string passed isn't "max" or "min" (case ignored).
-		//
-		// To do: Implement a way to calculate the probability that a move
-		// will OHKO (or 2HKO, 3HKO, etc) a certain pokemon.
-		//
-		// Also implement a way to generalize this function, for it to return all the possible values,
-		// not just the max or min. 
-		var calcDamage = function (input) {
-			var damage = 0,
-					stats = input.stats,
-					isMaxOrMin = input.range || 1,
-					isCriticalHit = input.critical || 1;
-		
-			isMaxOrMin = randomMultiplier(isMaxOrMin);
+		showResultsOnUi: function (damageTable) {
+			var base = '#damagecalc ';
+			var output = '#output'; // Where the results are appended
+			var div = '<div id="output"></div>';
 			
-			// The damage calculation is done here. The damage formula is:
-			// 
-			// Damage Formula = (((((((Level × 2 ÷ 5) + 2) × BasePower × [Sp]Atk ÷ 50) ÷ [Sp]Def) × Mod1) + 2) × 
-			//                 CH × Mod2 × R ÷ 100) × STAB × Type1 × Type2 × Mod3)
+			// Zeroes the padding-bottom of #damagecalc to agree with div#output's
+			// CSS.
+			if (!$(base + output).length) {
+				$(base).css({
+					'padding-bottom': '0'
+				})
+				$(base).append(div);
+			}
+
+			// Do nothing if damageTable isn't a string.
+			if (typeof damageTable === 'string') {
+				$(base + output).html(damageTable);
+			}
+		},
 		
+		createDamageTable: function (results) {
+			var html = "";
+		
+			html += "<h1 class='center'>Resultados</h1><table class='center'>";
+			html += "<tr><td>Dano normal: ";
+			
+			if (results.minPercent && results.maxPercent) {
+				html += results.minPercent + ' - ' + results.maxPercent;
+				html += ' (' + results.minDamage + " - " + results.maxDamage + ')';
+			}
+			else {
+				html += results.minDamage + " - " + results.maxDamage;
+			}
+			
+			html += "</td></tr>";
+			html += "<tr><td class='critical'>Critical Hit: ";
+			
+			if (results.minChPercent && results.maxChPercent) {
+				html += results.minChPercent + ' - ' + results.maxChPercent;
+				html += ' (' + results.minChDamage + " - " + results.maxChDamage + ')';
+			}
+			else {
+				html += results.minChDamage + " - " + results.maxChDamage;
+			}
+						
+			html += "</td></tr>";
+			html += "</table></div>";
+		
+			return html;
+		},
+		
+		// Used to display the current Atk/Def, with modifiers applied
+		// Must introduce spans to hold these values!!
+		showCurrentStat: function (statName, statValue) {
+			$("#damagecalc span#" + statName.toLowerCase() + "FinalValue").html(statValue);
+		}
+	};
+}());
+
+/**
+ Implements the damage formula itself and other helpers,
+ like percentages and OHKO probabilities.
+*/
+DAMAGECALC.calc = (function () {
+	return {
+		/**
+		Implementation of the damage formula.
+	
+		input: object with the following parameters:
+			level
+			basePower
+			atk
+			def
+			mod1
+			mod2
+			mod3
+			stab
+			effect1
+			hasMultiscale
+		randomMultiplier: number between 0.85 and 1.00.
+		criticalHit: 1, 2 or 3.
+	
+		Output: damage (number).
+		*/
+		damageCalc: function (input, randomMultiplier, criticalHit) {
+			var damage = 0;
+			
+			randomMultiplier = randomMultiplier || 1;
+			criticalHit = criticalHit || 1;
+
+			// Damage Formula = (((((((Level × 2 ÷ 5) + 2) × BasePower × [Sp]Atk ÷ 50)
+			// ÷ [Sp]Def) × Mod1) + 2) × CH × Mod2 × R ÷ 100) × STAB × Type1 × Type2 × Mod3)
+
 			// After each "step" in the damage formula, we need to round down the result.
-			damage = Math.floor( ( ( stats.level * 2 ) / 5 ) + 2 );
-			damage = Math.floor( damage * stats.basePower * stats.atk / 50 );
-			
-			// Critical hits ignores defense multipliers...
-			if (isCriticalHit === 2) {
-				damage = Math.floor( damage * stats.defStatModifier / stats.def );
-			}
-			else {
-				damage = Math.floor( damage / stats.def );
-			}
-			
-			// ... and Reflect/Light Screen.
-			if (stats.isReflectActive !== 1 && isCriticalHit === 2) {
-				damage = Math.floor( ( damage * stats.mod1 * 2 ) + 2 ); 
-			}
-			else {
-				damage = Math.floor( damage * stats.mod1 + 2 );
-			}
-			
-			damage = Math.floor( damage * isCriticalHit );
-			damage = Math.floor( damage * stats.mod2 );
-			
-			// This is where randomness takes place.
-			// Cache the damage before here and loop through the possible values for the random multiplier (0.85, 0.86, ..., 0.99, 1)
-			damage = Math.floor( damage * isMaxOrMin );
-			damage = Math.floor( damage * stats.stab );
-			damage = Math.floor( damage * stats.effect );
-			damage = Math.floor( damage * stats.mod3 );
-			
-			damage = Math.floor( damage * stats.hasMultiscale );
-			
-			return damage;
-		};
-	
-		var damagePercentage = function (hp, damage) {
-			return ((damage / hp)*10*10).toFixed(1);
-		};
-		
-		var randomMultiplier = function (isMaxOrMin) {
-			if (typeof isMaxOrMin !== "string" || isMaxOrMin > 1 || isMaxOrMin < 0.85) {
-				console.log("ERROR: isMaxOrMin (in calculatorModel) must be a string or a number between 0.85 and 1!");
-				return 0;
-			}
-			
-			isMaxOrMin.toLowerCase();
-		
-			if (isMaxOrMin === "min") {
-				isMaxOrMin = parseFloat(0.85);
-			}
-			else {
-				isMaxOrMin = parseFloat(1);
-			}
-			
-			return isMaxOrMin;
-		};
-		
-		return {
-			calcDamage: calcDamage,
-			damagePercentage: damagePercentage
-		};
-	})(); // calculatorModel
+			damage = Math.floor(((input.level * 2) / 5) + 2);
+			damage = Math.floor(damage * input.basePower * input.atk / 50);
+			damage = Math.floor(damage / input.def);
+			damage = Math.floor(damage * input.mod1 + 2);
+			damage = Math.floor(damage * criticalHit * input.mod2);
 
-	//
-	// The output showed on the UI is created here.
-	//
-	var interfaceView = (function () {
-	
-		var showResultsOnUi = function () {
-			var outputTable = "",
-					result,
-					results = {};
+			// This is where randomness takes place.
+			damage = Math.floor(damage * randomMultiplier);
+			
+			damage = Math.floor(damage * input.stab);
+			damage = Math.floor(damage * input.effect);
+			damage = Math.floor(damage * input.mod3);
+
+			// Multiscale cuts the damage in half when active
+			damage = Math.floor(damage * input.hasMultiscale);
+
+			return damage;
+		},
 		
-			results = pokemonBattle.getResults();
+		/**
+		A helper function to generate percentages.
+	
+		value: a Number object.
+		string: the string to append to the output. Default: '%'.
+
+		Output: (value*100)%, which is a string.
+		*/
+		toPercent: function (value, string) {
+			var posfix = string || '%';
 			
-			// Must clean the previous calculation's output
-			if ($("#damagecalc .damage").length) {
-				$("#damagecalc .damage").remove();
-			}
+			return parseFloat(((value) * 10 * 10).toFixed(1)).toString() + posfix;
+		},
+	
+		/**
+		Generates the probability of a pokemon OHKOing the other.
+	
+		input: object with the necessary parameters.
+		hp: foe's HP.
+		times: if it's an OHKO, 2HKO, etc. (integer)
+		criticalHit: the multiplier. (1 = not CH, 2 = CH, 3 = CH with Sniper)
+	
+		Output: The probability of delivering a OHKO (between 0 and 100).
+		*/
+		ohko: function (input, hp, times, criticalHit) {
+			var prob = 0,
+			    i = 0;
 			
-			// Search for a NaN value in the results
-			for (result in results) {
-				if (results.hasOwnProperty(result)) {
-					
-					// If a property is NaN, we can't show it on the damage results!
-					if(isNaN(results[result])) {
-						invalidOutput();
-						return 0;
-					}
+			times = times || 1;
+			criticalHit = criticalHit || 1;
+		
+			for (i = 1.0; i > 0.84; i = i - 0.01) {
+				if (this.damageCalc(input, i, criticalHit) * times >= hp) {
+					prob += (1 / 16);
 				}
 			}
-
-			// Output being made
-			outputTable += "<div class='damage'>";
-			outputTable += "<h2>Resultados (Nível " + results.level + ")</h2>";
-			outputTable += "<span>";
-			
-			// Only display percentages if HP is supplied (and HP !== 0)
-			if (isFinite(results.maxDamagePercentage) && isFinite(results.minDamagePercentage)) {
-				outputTable += results.minDamagePercentage + "% - " + results.maxDamagePercentage + "% (";
-				outputTable += results.minDamage + " - " + results.maxDamage + ")";
-				outputTable += "</span><br /><span class='critical'>Critical Hit: ";
-				outputTable += results.minCriticalDamagePercentage + "% - " + results.maxCriticalDamagePercentage + "% (";
-				outputTable += results.minCriticalDamage + " - " + results.maxCriticalDamage + ")";
-			}
-			else {
-				outputTable += results.minDamage + " - " + results.maxDamage;
-				outputTable += "</span><br /><span class='critical'>Critical Hit: ";
-				outputTable += results.minCriticalDamage + " - " + results.maxCriticalDamage;
-			}
-							
-			outputTable += "</span></div>";
-			
-			$("#damagecalc").append(outputTable);
-		};
 		
-		// Used when a NaN value is found.
-		// Append an error message to the damagecalc.
-		var invalidOutput = function () {
-			var errorMessage = "";
-			
-			errorMessage += "<div class='damage'>";
-			errorMessage += "<h2>Ocorreu um erro...</h2>";
-			errorMessage += "<p>Verifique que todos os campos necessários foram preenchidos com <b>números</b>. Caso o erro persista, procure um administrador do Mojambo. :)</p>";
-			errorMessage += "</div>";
-			
-			$("#damagecalc").append(errorMessage);
+			return this.toPercent(prob);
 		}
-		
-		return {
-			showResultsOnUi : showResultsOnUi
-		};
-	})(); // interfaceView
-
-	//
-	// Everything about modifiers is found here!
-	//
-	var battleModifier = (function () {
-		var parseStab = function (stab) {
-			var stabMultiplier;
-
-			// Protection from misuse
-			if (typeof stab === "number" && (stab !== 1.5 || stab !== 1)) {
-				console.log("ERROR: stab must be a string or, if a number, 1 or 1.5");
-			}
-			else {
-				stabMultiplier = stab;
-			}
-
-			if (stab === true) {
-				stabMultiplier = 1.5;
-			}
-			else {
-				stabMultiplier = 1;
-			}
-
-			return parseFloat(stabMultiplier);
-		};
-
-		var parseEffectiveness = function (effect) {
-			var effectiveness;
-
-			// Protection from misuse
-			if (typeof effect === "number") {
-				effectiveness = effect;
-			}
-
-			if (effect === '4x') { effectiveness = 4; }
-			else if (effect === '2x') { effectiveness = 2; }
-			else if (effect === '1x') { effectiveness = 1; }
-			else if (effect === '0.5x') { effectiveness = 0.5; }
-			else if (effect === '0.25x') { effectiveness = 0.25; }
-
-			return parseFloat(effectiveness);
-		};
-
-		var parseStatModifier = function (statModifier) {
-			var statModifierValue;
-
-			// This function can't be easily protected with the typeof trick
-			// used in the above functions. So, consider searching for a
-			// double call to this function when debugging some bizarre
-			// damage outputs.
-
-			if (statModifier === '0') { statModifierValue = 1; }
-			else if (statModifier === '1') { statModifierValue = 1.5; }
-			else if (statModifier === '2') { statModifierValue = 2; }
-			else if (statModifier === '-1') { statModifierValue = 0.6667; }
-			else if (statModifier === '-2') { statModifierValue = 0.5; }
-			else if (statModifier === '3') { statModifierValue = 2.5; }
-			else if (statModifier === '4') { statModifierValue = 3; }
-			else if (statModifier === '5') { statModifierValue = 3.5; }
-			else if (statModifier === '6') { statModifierValue = 4; }
-			else if (statModifier === '-3') { statModifierValue = 0.4; }
-			else if (statModifier === '-4') { statModifierValue = 0.3333; }
-			else if (statModifier === '-5') { statModifierValue = 0.2857; }
-			else if (statModifier === '-6') { statModifierValue = 0.25; }
-
-			return parseFloat(statModifierValue);
-		};
-
-		var parseBurn = function (isBurn) {
-			var burnMultiplier;
-
-			// Protection from misuse
-			if (typeof isBurn === "number" && (isBurn !== 0.5 || isBurn !== 1)) {
-				console.log("ERROR: isBurn must be a string or, if a number, 1 or 0.5");
-			}
-			else if (typeof isBurn === "number") {
-				burnMultiplier = isBurn;
-			}
-
-			if (isBurn === true) {
-				burnMultiplier = 0.5;
-			}
-			else {
-				burnMultiplier = 1;
-			}
-			
-			return parseFloat(burnMultiplier);
-		};
-
-		var parseReflectLightScreen = function (isReflectActive) {
-      if (isReflectActive) {
-				return parseFloat(0.5);
-			}
-			else {
-				return 1;
-			}
-		};
-
-		// This function ASSUMES that the move being used is boosted by the weather
-		// aka: You won't weaken a fire move with rain dance using this
-		var parseSunnyDayRainDance = function (isSunnyDayRainDanceActive) {
-			var sunRainMultiplier;
-
-			// Protection from misuse
-			if (typeof isSunnyDayRainDanceActive === "number" && (isSunnyDayRainDanceActive !== 1.5 || isSunnyDayRainDanceActive !== 1)) {
-				console.log("ERROR: isRainDanceSunnyDayActive must be a string or, if a number, 1 or 1.5");
-			}
-			else if (typeof isSunnyDayRainDanceActive === "number") {
-				sunRainMultiplier = isSunnyDayRainDanceActive;
-			}
-
-			if (isSunnyDayRainDanceActive === true) {
-				sunRainMultiplier = 1.5;
-			}
-			else {
-				sunRainMultiplier = 1;
-			}
-			
-			return parseFloat(sunRainMultiplier);
-		};
-
-		var parseFlashFire = function (isFlashFireActive) {
-			var flashFireMultiplier;
-
-			// Protection from misuse
-			if (typeof isFlashFireActive === "number" && (isFlashFireActive !== 1.5 || isFlashFireActive !== 1)) {
-				console.log("ERROR: isFlashFireActive must be a string or, if a number, 1 or 1.5");
-			}
-			else {
-				flashFireMultiplier = isFlashFireActive;
-			}
-
-			if (isFlashFireActive === true) {
-				flashFireMultiplier = 1.5;
-			}
-			else {
-				flashFireMultiplier = 1;
-			}
-
-			return parseFloat(flashFireMultiplier);
-		};
-
-		var parseEviolite = function (equipEviolite) {
-			var eviolite = 1;
-			
-			if (equipEviolite === true) {
-				eviolite = 1.5;
-			}
-			
-			return eviolite;
-		}
-
-		var parseLifeOrb = function (equipLifeOrb) {
-			var lifeOrbMultiplier;
-
-			// Protection from misuse
-			if (typeof equipLifeOrb === "number" && (equipLifeOrb !== 1.3 || equipLifeOrb !== 1)) {
-				console.log("ERROR: equipLifeOrb must be a string or, if a number, 1 or 1.3");
-			}
-			else {
-				lifeOrbMultiplier = equipLifeOrb;
-			}
-
-			if (equipLifeOrb === true) {
-				lifeOrbMultiplier = 1.3;
-			}
-			else {
-				lifeOrbMultiplier = 1;
-			}
-
-			return parseFloat(lifeOrbMultiplier);
-		};
-
-		var parseSolidRockFilter = function (hasSolidRock) {
-			var solidRockFilterMultiplier;
-
-			// Protection from misuse
-			if (typeof hasSolidRock === "number" && (hasSolidRock !== 0.75 || hasSolidRock !== 1)) {
-				console.log("ERROR: hasSolidRock must be a string or, if a number, 1 or 0.75");
-			}
-			else {
-				solidRockFilterMultiplier = hasSolidRock;
-			}
-
-			if (hasSolidRock === true) {
-				solidRockFilterMultiplier = 0.75;
-			}
-			else {
-				solidRockFilterMultiplier = 1;
-			}
-
-			return parseFloat(solidRockFilterMultiplier);
-		};
-
-		var parseExpertBelt = function (equipExpertBelt, effect) {
-			if (equipExpertBelt && (effect > 1)) {
-				return parseFloat(1.2);
-			}
-			else {
-				return 1;
-			}
-		};
-
-		var parseTintedLens = function (hasTintedLens, effect) {
-			var tintedLensMultiplier = 1;
-
-			// Protection from misuse
-			if (typeof hasTintedLens === "number" && (hasTintedLens !== 2 || hasTintedLens !== 1)) {
-				console.log("ERROR: hasTintedLens must be a string or, if a number, 1 or 2");
-			}
-			else if (typeof hasTintedLens === "number") {
-				tintedLensMultiplier = hasTintedLens;
-			}
-
-			if (hasTintedLens === true && (effect < 1 || effect === "0.5x" || effect === "0.25x")) {
-				tintedLensMultiplier = 2;
-			}
-			else {
-				tintedLensMultiplier = 1;
-			}
-			
-			return parseFloat(tintedLensMultiplier);
-		};
-
-		var parseResistBerry = function (isResistBerryActive) {
-			var resistBerryMultiplier;
-
-			// Protection from misuse
-			if (typeof isResistBerryActive === "number" && (isResistBerryActive !== 0.5 || isResistBerryActive !== 1)) {
-				console.log("ERROR: isResistBerryActive must be a string or, if a number, 1 or 0.5");
-			}
-			else {
-				resistBerryMultiplier = isResistBerryActive;
-			}
-
-			if (isResistBerryActive === true) {
-				resistBerryMultiplier = 0.5;
-			}
-			else {
-				resistBerryMultiplier = 1;
-			}
-
-			return parseFloat(resistBerryMultiplier);
-		};
-
-		var parseMultiscale = function (hasMultiscale) {
-			if (hasMultiscale) {
-				return parseFloat(0.5);
-			}
-			else {
-				return 1;
-			}
-		}
-
-		var parseMarvelScale = function (hasMarvelScale) {
-			if (hasMarvelScale) {
-				return parseFloat(1.5);
-			}
-			else {
-				return 1;
-			}
-		}
-
-		var parseChoice = function (equipChoice) {
-			if (equipChoice) {
-				return parseFloat(1.5);
-			}
-			else {
-				return 1;
-			}
-		}
-
-		var parseSoulDew = function (equipSoulDew) {
-			if (equipSoulDew) {
-				return parseFloat(1.5);
-			}
-			else {
-				return 1;
-			}
-		}
-
-		var parseGuts = function (isGutsActive) {
-			if (isGutsActive) {
-				return parseFloat(1.5);
-			}
-			else {
-				return 1;
-			}
-		}
-		
-		var parseSandForce = function (isSandForceActive) {
-			if (isSandForceActive) {
-				return parseFloat(1.3);
-			}
-			else {
-				return 1;
-			}
-		}
-		
-		var parsePurePower = function (hasPurePower) {
-			if (hasPurePower) {
-				return 2;
-			}
-			else {
-				return 1;
-			}
-		}
-		
-		var parseSheerForce = function (hasSheerForce) {
-			if (hasSheerForce) {
-				return parseFloat(1.3);
-			}
-			else {
-				return 1;
-			}
-		}
-		
-		var parseTechnician = function (hasTechnician) {
-			if (hasTechnician) {
-				return parseFloat(1.5);
-			}
-			else {
-				return 1;
-			}
-		}
-		
-		var parseReckless = function (hasReckless) {
-			if (hasReckless) {
-				return parseFloat(1.2);
-			}
-			else {
-				return 1;
-			}
-		}
-
-		var parseTypeBoost = function (equipTypeBoost) {
-			if (equipTypeBoost) {
-				return parseFloat(1.2);
-			}
-			else{
-				return 1;
-			}
-		}
-
-		// Must be called AFTER the other parser methods
-		var setMod1 = function (stats) {
-			var mod1 = 1;
-
-			// Mod1 = BRN × RL × TVT × SR × FF
-
-			mod1 = mod1 * stats.isBurn;
-			mod1 = mod1 * stats.isReflectActive;
-			mod1 = mod1 * stats.hasSolidRock;
-			mod1 = mod1 * stats.isSunnyDayRainDanceActive;
-			mod1 = mod1 * stats.isFlashFireActive;
-			
-			return mod1;
-		};
-
-		// Must be called AFTER the other parser methods
-		var setMod2 = function (stats) {
-			// This modifier concerns about Me First, Life Orb and Metronome
-			// I wont support Me First and Metronome for now, so its basically
-			// a Life Orb implementation.
-
-			var mod2 = 1;
-
-			mod2 = stats.equipLifeOrb;
-			
-			return mod2;
-		};
-
-		// Must be called AFTER the other parser methods
-		var setMod3 = function (stats) {
-			var mod3 = 1;
-
-			mod3 = mod3 * stats.hasSolidRock;
-			mod3 = mod3 * stats.equipExpertBelt;
-			//mod3 = mod3 * stats.hasTintedLens;
-			mod3 = mod3 * stats.isResistBerryActive;
-			
-			return mod3;
-		};
-
-		return {
-			superParser : function (stats) {
-				// Use this method to turn stats into an object acceptable by calculatorModel
-
-				// This function can't be used before setPokemonStats() is called at least once
-
-				stats.atkStatModifier = parseStatModifier(stats.atkStatModifier);
-				stats.defStatModifier = parseStatModifier(stats.defStatModifier);
-				stats.stab = parseStab(stats.stab);
-				stats.effect = parseEffectiveness(stats.effect);
-				stats.isBurn = parseBurn(stats.isBurn);	
-				stats.isReflectActive = parseReflectLightScreen(stats.isReflectActive);
-				stats.isSunnyDayRainDanceActive = parseSunnyDayRainDance(stats.isSunnyDayRainDanceActive);
-				stats.isFlashFireActive = parseFlashFire(stats.isFlashFireActive);
-				stats.equipLifeOrb = parseLifeOrb(stats.equipLifeOrb);
-				stats.hasSolidRock = parseSolidRockFilter(stats.hasSolidRock);
-				stats.equipExpertBelt = parseExpertBelt(stats.equipExpertBelt, stats.effect);
-				stats.hasTintedLens = parseTintedLens(stats.hasTintedLens, stats.effect);
-				stats.isResistBerryActive = parseResistBerry(stats.isResistBerryActive);
-				stats.equipEviolite = parseEviolite(stats.equipEviolite);
-				stats.hasMultiscale = parseMultiscale(stats.hasMultiscale);
-				stats.hasMarvelScale = parseMarvelScale(stats.hasMarvelScale);
-				stats.equipChoice = parseChoice(stats.equipChoice);
-				stats.equipSoulDew = parseSoulDew(stats.equipSoulDew);
-				stats.isGutsActive = parseGuts(stats.isGutsActive);
-				stats.hasPurePower = parsePurePower(stats.hasPurePower);
-				stats.hasTechnician = parseTechnician(stats.hasTechnician);
-				stats.isSandForceActive = parseSandForce(stats.isSandForceActive);
-				stats.hasSheerForce = parseSheerForce(stats.hasSheerForce);
-				stats.hasReckless = parseReckless(stats.hasReckless);
-				stats.equipTypeBoost = parseTypeBoost(stats.equipTypeBoost);
-
-				// Modifiers 1, 2 and 3 are calculated
-				stats.mod1 = setMod1(stats);
-				stats.mod2 = setMod2(stats);
-				stats.mod3 = setMod3(stats);				
-			}
-		};
-	})(); // battleModifiers
-
-	//
-	// This object encapsulates all the validation steps
-	//
-	var validator = (function () {
-		// Helper functions
-		var validateAttribute = function (attribute, attributeName) {
-			if (attribute < 1 || attribute === null || typeof attribute !== "number") {
-				console.log("You entered an invalid value for " + attributeName);
-			}
-
-			return Math.floor(attribute);
-		};
-	
-		var validateLevel = function (level) {
-			if (level < 1 || level === null || level > 100 || typeof level !== "number") {
-				console.log("You entered an invalid level value.");
-			}
-
-			return Math.floor(level);
-		};
-	
-		var validateStats = function (stats) {
-			stats.atk = validateAttribute(atk, "Attack");
-			stats.def = validateAttribute(def, "Defense");
-			stats.hp = validateAttribute(hp, "HP");
-			stats.basePower = validateAttribute(basePower, "Base Power");
-		
-			return stats;
-		};
-	
-		return validateStats;
-	})(); // validator
-	
-	// DAMAGECALC's public interface
-	return {
-		pokemonBattle : pokemonBattle,
-		calculatorModel : calculatorModel,
-		interfaceView : interfaceView,
-		battleModifier : battleModifier,
-		validator : validator
 	};
-})(); // DAMAGECALC
+}());
 
-	// Assign a method to a button click event at the UI
-	$("#info button[name='calculate']").click(function () {
-		// Updates the internal representation of the battle
-		DAMAGECALC.pokemonBattle.calcResults();
-		// Prints the results on the UI
-		DAMAGECALC.interfaceView.showResultsOnUi();
-	});
+/**
+ Contains all the logic needed to correctly calculate the damage given
+ the interactions between items, abilities and other parameters.
+*/
+DAMAGECALC.engine = (function () {
+	
+	/**
+	 These tables follow the pattern
+	
+	 name: [value_to_change, multiplier, conditional_value1, conditional_function1, ...]
+	
+	 This way, it's possible to augment the supported items and abilities by adding new entries.
+	*/
+	var ITEM_TABLE = {
+		choice: ["atk", 1.5],
+		lifeOrb: ["atk", 1.3],
+		typeBoost: ["atk", 1.2],
+		expertBelt: ["atk", 1.2, "effect", function (e) { return e > 1; }],
+		soulDew: ["atk", 1.5],
+		eviolite: ["def", 1.5],
+		resistBerry: ["def", 1.5, "effect", function (e) { return e > 1; }]
+	};
+	var ABILITY_TABLE = {
+		guts: ["atk", 1.5],
+		flashFire: ["atk", 1.5],
+		sandForce: ["atk", 1.5],
+		purePower: ["atk", 2],
+		sheerForce: ["atk", 1.3],
+		technician: ["atk", 1.5, "basePower", function (e) { return e > 60; }],
+		reckless: ["atk", 1.2],
+		solidRock: ["def", 0.75, "effect", function (e) { return e > 1; }],
+		marvelScale: ["def", 1.5]
+	};
+
+	return {	
+		createResults: function (stats) {
+			
+			// Simple aliases for these functions
+			var dmg = DAMAGECALC.calc.damageCalc;
+			var toPercent = DAMAGECALC.calc.toPercent;
+			
+			// The primal difference between CH and non-CH is that a lot of modifiers
+			// are ignored. We let the turnIntoInput method handles these cases.
+			var input = this.turnIntoInput(stats);
+			var inputCH = this.turnIntoInput(stats, true);
+			
+			var results = {
+				minDamage: dmg(input, 0.85),
+				maxDamage: dmg(input, 1),
+				minChDamage: dmg(inputCH, 0.85, 2),
+				maxChDamage: dmg(inputCH, 1, 2)
+			};
+						
+			if (stats.hp > 0) {
+				results.minPercent = toPercent(results.minDamage / stats.hp);
+				results.maxPercent = toPercent(results.maxDamage / stats.hp);
+				results.minChPercent = toPercent(results.minChDamage / stats.hp);
+				results.maxChPercent = toPercent(results.maxChDamage / stats.hp);
+			}
+		
+			return results;
+		},
+			
+		// Translates a stats object into an input one
+		turnIntoInput: function (stats, isCH) {
+			var criticalHit = isCH || false;
+			
+			// Basic parsing
+			var input = {
+				level: stats.level,
+				basePower: stats.basePower,
+				atk: stats.atk * stats.atkStatModifier,
+				def: stats.def * stats.defStatModifier,
+				mod1: modifier(stats, 1),
+				mod2: modifier(stats, 2),
+				mod3: modifier(stats, 3),
+				stab: stats.stab ? 1.5 : 1,
+				effect: this.translateEffect(stats.effect),
+				hasMultiscale: (stats.defAbilities === 'multiscale') ? 0.5 : 1
+			};
+
+			// If we're dealing with a CH, defStatModifier is ignored and mod1 must
+			// be corrected.
+			if (criticalHit) {
+				input.def = input.def / stats.defStatModifier
+				input.mod1 = stats.isReflectActive ? 2 * mod1 : mod1;
+			} 
+
+			// Now use the ITEM_TABLE and ABILITY_TABLE constants
+			// to parse the (atk|def)Items and (atk|def)Ability
+			// and update Atk, Def, basePower, mod(1|2|3) and hasMultiscale
+
+			return input;
+		},
+		
+		modifier: function (stats, number) {
+			switch (number) {
+				case 1:
+					// Sunny day / Rain dance not considered!
+					// Flash Fire is handled by the items/abilities engine.
+					// Remember to take BURN into account when handling GUTS later.
+					var isBurn = stats.isBurn ? 0.5 : 1;
+					var isReflectActive = stats.isReflectActive? 0.5 : 1;
+					return (isBurn * isReflectActive);
+				case 2:
+					// Me First doesn't exist (yet) in this damage calculator.
+					// This mod is influenced by Life Orb and Metronome only, so
+					// we let the items/abilities engine handle it.
+					return 1;
+				case 3:
+					// Solid Rock/Filter, Expert Belt, Tinted Lens and the type-resist
+					// berries are handled by the items/abilities engine. 
+					return 1;
+				default: break;
+			}
+		},
+		
+		translateEffect: function (effect) {
+			if (typeof effect === "string") {
+				effect = effect.replace(/([0-9])\s?x/ig, "$1");
+			}
+			else {
+				return undefined;
+			}
+
+			switch (effect) {
+				case '4': return 4;
+				case '2': return 2;
+				case '1': return 1;
+				case '0.5': return 0.5;
+				case '0.25': return 0.25;
+				default: return 1;
+			}
+		},
+	
+		translateStatModifier: function (statModifier) {
+			if (typeof statModifier === "string") {
+				statModifier = statModifier.replace(/\+/g, "");
+			}
+			else {
+				return undefined;
+			}
+		
+			switch (statModifier) {
+				case '0': return 1;
+				case '1': return 1.5;
+				case '2': return 2;
+				case '-1': return 0.6667;
+				case '-2': return 0.5;
+				case '3': return 2.5;
+				case '4': return 3;
+				case '5': return 3.5;
+				case '6': return 4;
+				case '-3': return 0.4;
+				case '-4': return 0.3333;
+				case '-5': return 0.2857;
+				case '-6': return 0.25;
+				default: return 1;
+			}
+		}
+	};
+})();
