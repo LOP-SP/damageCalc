@@ -14,7 +14,7 @@ var DAMAGECALC = {
 	engine: {},
 	debug: function () {
 		var stats = this.io.getStatsFromUi();
-		var input = this.engine.turnIntoInput (stats);
+		var input = this.engine.turnIntoInput(stats);
 		var results = this.engine.createResults(stats);
 		
 		console.log('STATS');
@@ -41,7 +41,7 @@ DAMAGECALC.io = (function () {
 		// Reads all the inputs and stores in an object that can be returned.
 		getStatsFromUi: function () {
 			
-			_stats = {
+			var _stats = {
 				level: parseInt($("#damagecalc input[name='level']").val(), 10) || 100,
 				atk: parseInt($("#damagecalc input[name='atk']").val(), 10),
 				atkStatModifier: $("#damagecalc select[name='atkStatModifier']").val(),
@@ -294,11 +294,11 @@ DAMAGECALC.engine = (function () {
 			var input = {
 				level: stats.level,
 				basePower: stats.basePower,
-				atk: stats.atk * stats.atkStatModifier,
-				def: stats.def * stats.defStatModifier,
-				mod1: modifier(stats, 1),
-				mod2: modifier(stats, 2),
-				mod3: modifier(stats, 3),
+				atk: stats.atk * this.translateStatModifier(stats.atkStatModifier),
+				def: stats.def * this.translateStatModifier(stats.defStatModifier),
+				mod1: this.modifier(stats, 1),
+				mod2: this.modifier(stats, 2),
+				mod3: this.modifier(stats, 3),
 				stab: stats.stab ? 1.5 : 1,
 				effect: this.translateEffect(stats.effect),
 				hasMultiscale: (stats.defAbilities === 'multiscale') ? 0.5 : 1
@@ -307,8 +307,8 @@ DAMAGECALC.engine = (function () {
 			// If we're dealing with a CH, defStatModifier is ignored and mod1 must
 			// be corrected.
 			if (criticalHit) {
-				input.def = input.def / stats.defStatModifier
-				input.mod1 = stats.isReflectActive ? 2 * mod1 : mod1;
+				input.def = input.def / this.translateStatModifier(stats.defStatModifier);
+				input.mod1 = stats.isReflectActive ? 2 * input.mod1 : input.mod1;
 			} 
 
 			// Now use the ITEM_TABLE and ABILITY_TABLE constants
@@ -326,6 +326,8 @@ DAMAGECALC.engine = (function () {
 		// the corresponding values.
 		// Must choose a better name for the method and the parameters lol.
 		meme: function (input, stuff) {
+			if (stuff === undefined) { return undefined; }
+			
 			if (stuff.length === 2) {
 				// No conditions, just update the value.
 				input[stuff[0]] = input[stuff[0]] * stuff[1];
