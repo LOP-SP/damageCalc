@@ -256,36 +256,24 @@ DAMAGECALC.engine = (function () {
 		solidRock: ["def", 0.75, "effect", function (e) { return e > 1; }],
 		marvelScale: ["def", 1.5]
 	};
-    
-/*
-	// Critical hits ignores defense multipliers...
-	if (isCriticalHit === 2) {
-		damage = Math.floor( damage * stats.defStatModifier / stats.def );
-	}
-	else {
-		damage = Math.floor( damage / stats.def );
-	}
-
-	// ... and Reflect/Light Screen.
-	if (stats.isReflectActive !== 1 && isCriticalHit === 2) {
-		damage = Math.floor( ( damage * stats.mod1 * 2 ) + 2 ); 
-	}
-	else {
-		damage = Math.floor( damage * stats.mod1 + 2 );
-	}
-*/
 
 	return {	
 		createResults: function (stats) {
-			var input = this.turnIntoInput(stats);
+			
+			// Simple aliases for these functions
 			var dmg = DAMAGECALC.calc.damageCalc;
 			var toPercent = DAMAGECALC.calc.toPercent;
+			
+			// The primal difference between CH and non-CH is that a lot of modifiers
+			// are ignored. We let the turnIntoInput method handles these cases.
+			var input = this.turnIntoInput(stats);
+			var inputCH = this.turnIntoInput(stats, true);
 			
 			var results = {
 				minDamage: dmg(input, 0.85),
 				maxDamage: dmg(input, 1),
-				minChDamage: dmg(input, 0.85, 2),
-				maxChDamage: dmg(input, 1, 2)
+				minChDamage: dmg(inputCH, 0.85, 2),
+				maxChDamage: dmg(inputCH, 1, 2)
 			};
 						
 			if (stats.hp > 0) {
@@ -299,26 +287,57 @@ DAMAGECALC.engine = (function () {
 		},
 			
 		// Translates a stats object into an input one
-		turnIntoInput: function (stats) {
+		turnIntoInput: function (stats, isCH) {
+			var criticalHit = isCH || false;
+			
 			// Basic parsing
 			var input = {
 				level: stats.level,
 				basePower: stats.basePower,
-				atk: stats.atk,
-				def: stats.def,
-				mod1: 1,
-				mod2: 1,
-				mod3: 1,
+				atk: stats.atk * stats.atkStatModifier,
+				def: stats.def * stats.defStatModifier,
+				mod1: modifier(stats, 1),
+				mod2: modifier(stats, 2),
+				mod3: modifier(stats, 3),
 				stab: stats.stab ? 1.5 : 1,
 				effect: this.translateEffect(stats.effect),
 				hasMultiscale: (stats.defAbilities === 'multiscale') ? 0.5 : 1
 			};
+
+			// If we're dealing with a CH, defStatModifier is ignored and mod1 must
+			// be corrected.
+			if (criticalHit) {
+				input.def = input.def / stats.defStatModifier
+				input.mod1 = stats.isReflectActive ? 2 * mod1 : mod1;
+			} 
 
 			// Now use the ITEM_TABLE and ABILITY_TABLE constants
 			// to parse the (atk|def)Items and (atk|def)Ability
 			// and update Atk, Def, basePower, mod(1|2|3) and hasMultiscale
 
 			return input;
+		},
+		
+		modifier: function (stats, number) {
+			switch (number) {
+				case 1:
+					// Sunny day / Rain dance not considered!
+					// Flash Fire is handled by the items/abilities engine.
+					// Remember to take BURN into account when handling GUTS later.
+					var isBurn = stats.isBurn ? 0.5 : 1;
+					var isReflectActive = stats.isReflectActive? 0.5 : 1;
+					return (isBurn * isReflectActive);
+				case 2:
+					// Me First doesn't exist (yet) in this damage calculator.
+					// This mod is influenced by Life Orb and Metronome only, so
+					// we let the items/abilities engine handle it.
+					return 1;
+				case 3:
+					// Solid Rock/Filter, Expert Belt, Tinted Lens and the type-resist
+					// berries are handled by the items/abilities engine. 
+					return 1;
+				default: break;
+			}
 		},
 		
 		translateEffect: function (effect) {
