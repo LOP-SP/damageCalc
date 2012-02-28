@@ -38,10 +38,8 @@ var DAMAGECALC = {
 */
 DAMAGECALC.io = (function () {
 	return {
-		// Reads all the inputs and stores in an object that can be returned
-		// or, given as a parameter, can be modified.
-		getStatsFromUi: function (stats) {
-			var _stats = stats || {};
+		// Reads all the inputs and stores in an object that can be returned.
+		getStatsFromUi: function () {
 			
 			_stats = {
 				level: parseInt($("#damagecalc input[name='level']").val(), 10) || 100,
@@ -63,9 +61,7 @@ DAMAGECALC.io = (function () {
 				defAbilities: $("#damagecalc select[name='defAbility']").val()
 			};
 			
-			if (!stats) {
-				return _stats;				
-			}
+			return _stats;
 		},
 		
 		showResultsOnUi: function (damageTable) {
@@ -289,6 +285,10 @@ DAMAGECALC.engine = (function () {
 		// Translates a stats object into an input one
 		turnIntoInput: function (stats, isCH) {
 			var criticalHit = isCH || false;
+			var defAbility = stats.defAbilities;
+			var defItem = stats.defItems;
+			var atkAbility = stats.atkAbilities;
+			var atkItem = stats.atkItems;
 			
 			// Basic parsing
 			var input = {
@@ -313,9 +313,29 @@ DAMAGECALC.engine = (function () {
 
 			// Now use the ITEM_TABLE and ABILITY_TABLE constants
 			// to parse the (atk|def)Items and (atk|def)Ability
-			// and update Atk, Def, basePower, mod(1|2|3) and hasMultiscale
-
+			// and update Atk, Def and basePower.
+			this.meme(input, ITEM_TABLE[atkItem]);
+			this.meme(input, ITEM_TABLE[defItem]);
+			this.meme(input, ABILITY_TABLE[atkAbility]);
+			this.meme(input, ABILITY_TABLE[defAbility]);
+			
 			return input;
+		},
+		
+		// handles the engine mechanism - receives item/ability array and processes
+		// the corresponding values.
+		// Must choose a better name for the method and the parameters lol.
+		meme: function (input, stuff) {
+			if (stuff.length === 2) {
+				// No conditions, just update the value.
+				input[stuff[0]] = input[stuff[0]] * stuff[1];
+			}
+			else {
+				// Must evaluate the condition before updating the value.
+				if ( stuff[3]( input[ stuff[2] ] ) ) {
+					input[stuff[0]] = input[stuff[0]] * stuff[1];
+				}
+			}
 		},
 		
 		modifier: function (stats, number) {
