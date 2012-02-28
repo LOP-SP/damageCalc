@@ -2,11 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>currentDocument</key>
-	<string>index2.html</string>
 	<key>documents</key>
 	<array>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
@@ -46,13 +46,7 @@
 			<key>filename</key>
 			<string>index.html</string>
 			<key>lastUsed</key>
-			<date>2012-02-25T03:25:19Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>index2.html</string>
-			<key>lastUsed</key>
-			<date>2012-02-25T03:53:04Z</date>
+			<date>2012-02-28T01:53:09Z</date>
 			<key>selected</key>
 			<true/>
 		</dict>
@@ -60,11 +54,23 @@
 			<key>filename</key>
 			<string>jsTestDriver.conf</string>
 			<key>lastUsed</key>
-			<date>2011-12-30T23:47:32Z</date>
+			<date>2012-02-28T01:00:10Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>LICENSE.txt</string>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>mojambify.rb</string>
+			<key>lastUsed</key>
+			<date>2012-02-28T01:03:33Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>mojambify.sh</string>
+			<key>lastUsed</key>
+			<date>2012-02-28T01:03:27Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -76,47 +82,20 @@
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>206</integer>
 	<key>metaData</key>
-	<dict>
-		<key>index2.html</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>17</integer>
-				<key>line</key>
-				<integer>138</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>130</integer>
-		</dict>
-		<key>src/damagecalc.2.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>37</integer>
-				<key>line</key>
-				<integer>48</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>9</integer>
-		</dict>
-	</dict>
-	<key>openDocuments</key>
-	<array>
-		<string>src/damagecalc.2.js</string>
-		<string>index2.html</string>
-	</array>
+	<dict/>
 	<key>showFileHierarchyDrawer</key>
 	<false/>
 	<key>showFileHierarchyPanel</key>
 	<true/>
 	<key>treeState</key>
 	<dict>
+		<key>lib</key>
+		<dict>
+			<key>isExpanded</key>
+			<true/>
+			<key>subItems</key>
+			<dict/>
+		</dict>
 		<key>src</key>
 		<dict>
 			<key>isExpanded</key>
@@ -133,6 +112,6 @@
 		</dict>
 	</dict>
 	<key>windowFrame</key>
-	<string>{{73, 74}, {1009, 704}}</string>
+	<string>{{153, 74}, {1009, 704}}</string>
 </dict>
 </plist>

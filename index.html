@@ -146,8 +146,13 @@
 </div> <!-- container -->
 
 <script type="text/javascript" src="lib/jquery.min.js"></script>
+<script type="text/javascript" src="src/damagecalc.js"></script>
+<script type="text/javascript" src="lib/chosen/chosen.jquery.min.js"></script>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function () {
+
+		// Chosen library
+		$(".chzn-select").chosen();
 
 		// just a fix for initial values inside selects
 		$("select[name='effect']").val('1x');
@@ -158,10 +163,12 @@
 		$("#damagecalc button[name='calculate']").click(function () {
 			DAMAGECALC.calculate();
 		});
+		
+		// Auto-calculate
+		$("#damagecalc form").on("keyup change", function () {
+			DAMAGECALC.calculate();
+		})
 	});
 </script>
-<script type="text/javascript" src="src/damagecalc.js"></script>
-<script type="text/javascript" src="lib/chosen/chosen.jquery.min.js"></script>
-<script type="text/javascript"> $(".chzn-select").chosen(); </script>
 </body>
 </html>
