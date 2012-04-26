@@ -1,3 +1,7 @@
+/**
+ damageCalc's test suite
+*/
+
 TestCase("CalcTest", {
 	setUp: function () {
 		calc = DAMAGECALC.calc
