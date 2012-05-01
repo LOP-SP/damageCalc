@@ -1,37 +1,46 @@
 damageCalc  
 Author: Carlos Agarie  
-Author URL: www.onox.com.br  
-Project URL: www.github.com/agarie/damageCalc  
-Version: 1.0  
+Author URL: http://onox.com.br  
+Project URL: http://github.com/agarie/damageCalc  
+Version: 2.0  
 License: MIT License   
 
 INTRODUCTION
 ============
 
-DamageCalc is a calculator made for the Pokemon Diamond, Pearl, Platinum, Heart Gold, Soul Silver, Black and White games to discover how much damage a certain move will deal against a pokemon. It's very lightweight and can be used during online battles, just let a browser tab opened.
+DamageCalc is a calculator made for the Pokémon Diamond, Pearl, Platinum, Heart Gold, Soul Silver, Black and White games to discover how much damage a certain move will deal against a specific pokémon. It's very lightweight and can be used during online battles, just let a browser tab opened.
 
 The damage formula considered is found in the Smogon University's site (www.smogon.com), together with a detailed description of all the necessary inputs. You may find it better to understand the inner workings of the game before delving into the code.
 
-The code uses strict mode and is tested with JsTestDriver. I intent to document it with jsdocs toolkit (when it decides to work...).
+The code uses strict mode and is tested with JsTestDriver. I intent to document it with JSDoc 3 in the future. I'm trying to tidy up the code as much as possible, as a means to improve my JavaScript skills. Please let me know if you have any suggestions.
 
 USE
 ===
 
-This software is made with JavaScript and can be used from any browser that supports it. Also, you can use this calculator in your own projects, according to the license in use (MIT License).
+This software is made with JavaScript and can be used from any browser that supports it. Also, you can use this calculator or parts of it in your own projects, according to the chosen license (MIT License).
 
-If you can read portuguese (pt-br), I have a blog post discussing some of the design choices concerning this damage calculator:
+If you have any issues or troubles, please use the 'Issues' functionality from Github. I'll be glad to help, be it a feature requests or a bug report.
 
-http://onox.com.br/2012/02/refatorando-calculadora-dano/
-
-Any issue or trouble can be emailed to me at:
-
-carlos.agarie [at] gmail.com
-
-With subject "Pokemon Damage Calculator". Please, let me know if you find this project interesting in some way. :)
+Please, let me know if you find this project interesting in some way. :)
 
 UPDATES
 =======
 
-This project is part of the Mojambo project (www.mojambo.net), aiming to create the most complete Pokémon library and set of applications on the Internet.
+This project is part of the Mojambo project (www.mojambo.net), aiming to create the most complete Pokémon  set of applications on the Internet.
 
-At the moment, I'm working on a 2.0 release. It's being rewritten from the ground up, using test-driven development (TDD) with the JsTestDriver utility and I plan on making it very very easy to update the items/abilities list. Also, I intend to implement "viewing modes", as in one-against-all, all-against-one, etc. This way, it's possible to get your calculations done in a batch, easily.
+For the time being, I'm rewritting lots of code from Mojambo and this one isn't a priority - it's working pretty well. I intend to implement "viewing modes", as in one-against-all, all-against-one, etc. This way, it's possible to get your calculations done in a batch, easily.
+
+I'll continue adding abilities and little features as requested, but do not expect much changes to the API any time soon.
+
+LICENSE
+=======
+
+MIT License
+
+Copyright (c) 2011-2012 Carlos Agarie
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
