@@ -250,7 +250,8 @@ DAMAGECALC.engine = (function () {
 		technician: ["atk", 1.5, "basePower", function (e) { return e > 60; }],
 		reckless: ["atk", 1.2],
 		solidRock: ["def", 0.75, "effect", function (e) { return e > 1; }],
-		marvelScale: ["def", 1.5]
+		marvelScale: ["def", 1.5],
+		swarm: ["atk", 1.5]
 	};
 
 	return {	
