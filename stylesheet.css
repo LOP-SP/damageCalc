@@ -57,6 +57,12 @@ li{line-height:1.8em;}
 #damagecalc #output{padding:15px 0 15px 0;margin-top:15px;background-color:#97BF95;text-align:center;border-bottom-left-radius:10px;-webkit-border-bottom-left-radius:10px;-moz-border-bottom-left-radius:10px;-o-border-bottom-left-radius:10px;border-bottom-right-radius:10px;-webkit-border-bottom-right-radius:10px;-moz-border-bottom-right-radius:10px;-o-border-bottom-right-radius:10px;}
 #damagecalc #output h2{padding:5px 0 0 0;margin-bottom:20px;text-align:center;}
 #damagecalc .critical{color:#D20000;}
+/* CHOSEN SELECT
+**************************************************************/
+.chzn-item,
+.chzn-ability {
+	width: 180px;
+}
 /* EXTRA CLASSES
 **************************************************************/
 .clear{clear:both;}

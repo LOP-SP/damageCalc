@@ -5,8 +5,8 @@
 
 	<title>Mojambo | Calculadora de dano para os jogos Pok&eacute;mon</title>
 
-	<link rel="stylesheet" type="text/css" href="stylesheet/stylesheet.css" />
-	<link rel="stylesheet" href="lib/chosen/chosen.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="./stylesheet.css" />
+	<link rel="stylesheet" href="./lib/chosen/chosen.css" type="text/css" media="screen" title="no title" charset="utf-8">
 </head>
 
 <body>
@@ -61,7 +61,7 @@
 				    <option value="0.5x">0.5x</option>
 				    <option value="0.25x">0.25x</option>
 			   	</select></li>
-					<li><select name="atkItems" id="atkItems" data-placeholder="Escolha o item..." class="chzn-select" style="width 240px;">
+					<li><select name="atkItems" id="atkItems" data-placeholder="Escolha o item" class="chzn-select chzn-item" style="width 240px;">
 						<option></option>
 						<option value="none">-</option>
 						<option value="choice">Choice Band</option>
@@ -71,7 +71,7 @@
 						<option value="expertBelt">Expert Belt</option>
 						<option value="soulDew">Soul Dew</option>
 					</select></li>
-					<li><select name="atkAbility" id="atkAbility" data-placeholder="Escolha a ability..." class="chzn-select" style="width 240px;">
+					<li><select name="atkAbility" id="atkAbility" data-placeholder="Escolha a ability" class="chzn-select chzn-ability" style="width 240px;">
 						<option></option>
 						<!-- Swarm, Blaze, Torrent and Overgrow have the same effect. -->
 						<!-- Guts, Poison Rampage and Flare Boost too. -->
@@ -129,13 +129,13 @@
 						<option value="-6">-6</option>
 					</select></li>
 					<li><input type="checkbox" name="isReflectActive" id="isReflectActive" /></li>
-					<li><select name="defItems" id="defItems" data-placeholder="Escolha o item..." class="chzn-select" style="width 240px;">
+					<li><select name="defItems" id="defItems" data-placeholder="Escolha o item" class="chzn-select chzn-item" style="width 240px;">
 						<option></option>
 						<option value="none">-</option>
 						<option value="eviolite">Eviolite</option>
 						<option value="resistBerry">Resist Berry</option>
 					</select></li>
-					<li><select name="defAbility" id="defAbility" data-placeholder="Escolha a ability..." class="chzn-select" style="width 240px;">
+					<li><select name="defAbility" id="defAbility" data-placeholder="Escolha a ability" class="chzn-select chzn-ability" style="width 240px;">
 						<option></option>
 						<option value="none">-</option>
 						<option value="multiscale">Multiscale</option>
@@ -156,9 +156,9 @@
 
 </div> <!-- container --> 
 
-<script type="text/javascript" src="lib/jquery.min.js"></script>
-<script type="text/javascript" src="src/damagecalc.js"></script>
-<script type="text/javascript" src="lib/chosen/chosen.jquery.min.js"></script>
+<script type="text/javascript" src="./lib/jquery.min.js"></script>
+<script type="text/javascript" src="./src/damagecalc.js"></script>
+<script type="text/javascript" src="./lib/chosen/chosen.jquery.min.js"></script>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function () {
 
