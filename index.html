@@ -29,6 +29,8 @@
 					<li><label for="basePower" title="Coloque aqui o base power do ataque usado.">Base Power</label></li>
 					<li><label for="stab" title="Selecione esta opção se o ataque tiver o mesmo tipo do pokémon que o está usando.">STAB</label></li>
 					<li><label for="effect" title="Selecione se o golpe é super efetivo (2x ou 4x), normal (1x) ou pouco efetivo (0.5x ou 0.25x).">Efeito</label></li>
+					<li><label for='weatherBoost' title='Selecione caso seu golpe seja ajudado Rain Dance ou Sunny Day e o mesmo esteja ativado.'>Clima ajuda?</label></li>
+					<li><label for='weatherBoost' title='Selecione caso seu golpe seja prejudicado por Rain Dance ou Sunny Day e o mesmo esteja ativado.'>Clima prejudica?</label></li>
 					<li><label for="atkItems" title="Selecione qual item o atacante possui.">Item</label></li>
 					<li><label for="atkAbility" title="Selecione qual ability o atacante possui.">Ability</label></li>
 				</ul>
@@ -61,6 +63,8 @@
 				    <option value="0.5x">0.5x</option>
 				    <option value="0.25x">0.25x</option>
 			   	</select></li>
+					<li><input type='checkbox' name='weatherBoost' id='weatherBoost' /></li>
+					<li><input type='checkbox' name='weatherDecrease' id='weatherDecrease' /></li>
 					<li><select name="atkItems" id="atkItems" data-placeholder="Escolha o item" class="chzn-select chzn-item" style="width 240px;">
 						<option></option>
 						<option value="none">-</option>
@@ -105,6 +109,7 @@
 					<li><label for="hp" title="Coloque aqui o HP do pokémon defensor.">HP</label></li>
 					<li><label for="defStatModifier" title="Indica o quanto a Def ou Sp. Def foi aumentada ou diminuída.">Modificadores de stat</label></li>
 					<li><label for="isReflectActive" title="Selecione esta opção se o efeito dos golpes Reflect OU Light Screen estiver ativo.">Reflect / Light Screen?</label></li>
+					<li><label for='sandstormSdefBoost' title='Selecione caso Sandstorm esteja ativado, o pokémon defensor seja do tipo pedra e o pokémon ofensivo esteja usando um golpe especial.'>Sandstorm aumenta SDEF?</label></li>
 					<li><label for="defItems" title="Selecione qual item o defensor possui.">Item</label></li>
 					<li><label for="defAbility" title="Selecione qual ability o defensor possui.">Ability</label></li>
 				</ul>
@@ -129,6 +134,7 @@
 						<option value="-6">-6</option>
 					</select></li>
 					<li><input type="checkbox" name="isReflectActive" id="isReflectActive" /></li>
+					<li><input type='checkbox' name='sandstormSdefBoost' id='sandstormSdefBoost' /></li>
 					<li><select name="defItems" id="defItems" data-placeholder="Escolha o item" class="chzn-select chzn-item" style="width 240px;">
 						<option></option>
 						<option value="none">-</option>
@@ -162,20 +168,29 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function () {
 
-		// Chosen library
+		// Chosen library initialization.
 		$(".chzn-select").chosen();
 
-		// just a fix for initial values inside selects
-		$("select[name='effect']").val('1x');
-		$("select[name='atkStatModifier']").val('0');
-		$("select[name='defStatModifier']").val('0');
+		// Just a fix for initial values inside selects.
+		$("#damagecalc select[name='effect']").val('1x');
+		$("#damagecalc select[name='atkStatModifier']").val('0');
+		$("#damagecalc select[name='defStatModifier']").val('0');
 		
-		// Bind the calculation to the click event
+		// Weather can't simultaneously boost and decrease the base power.
+		$("#damagecalc input[name='weatherBoost']").click(function () {
+			$("#damagecalc input[name='weatherDecrease']").attr('checked', false);
+		})
+		
+		$("#damagecalc input[name='weatherDecrease']").click(function () {
+			$("#damagecalc input[name='weatherBoost']").attr('checked', false);
+		})
+		
+		// Bind the calculation to the click event.
 		$("#damagecalc button[name='calculate']").click(function () {
 			DAMAGECALC.calculate();
 		});
 		
-		// Auto-calculate
+		// Auto-calculate.
 		$("#damagecalc form").on("keyup change", function () {
 			DAMAGECALC.calculate();
 		})

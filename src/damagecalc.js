@@ -1,7 +1,7 @@
 /**
 damageCalc  
 @author: Carlos "Onox" Agarie  
-@version 2.0
+@version 2
 @license MIT  
 */
 
@@ -49,11 +49,14 @@ DAMAGECALC.io = (function () {
 				stab: $("#damagecalc input[name='stab']").is(':checked'),
 				effect: $("#damagecalc select[name='effect']").val(),
 				isBurn: $("#damagecalc input[name='isBurn']").is(':checked'),
+				weatherBoost: $("#damagecalc input[name='weatherBoost']").is(':checked'),
+				weatherDecrease: $("#damagecalc input[name='weatherDecrease']").is(':checked'),
 				
 				def: parseInt($("#damagecalc input[name='def']").val(), 10),
 				defStatModifier: $("#damagecalc select[name='defStatModifier']").val(),
 				hp: parseInt($("#damagecalc input[name='hp']").val(), 10),
 				isReflectActive: $("#damagecalc input[name='isReflectActive']").is(':checked'),
+				sandstormSdefBoost: $("#damagecalc input[name='sandstormSdefBoost']").is(':checked'),
 				
 				atkItems: $("#damagecalc select[name='atkItems']").val(),
 				atkAbilities: $("#damagecalc select[name='atkAbility']").val(),
@@ -290,13 +293,16 @@ DAMAGECALC.engine = (function () {
 			var defItem = stats.defItems;
 			var atkAbility = stats.atkAbilities;
 			var atkItem = stats.atkItems;
+			var	weatherBoost = stats.weatherBoost ? 1.5 : 1;
+			var	weatherDecrease = stats.weatherDecrease ? 0.5 : 1;
+			var	weather = weatherBoost * weatherDecrease;
 			
 			// Basic parsing
 			var input = {
 				level: stats.level,
-				basePower: stats.basePower,
+				basePower: stats.basePower * weather,
 				atk: stats.atk * this.translateStatModifier(stats.atkStatModifier),
-				def: stats.def * this.translateStatModifier(stats.defStatModifier),
+				def: stats.def * this.translateStatModifier(stats.defStatModifier) * stats.sandstormSdefBoost,
 				mod1: this.modifier(stats, 1),
 				mod2: this.modifier(stats, 2),
 				mod3: this.modifier(stats, 3),
