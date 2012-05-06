@@ -360,7 +360,7 @@ DAMAGECALC.engine = (function () {
 					// Solid Rock/Filter, Expert Belt, Tinted Lens and the type-resist
 					// berries are handled by the items/abilities engine. 
 					return 1;
-				default: break;
+				default: undefined;
 			}
 		},
 		

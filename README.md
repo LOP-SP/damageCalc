@@ -2,7 +2,7 @@ damageCalc
 Author: Carlos Agarie  
 Author URL: http://onox.com.br  
 Project URL: http://github.com/agarie/damageCalc  
-Version: 2.0.2 
+Version: 2.0.3 
 License: MIT License   
 
 INTRODUCTION
@@ -30,7 +30,12 @@ This project is part of the [Mojambo](http://mojambo.net/) project, aiming to cr
 
 For the time being, I'm rewritting lots of code from Mojambo ([for example](http://mojambo.herokuapp.com/)) and this one isn't a priority - it's working pretty well. I intend to implement "viewing modes", as in one-against-all, all-against-one, etc. This way, it's possible to get your calculations done in a batch, easily.
 
-I'll continue adding abilities and little features as requested, but do not expect much changes to the API any time soon.
+TO DO
+=====
+
++ Tests for DAMAGECALC.io
++ Better name for DAMAGECALC.engine.meme
++ Create documentation with JSDoc
 
 LICENSE
 =======
