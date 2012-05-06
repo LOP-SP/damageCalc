@@ -182,10 +182,7 @@ DAMAGECALC.calc = (function () {
 		
 		/**
 		A helper function to generate percentages.
-	
-		value: a Number object.
-		string: the string to append to the output. Default: '%'.
-
+		
 		Output: (value*100)%, which is a string.
 		*/
 		toPercent: function (value, string) {
@@ -197,27 +194,25 @@ DAMAGECALC.calc = (function () {
 		/**
 		Generates the probability of a pokemon OHKOing the other.
 	
-		input: object with the necessary parameters.
-		hp: foe's HP.
-		times: if it's an OHKO, 2HKO, etc. (integer)
-		criticalHit: the multiplier. (1 = not CH, 2 = CH, 3 = CH with Sniper)
+		input:        object with necessary parameters.
+		hp:           foe's HP.
+		criticalHit:  the multiplier. (1 = not CH, 2 = CH, 3 = CH with Sniper)
 	
-		Output: The probability of delivering a OHKO (between 0 and 100).
+		Output: The probability of delivering an OHKO, between 0 and 1.
 		*/
-		ohko: function (input, hp, times, criticalHit) {
-			var prob = 0,
-			    i = 0;
-			
-			times = times || 1;
+		ohko: function (input, hp, criticalHit) {
+			var prob = 0;
+			var i = 0;
+						
 			criticalHit = criticalHit || 1;
 		
 			for (i = 1.0; i > 0.84; i = i - 0.01) {
-				if (this.damageCalc(input, i, criticalHit) * times >= hp) {
+				if (this.damageCalc(input, i, criticalHit) >= hp) {
 					prob += (1 / 16);
 				}
 			}
 		
-			return this.toPercent(prob);
+			return prob;
 		}
 	};
 }());
@@ -259,7 +254,6 @@ DAMAGECALC.engine = (function () {
 
 	return {	
 		createResults: function (stats) {
-			
 			// Simple aliases for these functions
 			var dmg = DAMAGECALC.calc.damageCalc;
 			var toPercent = DAMAGECALC.calc.toPercent;
@@ -384,7 +378,7 @@ DAMAGECALC.engine = (function () {
 				case '1': return 1;
 				case '0.5': return 0.5;
 				case '0.25': return 0.25;
-				default: return 1;
+				default: return undefined;
 			}
 		},
 	
@@ -410,7 +404,7 @@ DAMAGECALC.engine = (function () {
 				case '-4': return 0.3333;
 				case '-5': return 0.2857;
 				case '-6': return 0.25;
-				default: return 1;
+				default: return undefined;
 			}
 		}
 	};
