@@ -293,6 +293,7 @@ DAMAGECALC.engine = (function () {
 			var defItem = stats.defItems;
 			var atkAbility = stats.atkAbilities;
 			var atkItem = stats.atkItems;
+			var	sandstorm = stats.sandstormSdefBoost ? 1.5 : 1;
 			var	weatherBoost = stats.weatherBoost ? 1.5 : 1;
 			var	weatherDecrease = stats.weatherDecrease ? 0.5 : 1;
 			var	weather = weatherBoost * weatherDecrease;
@@ -302,7 +303,7 @@ DAMAGECALC.engine = (function () {
 				level: stats.level,
 				basePower: stats.basePower * weather,
 				atk: stats.atk * this.translateStatModifier(stats.atkStatModifier),
-				def: stats.def * this.translateStatModifier(stats.defStatModifier) * stats.sandstormSdefBoost,
+				def: stats.def * this.translateStatModifier(stats.defStatModifier) * sandstorm,
 				mod1: this.modifier(stats, 1),
 				mod2: this.modifier(stats, 2),
 				mod3: this.modifier(stats, 3),
